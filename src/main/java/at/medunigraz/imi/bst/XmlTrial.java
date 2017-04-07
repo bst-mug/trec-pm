@@ -3,16 +3,14 @@ package at.medunigraz.imi.bst;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
 
-public class ClinicalTrialParser {
+public class XmlTrial {
 
     private Document currentDocument;
 
-    public ClinicalTrialParser(String clinicalTrialXmlFile) {
+    public XmlTrial(String clinicalTrialXmlFile) {
         try {
             File fXmlFile = new File(clinicalTrialXmlFile);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
