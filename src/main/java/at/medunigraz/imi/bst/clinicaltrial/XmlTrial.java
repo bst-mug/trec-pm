@@ -1,4 +1,4 @@
-package at.medunigraz.imi.bst;
+package at.medunigraz.imi.bst.clinicaltrial;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
