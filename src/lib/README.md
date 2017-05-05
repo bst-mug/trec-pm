@@ -1,1 +1,0 @@
-Add here the trec_eval binary.

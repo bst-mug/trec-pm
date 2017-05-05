@@ -11,7 +11,7 @@ public class TrecEval extends AbstractEvaluator {
 	/**
 	 * -m all_trec -q -c -M1000
 	 */
-	private static final String COMMAND = "src/lib/trec_eval -m all_trec -q -c -M1000";
+	private static final String COMMAND = "target/lib/trec_eval.9.0/trec_eval -m all_trec -q -c -M1000";
 
 	private File goldStandard, results;
 
