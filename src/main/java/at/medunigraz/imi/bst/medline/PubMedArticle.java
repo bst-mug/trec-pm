@@ -6,6 +6,9 @@ public class PubMedArticle {
     public String docTitle;
     public String docAbstract;
 
+    public PubMedArticle() {
+    }
+
     public PubMedArticle(String pubMedId, String docTitle, String docAbstract) {
         this.pubMedId = pubMedId;
         this.docTitle = docTitle;
