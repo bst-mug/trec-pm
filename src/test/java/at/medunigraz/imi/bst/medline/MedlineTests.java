@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.net.InetAddress;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -56,6 +57,11 @@ public class MedlineTests {
 
         Client client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(address);
 
+
+
+        long startTime = System.currentTimeMillis();
+
+
         PubMedArticle article = new PubMedArticle("12345", "this is the title", "this is the abstract");
 
         IndexResponse response = client.prepareIndex("medline", "medline", article.pubMedId)
@@ -70,6 +76,60 @@ public class MedlineTests {
         System.out.print(response);
 
         client.close();
+
+        long endTime = System.currentTimeMillis();
+
+        long duration = (endTime - startTime);
+
+        System.out.println("TIME: " + duration/1000 + " secs");
+    }
+
+    @Test
+    public void uncompressAndIndex30Kdocs() throws Exception {
+
+        TransportAddress address =
+                new InetSocketTransportAddress(
+                        InetAddress.getByName("localhost"), 9300);
+
+        Client client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(address);
+
+        long startTime = System.currentTimeMillis();
+
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(SAMPLE_XML_COMPRESSED_FILE);
+
+        long endTime = System.currentTimeMillis();
+
+        long xmlDuration = (endTime - startTime);
+
+        System.out.println("UNCOMPRESSING + PARSING XML TIME: " + xmlDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
+
+
+
+        startTime = System.currentTimeMillis();
+
+        for (PubMedArticle article: pubMedArticles) {
+            IndexResponse response = client.prepareIndex("medline", "medline", article.pubMedId)
+                    .setSource(jsonBuilder()
+                            .startObject()
+                            .field("title", article.docTitle)
+                            .field("abstract", article.docAbstract)
+                            .endObject()
+                    )
+                    .get();
+        }
+
+        client.close();
+
+        endTime = System.currentTimeMillis();
+
+        long indexingDuration = (endTime - startTime);
+
+        System.out.println("INDEXING TIME: " + indexingDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
+
+        long total = xmlDuration + indexingDuration;
+
+        System.out.println("TOTAL: " + TimeUnit.MILLISECONDS.toSeconds(total) + " seconds");
+
     }
 
 }
