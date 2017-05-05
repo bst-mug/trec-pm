@@ -1,17 +1,20 @@
 package at.medunigraz.imi.bst.conceptextraction;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-
+@Ignore
 public class ConceptExtractionTest {
 
     String API_KEY_FILE = "src/main/resources/apikey.txt";
