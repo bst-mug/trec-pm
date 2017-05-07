@@ -71,6 +71,11 @@ public class PubmedXmlHandler extends DefaultHandler {
             article.docAbstract = tempVal.toString().trim();
         }
 
+        if (tag.equalsIgnoreCase("DescriptorName") &&
+            parentTag.equalsIgnoreCase("MeshHeading")) {
+            article.meshTags.add(tempVal.toString().trim());
+        }
+
         if (TAG_PUBMED_ARTICLE.equalsIgnoreCase(tag)) {
             articles.add(article);
         }

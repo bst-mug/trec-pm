@@ -2,13 +2,11 @@ package at.medunigraz.imi.bst.medline;
 
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.node.Node;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -19,36 +17,37 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 public class MedlineTests {
 
-    String SAMPLE_XML_COMPRESSED_FILE = "/Volumes/PabloSSD/trec/medline_xml_all/medline17n0739.xml.gz";
-    String SAMPLE_SMALL_XML_UNCOMPRESSED_FILE = "src/main/resources/data/medline-sample.xml";
-    String SAMPLE_LARGE_XML_UNCOMPRESSED_FILE = "src/main/resources/data/medline17n0569.xml";
+    String LARGE_XML_GZIPPED = "/Volumes/PabloSSD/trec/medline_xml_all/medline17n0739.xml.gz";
+    String LARGE_XML = "/Volumes/PabloSSD/trec/medline_xml_all/uncompressed/medline17n0739.xml";
+    String SAMPLE_SMALL_XML = "src/main/resources/data/medline-sample.xml";
 
+    
     @Test
     public void smallUncompressedTest() throws Exception {
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(SAMPLE_SMALL_XML_UNCOMPRESSED_FILE);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(SAMPLE_SMALL_XML);
         System.out.println(pubMedArticles);
         System.out.println(pubMedArticles.size());
     }
 
-    @Test
+    @Ignore
     public void largeUncompressedTest() throws Exception {
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(SAMPLE_LARGE_XML_UNCOMPRESSED_FILE);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(LARGE_XML);
 
         System.out.println(pubMedArticles);
         System.out.println(pubMedArticles.size());
     }
 
-    @Test
+    @Ignore
     public void largeCompressedTest() throws Exception {
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(SAMPLE_XML_COMPRESSED_FILE);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(LARGE_XML_GZIPPED);
         System.out.println(pubMedArticles);
         System.out.println(pubMedArticles.size());
     }
 
-    @Test
+    @Ignore
     public void indexDoc() throws Exception {
 
         TransportAddress address =
@@ -85,7 +84,41 @@ public class MedlineTests {
     }
 
     @Test
-    public void uncompressAndIndex30Kdocs() throws Exception {
+    public void index30KdocsGzipped() throws Exception {
+
+        long startTime = System.currentTimeMillis();
+
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(LARGE_XML_GZIPPED);
+
+        long xmlDuration = (System.currentTimeMillis() - startTime);
+
+        System.out.println("GUNZIP + PARSE XML: " + xmlDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
+
+        long indexingDuration = indexArticles(pubMedArticles);
+
+        System.out.println("TOTAL: " + TimeUnit.MILLISECONDS.toSeconds(xmlDuration + indexingDuration) + " seconds");
+    }
+
+    @Test
+    public void index30KdocsPlain() throws Exception {
+
+        long startTime = System.currentTimeMillis();
+
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(LARGE_XML);
+
+        long xmlDuration = (System.currentTimeMillis() - startTime);
+
+        System.out.println("PARSE XML: " + xmlDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
+
+        long indexingDuration = indexArticles(pubMedArticles);
+
+        System.out.println("TOTAL: " + TimeUnit.MILLISECONDS.toSeconds(xmlDuration + indexingDuration) + " seconds");
+
+    }
+
+    private long indexArticles(List<PubMedArticle> pubMedArticles) throws Exception{
+
+        long startTime = System.currentTimeMillis();
 
         TransportAddress address =
                 new InetSocketTransportAddress(
@@ -93,26 +126,13 @@ public class MedlineTests {
 
         Client client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(address);
 
-        long startTime = System.currentTimeMillis();
-
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(SAMPLE_XML_COMPRESSED_FILE);
-
-        long endTime = System.currentTimeMillis();
-
-        long xmlDuration = (endTime - startTime);
-
-        System.out.println("UNCOMPRESSING + PARSING XML TIME: " + xmlDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
-
-
-
-        startTime = System.currentTimeMillis();
-
         for (PubMedArticle article: pubMedArticles) {
             IndexResponse response = client.prepareIndex("medline", "medline", article.pubMedId)
                     .setSource(jsonBuilder()
                             .startObject()
                             .field("title", article.docTitle)
                             .field("abstract", article.docAbstract)
+                            .field("meshTags", article.meshTags)
                             .endObject()
                     )
                     .get();
@@ -120,16 +140,11 @@ public class MedlineTests {
 
         client.close();
 
-        endTime = System.currentTimeMillis();
-
-        long indexingDuration = (endTime - startTime);
+        long indexingDuration = (System.currentTimeMillis() - startTime);
 
         System.out.println("INDEXING TIME: " + indexingDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
 
-        long total = xmlDuration + indexingDuration;
-
-        System.out.println("TOTAL: " + TimeUnit.MILLISECONDS.toSeconds(total) + " seconds");
+        return indexingDuration;
 
     }
-
 }
