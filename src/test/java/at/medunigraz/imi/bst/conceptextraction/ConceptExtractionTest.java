@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Ignore;
+import org.junit.Assume;
 import org.junit.Test;
 
 import com.mashape.unirest.http.HttpResponse;
@@ -14,15 +14,17 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-@Ignore
 public class ConceptExtractionTest {
 
     String API_KEY_FILE = "src/main/resources/apikey.txt";
     String API_KEY;
 
     public ConceptExtractionTest(){
+    	File apiFile = new File(API_KEY_FILE);
+    	Assume.assumeTrue(apiFile.exists());
+    	
         try {
-            API_KEY = FileUtils.readFileToString(new File(API_KEY_FILE), "UTF-8");
+            API_KEY = FileUtils.readFileToString(apiFile, "UTF-8");
         } catch (IOException e) {
             System.out.print("Please place your Lexigram API key in the following file: src/main/resources/apikey.txt");
             e.printStackTrace();
