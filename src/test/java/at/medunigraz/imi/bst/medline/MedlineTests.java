@@ -1,5 +1,6 @@
 package at.medunigraz.imi.bst.medline;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
@@ -10,6 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -17,9 +19,23 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 public class MedlineTests {
 
-    String LARGE_XML_GZIPPED = "/Volumes/PabloSSD/trec/medline_xml_all/medline17n0739.xml.gz";
-    String LARGE_XML = "/Volumes/PabloSSD/trec/medline_xml_all/uncompressed/medline17n0739.xml";
+    String DATA_FOLDER = "/Users/plopez/Desktop/trec/";
+
+    String LARGE_XML_GZIPPED = DATA_FOLDER + "medline17n0739.xml.gz";
+    String LARGE_XML = DATA_FOLDER + "uncompressed/medline17n0739.xml";
     String SAMPLE_SMALL_XML = "src/main/resources/data/medline-sample.xml";
+
+    List<String> SAMPLE_MULTI_XML = Arrays.asList(
+                                                DATA_FOLDER + "uncompressed/medline17n0050.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0189.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0201.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0355.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0492.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0519.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0666.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0739.xml",
+                                                DATA_FOLDER + "uncompressed/medline17n0889.xml"
+                                    );
 
     
     @Test
@@ -66,8 +82,9 @@ public class MedlineTests {
         IndexResponse response = client.prepareIndex("medline", "medline", article.pubMedId)
                 .setSource(jsonBuilder()
                         .startObject()
-                        .field("title", article.docTitle)
-                        .field("abstract", article.docAbstract)
+                        .field("title", StringEscapeUtils.escapeJson(article.docTitle))
+                        .field("abstract", StringEscapeUtils.escapeJson(article.docAbstract))
+                        .field("meshTags", article.meshTags)
                         .endObject()
                 )
                 .get();
@@ -116,6 +133,21 @@ public class MedlineTests {
 
     }
 
+    @Test
+    public void index300KdocsPlain() throws Exception {
+
+        long startTime = System.currentTimeMillis();
+
+        for (String articleXml : SAMPLE_MULTI_XML) {
+            System.out.println(articleXml);
+            List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(articleXml);
+            System.out.println(pubMedArticles);
+            indexArticles(pubMedArticles);
+        }
+
+        System.out.println("TOTAL: " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - startTime) + " seconds");
+    }
+
     private long indexArticles(List<PubMedArticle> pubMedArticles) throws Exception{
 
         long startTime = System.currentTimeMillis();
@@ -130,8 +162,8 @@ public class MedlineTests {
             IndexResponse response = client.prepareIndex("medline", "medline", article.pubMedId)
                     .setSource(jsonBuilder()
                             .startObject()
-                            .field("title", article.docTitle)
-                            .field("abstract", article.docAbstract)
+                            .field("title", StringEscapeUtils.escapeJson(article.docTitle))
+                            .field("abstract", StringEscapeUtils.escapeJson(article.docAbstract))
                             .field("meshTags", article.meshTags)
                             .endObject()
                     )
