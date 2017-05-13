@@ -17,31 +17,59 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-	<plugin>
-		<artifactId>maven-antrun-plugin</artifactId>
-		<version>1.7</version>
-		<executions>
-			<execution>
-				<phase>generate-sources</phase>
-				<configuration>
-					<tasks>
-						<mkdir dir="${project.build.directory}/lib" />
-						<get src="http://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz"
-							dest="${project.build.directory}/lib/trec_eval_latest.tar.gz"
-							verbose="false" usetimestamp="true" />
-						<gunzip src="${project.build.directory}/lib/trec_eval_latest.tar.gz" />
-						<untar src="${project.build.directory}/lib/trec_eval_latest.tar"
-							dest="${project.build.directory}/lib/" />
-						<exec executable="make" failonerror="true"
-							dir="${project.build.directory}/lib/trec_eval.9.0/" />
-					</tasks>
-				</configuration>
-				<goals>
-					<goal>run</goal>
-				</goals>
-			</execution>
-		</executions>
-	</plugin>
+            <!-- USE TO COPY ALL NECESSARY LIBS to target
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+             -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${project.build.directory}/lib" />
+                                <get src="http://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz"
+                                    dest="${project.build.directory}/lib/trec_eval_latest.tar.gz"
+                                    verbose="false" usetimestamp="true" />
+                                <gunzip src="${project.build.directory}/lib/trec_eval_latest.tar.gz" />
+                                <untar src="${project.build.directory}/lib/trec_eval_latest.tar"
+                                    dest="${project.build.directory}/lib/" />
+                                <exec executable="make" failonerror="true"
+                                    dir="${project.build.directory}/lib/trec_eval.9.0/" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <pluginManagement>
         	<plugins>
