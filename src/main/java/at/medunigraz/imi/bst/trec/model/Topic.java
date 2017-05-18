@@ -20,6 +20,10 @@ public class Topic {
 	private String variant;
 	private String demographic;
 	private String other;
+	
+	public Topic(int number) {
+		this.number = number;
+	}
 
 	public Topic(int number, Type type, String disease, String variant, String demographic, String other) {
 		this.number = number;
