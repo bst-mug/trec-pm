@@ -1,20 +1,17 @@
 package at.medunigraz.imi.bst.medline;
 
-import at.medunigraz.imi.bst.config.TrecConfig;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
-import java.net.InetAddress;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import at.medunigraz.imi.bst.config.TrecConfig;
+import at.medunigraz.imi.bst.trec.search.ElasticClientFactory;
 
 public class Indexing {
 
@@ -61,9 +58,7 @@ public class Indexing {
 
         long startTime = System.currentTimeMillis();
 
-        TransportAddress address = new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300);
-
-        Client client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(address);
+        Client client = ElasticClientFactory.getClient();
 
         BulkRequestBuilder bulkRequest = client.prepareBulk();
 
