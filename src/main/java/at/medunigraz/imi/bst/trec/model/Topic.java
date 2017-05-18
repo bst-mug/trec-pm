@@ -20,18 +20,9 @@ public class Topic {
 	private String variant;
 	private String demographic;
 	private String other;
-	
-	public Topic(int number) {
-		this.number = number;
-	}
 
-	public Topic(int number, Type type, String disease, String variant, String demographic, String other) {
-		this.number = number;
-		this.type = type;
-		this.disease = disease;
-		this.variant = variant;
-		this.demographic = demographic;
-		this.other = other;
+	public Topic() {
+
 	}
 
 	/**
@@ -72,8 +63,40 @@ public class Topic {
 		String demographic = getElement(element, "demographic");
 		String other = getElement(element, "other");
 
-		return new Topic(number, type, disease, variant, demographic, other);
+		Topic topic = new Topic().withNumber(number).withType(type).withDisease(disease).withVariant(variant)
+				.withDemographic(demographic).withOther(other);
 
+		return topic;
+	}
+
+	public Topic withNumber(int number) {
+		this.number = number;
+		return this;
+	}
+
+	public Topic withType(Type type) {
+		this.type = type;
+		return this;
+	}
+
+	public Topic withDisease(String disease) {
+		this.disease = disease;
+		return this;
+	}
+
+	public Topic withVariant(String variant) {
+		this.variant = variant;
+		return this;
+	}
+
+	public Topic withDemographic(String demographic) {
+		this.demographic = demographic;
+		return this;
+	}
+
+	public Topic withOther(String other) {
+		this.other = other;
+		return this;
 	}
 
 	private static String getElement(Element element, String name) {
