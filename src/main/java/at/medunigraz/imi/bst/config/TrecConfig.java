@@ -10,6 +10,11 @@ public final class TrecConfig {
     public static final String INDEX_NAME = "trec";
     public static final String MEDLINE_TYPE = "medline";
     public static final String TRIALS_TYPE = "trials";
+    
+    public static final String ELASTIC_HOSTNAME = "localhost";
+    public static final int ELASTIC_PORT = 9300;
+    
+    
 
 
     /* DATA - MEDLINE */
