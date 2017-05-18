@@ -27,7 +27,7 @@ public class TrecWriterTest {
 		File output = testFolder.newFile(OUTPUT);
 		TrecWriter tw = new TrecWriter(output);
 
-		Topic topic1 = new Topic(1);
+		Topic topic1 = new Topic().withNumber(1);
 		List<Result> results = new ArrayList<>();
 		results.add(new Result(28410400, 2.5f));
 
@@ -40,7 +40,7 @@ public class TrecWriterTest {
 		String expected1 = String.join("\t", "1", "Q0", "28410400", "0", "2.500000", "my-run") + "\n";
 		assertEquals(expected1, actual);
 
-		Topic topic2 = new Topic(2);
+		Topic topic2 = new Topic().withNumber(2);
 		tw.write(topic2, results);
 		tw.flush();
 
