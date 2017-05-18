@@ -1,5 +1,6 @@
 package at.medunigraz.imi.bst.medline;
 
+import at.medunigraz.imi.bst.config.TrecConfig;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -20,41 +21,30 @@ import java.util.concurrent.TimeUnit;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
+
 public class MedlineTests {
 
-    //String DATA_FOLDER = "/Users/plopez/Desktop/trec/";
-    String DATA_FOLDER = "/Volumes/PabloSSD/trec/medline_xml_all/";
 
-    String LARGE_XML_GZIPPED = DATA_FOLDER + "medline17n0739.xml.gz";
-    String LARGE_XML = DATA_FOLDER + "uncompressed/medline17n0739.xml";
-    String SAMPLE_SMALL_XML = "src/main/resources/data/medline-sample.xml";
-
-    List<String> SAMPLE_MULTI_XML = Arrays.asList(
-                                                DATA_FOLDER + "uncompressed/medline17n0050.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0100.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0189.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0201.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0355.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0492.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0519.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0666.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0739.xml",
-                                                DATA_FOLDER + "uncompressed/medline17n0889.xml"
-                                    );
 
     
     @Test
     public void smallUncompressedTest() throws Exception {
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(SAMPLE_SMALL_XML);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(TrecConfig.SAMPLE_SMALL_XML);
         System.out.println(pubMedArticles);
-        System.out.println(pubMedArticles.size());
+        assertThat(pubMedArticles.size(), is(2));
     }
+
+    /*
 
     @Ignore
     public void largeUncompressedTest() throws Exception {
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(LARGE_XML);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(TrecConfig.LARGE_XML);
 
         System.out.println(pubMedArticles);
         System.out.println(pubMedArticles.size());
@@ -63,7 +53,7 @@ public class MedlineTests {
     @Ignore
     public void largeCompressedTest() throws Exception {
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(LARGE_XML_GZIPPED);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(TrecConfig.LARGE_XML_GZIPPED);
         System.out.println(pubMedArticles);
         System.out.println(pubMedArticles.size());
     }
@@ -110,7 +100,7 @@ public class MedlineTests {
 
         long startTime = System.currentTimeMillis();
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(LARGE_XML_GZIPPED);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(TrecConfig.LARGE_XML_GZIPPED);
 
         long xmlDuration = (System.currentTimeMillis() - startTime);
 
@@ -126,7 +116,7 @@ public class MedlineTests {
 
         long startTime = System.currentTimeMillis();
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(LARGE_XML);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(TrecConfig.LARGE_XML);
 
         long xmlDuration = (System.currentTimeMillis() - startTime);
 
@@ -143,7 +133,7 @@ public class MedlineTests {
 
         long startTime = System.currentTimeMillis();
 
-        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(LARGE_XML);
+        List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(TrecConfig.LARGE_XML);
 
         long xmlDuration = (System.currentTimeMillis() - startTime);
 
@@ -160,7 +150,7 @@ public class MedlineTests {
 
         long startTime = System.currentTimeMillis();
 
-        for (String articleXml : SAMPLE_MULTI_XML) {
+        for (String articleXml : TrecConfig.SAMPLE_MULTI_XML) {
             System.out.println(articleXml);
             List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(articleXml);
             System.out.println(pubMedArticles);
@@ -175,7 +165,7 @@ public class MedlineTests {
 
         long startTime = System.currentTimeMillis();
 
-        for (String articleXml : SAMPLE_MULTI_XML) {
+        for (String articleXml : TrecConfig.SAMPLE_MULTI_XML) {
             System.out.println(articleXml);
             List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(articleXml);
             //System.out.println(pubMedArticles);
@@ -190,7 +180,7 @@ public class MedlineTests {
 
         long startTime = System.currentTimeMillis();
 
-        for (String articleXml : SAMPLE_MULTI_XML) {
+        for (String articleXml : TrecConfig.SAMPLE_MULTI_XML) {
             articleXml = articleXml.replace("uncompressed/", "") + ".gz";
             System.out.println(articleXml);
             List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(articleXml);
@@ -202,13 +192,13 @@ public class MedlineTests {
     }
 
     @Test
-    public void indexAllUncompressed() throws Exception {
+    public void indexAllPlain() throws Exception {
 
         long startTime = System.currentTimeMillis();
         System.out.println("START: " + startTime);
 
-        for (int fileNumber = 1; fileNumber <= 889; fileNumber++) {
-            String articleXml = String.format(DATA_FOLDER + "uncompressed/medline17n0%03d.xml", fileNumber);
+        for (int fileNumber = 281; fileNumber <= 889; fileNumber++) {
+            String articleXml = String.format(TrecConfig.DATA_FOLDER + "uncompressed/medline17n0%03d.xml", fileNumber);
             System.out.println(articleXml);
             List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromXml(articleXml);
             indexArticlesBulk(pubMedArticles);
@@ -290,4 +280,6 @@ public class MedlineTests {
         return indexingDuration;
 
     }
+
+    */
 }
