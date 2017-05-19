@@ -131,4 +131,10 @@ public class Topic {
 		return other;
 	}
 
+	@Override
+	public String toString() {
+		return "Topic [number=" + number + ", type=" + type + ", disease=" + disease + ", variant=" + variant
+				+ ", demographic=" + demographic + ", other=" + other + "]";
+	}
+
 }
