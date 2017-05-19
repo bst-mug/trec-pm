@@ -17,6 +17,13 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>at.medunigraz.imi.bst.trec.RunnerDemo</mainClass>
+				</configuration>
+			</plugin>
             <!-- USE TO COPY ALL NECESSARY LIBS to target
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
