@@ -3,6 +3,9 @@ package at.medunigraz.imi.bst.trec;
 import java.io.File;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import at.medunigraz.imi.bst.trec.evaluator.TrecEval;
 import at.medunigraz.imi.bst.trec.evaluator.TrecWriter;
 import at.medunigraz.imi.bst.trec.model.Result;
@@ -10,6 +13,8 @@ import at.medunigraz.imi.bst.trec.model.Topic;
 import at.medunigraz.imi.bst.trec.search.ElasticSearch;
 
 public class RunnerDemo {
+	private static final Logger LOG = LogManager.getLogger();
+	
 	public static void main(String[] args) {
 		final String id = "20170519";
 
@@ -29,6 +34,8 @@ public class RunnerDemo {
 
 		File goldStandard = new File(StatsWriter.class.getResource("/gold-standard/" + id + ".qrels").getPath());
 		TrecEval te = new TrecEval(goldStandard, output);
+		
+		LOG.debug(te.getMetricsAsString());
 
 		StatsWriter sw = new StatsWriter(new File("stats.csv"));
 		sw.write(te);
