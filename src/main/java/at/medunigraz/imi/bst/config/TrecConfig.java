@@ -2,8 +2,10 @@ package at.medunigraz.imi.bst.config;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public final class TrecConfig {
+public final class TrecConfig {	
+	private static final ResourceBundle PROPERTIES = ResourceBundle.getBundle("config");
 
     /* STORAGE - ELASTICSEARCH */
 
@@ -11,7 +13,7 @@ public final class TrecConfig {
     public static final String MEDLINE_TYPE = "medline";
     public static final String TRIALS_TYPE = "trials";
     
-    public static final String ELASTIC_HOSTNAME = "localhost";
+    public static final String ELASTIC_HOSTNAME = getString("ELASTIC_HOSTNAME");
     public static final int ELASTIC_PORT = 9300;
     
     
@@ -42,5 +44,9 @@ public final class TrecConfig {
                                                                     DATA_FOLDER + "uncompressed/medline17n0739.xml",
                                                                     DATA_FOLDER + "uncompressed/medline17n0889.xml"
                                                         );
+	
+	public static String getString(String key) {
+		return PROPERTIES.getString(key);
+	}
 
 }

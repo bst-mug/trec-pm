@@ -8,6 +8,15 @@
     <artifactId>trec2017</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
+	    <filters>
+			<filter>trec2017.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
