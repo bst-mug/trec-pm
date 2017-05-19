@@ -1,5 +1,6 @@
 package at.medunigraz.imi.bst.trec.evaluator;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import com.opencsv.CSVWriter;
 import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
-public class TrecWriter {
+public class TrecWriter implements Closeable {
 	private static final int NUM_FIELDS = 6;
 	private CSVWriter writer;
 

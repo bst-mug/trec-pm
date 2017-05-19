@@ -10,7 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class TrecEval extends AbstractEvaluator {
+	
+	private static final Logger LOG = LogManager.getLogger();
 
 	/**
 	 * -m all_trec -q -c -M1000
@@ -45,9 +50,9 @@ public class TrecEval extends AbstractEvaluator {
 		int exit = proc.exitValue();
 		if (exit != 0) {
 			String[] error = collectStream(proc.getErrorStream());
-			System.out.println(String.format("Process exited with code %d and error message:", exit));
+			LOG.error(String.format("Process exited with code %d and error message:", exit));
 			for (String e : error) {
-				System.out.println(e);
+				LOG.error(e);
 			}
 			return;
 		}

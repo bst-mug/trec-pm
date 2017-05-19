@@ -35,7 +35,7 @@ public class ElasticSearch implements SearchEngine {
 
 		QueryBuilder qb = multiMatchQuery(topic.getDisease(), "title", "abstract");
 
-		SearchResponse response = client.prepareSearch().setQuery(qb).get();
+		SearchResponse response = client.prepareSearch().setQuery(qb).setSize(1000).get();
 		LOG.trace(JsonUtils.prettify(response.toString()));
 
 		SearchHit[] results = response.getHits().getHits();

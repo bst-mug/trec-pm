@@ -1,0 +1,8 @@
+<topics task="2017 TREC Precision Medicine">
+	<topic number="2" type="test">
+		<disease>thyroid cancer</disease>
+		<variant>RET, BRAF</variant>
+		<demographic>63-year-old female</demographic>
+		<other>Ecog grade of 2</other>
+	</topic>
+</topics>
