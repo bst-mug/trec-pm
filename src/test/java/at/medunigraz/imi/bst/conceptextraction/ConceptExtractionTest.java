@@ -16,18 +16,42 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class ConceptExtractionTest {
 
-    String API_KEY_FILE = "src/main/resources/apikey.txt";
+    String API_KEY_FILE = "src/test/resources/apikey.txt";
     String API_KEY;
 
     public ConceptExtractionTest(){
     	File apiFile = new File(API_KEY_FILE);
     	Assume.assumeTrue(apiFile.exists());
-    	
+
         try {
-            API_KEY = FileUtils.readFileToString(apiFile, "UTF-8");
+            API_KEY = FileUtils.readFileToString(apiFile, "UTF-8").replace("\n", "");
         } catch (IOException e) {
-            System.out.print("Please place your Lexigram API key in the following file: src/main/resources/apikey.txt");
+            System.out.print("Please place your Lexigram API key in the following file: " + API_KEY_FILE);
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void exampleSearchConcepts() throws UnirestException {
+        String keyword = "acute%20lymphoblastic%20leukemia";
+        String url = "https://api.lexigram.io/v1/lexigraph/search?q="+ keyword;
+        HttpResponse<JsonNode> response = Unirest.get(url)
+                .header("authorization", "Bearer " + API_KEY)
+                .asJson();
+        JSONObject body = new JSONObject(response.getBody());
+        JSONArray result = body.getJSONArray("array").getJSONObject(0).getJSONArray("conceptSearchHits");
+
+        /*
+        prints concepts found from the search of diabetes
+        */
+        for(int i = 0; i < result.length(); i++) {
+            JSONObject item = result.getJSONObject(i);
+            JSONObject concept = item.getJSONObject("concept");
+            String types = concept.getJSONArray("types").toString() + " ";
+
+            System.out.println("Concept ID: "+ concept.getString("id") +
+                    "Concept label: "+ concept.getString("label") +
+                    " types:"+ types);
         }
     }
 
@@ -38,8 +62,10 @@ public class ConceptExtractionTest {
                 "The patient suffers from bulimia and eating disorder, bipolar disorder,"+
                 " and severe hypokalemia. She thinks her potassium might again be low.";
 
-        JSONObject data= new JSONObject();
+        JSONObject data = new JSONObject();
+
         data.put("text", text);
+
         HttpResponse<JsonNode> response = Unirest.post(url)
                 .header("authorization", "Bearer " + API_KEY)
                 .header("accept", "application/json")
@@ -47,11 +73,13 @@ public class ConceptExtractionTest {
                 .body(data)
                 .asJson();
         JSONObject body = new JSONObject(response.getBody());
+        System.out.println(body);
         JSONArray result = body.getJSONArray("array").getJSONObject(0).getJSONArray("matches");
 
-        /*
-        prints the extracted concepts
-        */
+        System.out.print(body);
+
+        //prints the extracted concepts
+
         for(int i = 0; i < result.length(); i++) {
             JSONObject item = result.getJSONObject(i);
             String types = item.getJSONArray("types").toString() + " ";
@@ -72,5 +100,6 @@ public class ConceptExtractionTest {
                     " types:"+ types +
                     " context: "+ context);
         }
+
     }
 }

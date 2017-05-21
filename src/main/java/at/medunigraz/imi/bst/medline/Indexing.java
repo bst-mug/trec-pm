@@ -2,6 +2,8 @@ package at.medunigraz.imi.bst.medline;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,28 +18,72 @@ import at.medunigraz.imi.bst.trec.search.ElasticClientFactory;
 public class Indexing {
 
     public static void main(String[] args) throws Exception {
-        if (args.length > 0)
-            indexAllCompressed(args[0]);
+        if (args.length == 2)
+            indexAllCompressedMedline(args[0], args[1]);
         else
-            System.out.println("Please provide a folder containing the COMPRESSED medline XMLs");
+            System.out.println("2 args needed: (1) folder containing the COMPRESSED medline XMLs, " +
+                                              "(2) initial doc to index, normally 1 ");
     }
 
-    static void indexAllCompressed(String dataFolderWithCompressedFiles) throws Exception {
+    static void indexAllCompressedMedline(String dataFolderWithCompressedFiles, String firstArticleToIndex) throws Exception {
+
+        Client client = ElasticClientFactory.getClient();
 
         long startTime = System.currentTimeMillis();
-        System.out.println("START: " + startTime);
+        System.out.println("START: " + new SimpleDateFormat("MMM dd,yyyy HH:mm").format(new Date(startTime)));
 
-        for (int fileNumber = TrecConfig.MEDLINE_FILE_START; fileNumber <= TrecConfig.MEDLINE_FILE_END; fileNumber++) {
+        for (int fileNumber = Integer.parseInt(firstArticleToIndex); fileNumber <= TrecConfig.MEDLINE_FILE_END; fileNumber++) {
             String articleXml = String.format(dataFolderWithCompressedFiles + "/" + TrecConfig.MEDLINE_FILE_PATTERN + ".gz", fileNumber);
             System.out.println(articleXml);
             List<PubMedArticle> pubMedArticles = XmlPubMedArticleSet.getPubMedArticlesFromGzippedXml(articleXml);
-            indexArticlesBulk(pubMedArticles);
+            indexArticlesBulk(client, pubMedArticles);
         }
-        System.out.println("END: " + System.currentTimeMillis());
+        System.out.println("END: " + new SimpleDateFormat("MMM dd,yyyy HH:mm").format(new Date(System.currentTimeMillis())));
 
         System.out.println("TOTAL: " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - startTime) + " seconds");
+
+        client.close();
+
     }
 
+    static long indexArticlesBulk(Client client, List<PubMedArticle> pubMedArticles) throws Exception{
+
+        long startTime = System.currentTimeMillis();
+
+
+        BulkRequestBuilder bulkRequest = client.prepareBulk();
+
+        for (PubMedArticle article: pubMedArticles) {
+
+            bulkRequest.add(client.prepareIndex(TrecConfig.INDEX_NAME, TrecConfig.MEDLINE_TYPE, article.pubMedId)
+                    .setSource(jsonBuilder()
+                            .startObject()
+                            .field("pubmedId", StringEscapeUtils.escapeJson(article.pubMedId))
+                            .field("title", StringEscapeUtils.escapeJson(article.docTitle))
+                            .field("publicationDate", StringEscapeUtils.escapeJson(article.publicationMonth +
+                                                             " " + StringEscapeUtils.escapeJson((article.publicationYear))))
+                            .field("abstract", StringEscapeUtils.escapeJson(article.docAbstract))
+                            .field("meshTags", article.meshTags)
+                            .endObject()
+                    )
+            );
+        }
+
+        BulkResponse bulkResponse = bulkRequest.get();
+
+        if (bulkResponse.hasFailures()) {
+            System.out.println("Failures!!!!");
+        }
+
+        long indexingDuration = (System.currentTimeMillis() - startTime);
+
+        System.out.println("INDEXING TIME BULK: " + indexingDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
+
+        return indexingDuration;
+
+    }
+
+    /*
     static void indexAllPlain(String dataFolderWithPlainFiles) throws Exception {
 
         long startTime = System.currentTimeMillis();
@@ -53,41 +99,5 @@ public class Indexing {
 
         System.out.println("TOTAL: " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - startTime) + " seconds");
     }
-
-    static long indexArticlesBulk(List<PubMedArticle> pubMedArticles) throws Exception{
-
-        long startTime = System.currentTimeMillis();
-
-        Client client = ElasticClientFactory.getClient();
-
-        BulkRequestBuilder bulkRequest = client.prepareBulk();
-
-        for (PubMedArticle article: pubMedArticles) {
-
-            bulkRequest.add(client.prepareIndex(TrecConfig.INDEX_NAME, TrecConfig.MEDLINE_TYPE, article.pubMedId)
-                    .setSource(jsonBuilder()
-                            .startObject()
-                            .field("title", StringEscapeUtils.escapeJson(article.docTitle))
-                            .field("abstract", StringEscapeUtils.escapeJson(article.docAbstract))
-                            .field("meshTags", article.meshTags)
-                            .endObject()
-                    )
-            );
-        }
-
-        BulkResponse bulkResponse = bulkRequest.get();
-
-        if (bulkResponse.hasFailures()) {
-            System.out.println("Failures!!!!");
-        }
-
-        client.close();
-
-        long indexingDuration = (System.currentTimeMillis() - startTime);
-
-        System.out.println("INDEXING TIME BULK: " + indexingDuration/1000 + " secs - " + pubMedArticles.size() + " articles");
-
-        return indexingDuration;
-
-    }
+    */
 }

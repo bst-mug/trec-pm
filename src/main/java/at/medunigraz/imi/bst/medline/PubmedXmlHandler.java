@@ -76,6 +76,17 @@ public class PubmedXmlHandler extends DefaultHandler {
             article.meshTags.add(tempVal.toString().trim());
         }
 
+        if (tag.equalsIgnoreCase("Year") &&
+                parentTag.equalsIgnoreCase("PubDate")) {
+            article.publicationYear = tempVal.toString().trim();
+        }
+
+        if (tag.equalsIgnoreCase("Month") &&
+                parentTag.equalsIgnoreCase("PubDate")) {
+            article.publicationMonth = tempVal.toString().trim();
+        }
+
+
         if (TAG_PUBMED_ARTICLE.equalsIgnoreCase(tag)) {
             articles.add(article);
         }
