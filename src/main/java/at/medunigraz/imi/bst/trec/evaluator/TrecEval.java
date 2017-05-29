@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -93,7 +94,21 @@ public class TrecEval extends AbstractEvaluator {
 			}
 		}
 	}
-	
+		
+	public String getMetricsAsString() {
+		StringBuilder sb = new StringBuilder();
+		
+		Set<Map.Entry<String, Double>> entries = metrics.entrySet();
+		for (Map.Entry<String, Double> entry : entries) {
+			sb.append(entry.getKey());
+			sb.append("=");
+			sb.append(entry.getValue());
+			sb.append("\n");
+		}
+		
+		return sb.toString();
+	}
+
 	@Override
 	public double getNDCG() {
 		return metrics.getOrDefault("ndcg", 0d);

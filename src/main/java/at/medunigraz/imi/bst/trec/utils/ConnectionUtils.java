@@ -1,6 +1,7 @@
 package at.medunigraz.imi.bst.trec.utils;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import at.medunigraz.imi.bst.config.TrecConfig;
@@ -13,8 +14,9 @@ public class ConnectionUtils {
 	 * @param port
 	 * @return
 	 */
-	public static boolean checkOpenPort(String hostname, int port) {
-		try (Socket ignored = new Socket(hostname, port)) {
+	public static boolean checkOpenPort(String hostname, int port) {		
+		try (Socket socket = new Socket()) {
+			socket.connect(new InetSocketAddress(hostname, port), 1000);
 			return true;
 		} catch (IOException ignored) {
 			return false;
