@@ -18,7 +18,6 @@ public class TopicTest {
 		assertEquals("ABL1, PTPN11", topic.getVariant());
 		assertEquals("12-year-old male", topic.getDemographic());
 		assertEquals("No relevant factors", topic.getOther());
-		assertEquals(Topic.Type.TEST, topic.getType());
 	}
 
 }
