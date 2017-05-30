@@ -1,6 +1,7 @@
 package at.medunigraz.imi.bst.trec.model;
 
 import java.io.File;
+import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -135,6 +136,23 @@ public class Topic {
 	public String toString() {
 		return "Topic [number=" + number + ", disease=" + disease + ", variant=" + variant
 				+ ", demographic=" + demographic + ", other=" + other + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(number);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Topic other = (Topic) obj;
+		return Objects.equals(number, other.number);
 	}
 
 }
