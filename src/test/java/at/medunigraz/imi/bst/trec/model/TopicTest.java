@@ -10,7 +10,7 @@ public class TopicTest {
 
 	@Test
 	public void testFromXML() {
-		File all = new File(getClass().getResource("/all.xml").getPath());
+		File all = new File(getClass().getResource("/topics/all.xml").getPath());
 		Topic topic = Topic.fromXML(all);
 
 		assertEquals(1, topic.getNumber());
