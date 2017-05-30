@@ -57,7 +57,14 @@ public class Topic {
 	public static Topic fromElement(Element element) {
 		int number = Integer.parseInt(getAttribute(element, "number"));
 		String disease = getElement(element, "disease");
-		String variant = getElement(element, "variant");
+		
+		String variant = "";
+		if (hasElement(element, "variant")) {
+			variant = getElement(element, "variant");
+		} else if (hasElement(element, "gene")) {
+			variant = getElement(element, "gene");
+		}
+		
 		String demographic = getElement(element, "demographic");
 		String other = getElement(element, "other");
 
@@ -90,6 +97,10 @@ public class Topic {
 	public Topic withOther(String other) {
 		this.other = other;
 		return this;
+	}
+	
+	private static boolean hasElement(Element element, String name) {
+		return element.getElementsByTagName(name).getLength() > 0 ? true : false;
 	}
 
 	private static String getElement(Element element, String name) {
