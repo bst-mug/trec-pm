@@ -56,6 +56,10 @@ public class Topic {
 
 		Element element = (Element) doc.getElementsByTagName("topic").item(0);
 
+		return fromElement(element);
+	}
+	
+	public static Topic fromElement(Element element) {
 		int number = Integer.parseInt(getAttribute(element, "number"));
 		Type type = Type.valueOf(getAttribute(element, "type").toUpperCase());
 		String disease = getElement(element, "disease");
