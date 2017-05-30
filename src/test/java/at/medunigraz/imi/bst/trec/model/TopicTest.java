@@ -10,7 +10,7 @@ public class TopicTest {
 
 	@Test
 	public void testFromXML() {
-		File all = new File(getClass().getResource("/all.xml").getPath());
+		File all = new File(getClass().getResource("/topics/all.xml").getPath());
 		Topic topic = Topic.fromXML(all);
 
 		assertEquals(1, topic.getNumber());
@@ -18,7 +18,6 @@ public class TopicTest {
 		assertEquals("ABL1, PTPN11", topic.getVariant());
 		assertEquals("12-year-old male", topic.getDemographic());
 		assertEquals("No relevant factors", topic.getOther());
-		assertEquals(Topic.Type.TEST, topic.getType());
 	}
 
 }

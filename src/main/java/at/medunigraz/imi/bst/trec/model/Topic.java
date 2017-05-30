@@ -1,6 +1,7 @@
 package at.medunigraz.imi.bst.trec.model;
 
 import java.io.File;
+import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,12 +11,7 @@ import org.w3c.dom.Element;
 
 public class Topic {
 
-	enum Type {
-		TEST
-	}
-
 	private int number;
-	private Type type;
 	private String disease;
 	private String variant;
 	private String demographic;
@@ -30,7 +26,7 @@ public class Topic {
 	 * 
 	 * <pre>
 	 * {@code
-	 * <topic number="1" type="test">
+	 * <topic number="1">
 	 *     <disease>Acute lymphoblastic leukemia</disease>
 	 *     <variant>ABL1, PTPN11</variant>
 	 *     <demographic>12-year-old male</demographic>
@@ -56,14 +52,24 @@ public class Topic {
 
 		Element element = (Element) doc.getElementsByTagName("topic").item(0);
 
+		return fromElement(element);
+	}
+	
+	public static Topic fromElement(Element element) {
 		int number = Integer.parseInt(getAttribute(element, "number"));
-		Type type = Type.valueOf(getAttribute(element, "type").toUpperCase());
 		String disease = getElement(element, "disease");
-		String variant = getElement(element, "variant");
+		
+		String variant = "";
+		if (hasElement(element, "variant")) {
+			variant = getElement(element, "variant");
+		} else if (hasElement(element, "gene")) {
+			variant = getElement(element, "gene");
+		}
+		
 		String demographic = getElement(element, "demographic");
 		String other = getElement(element, "other");
 
-		Topic topic = new Topic().withNumber(number).withType(type).withDisease(disease).withVariant(variant)
+		Topic topic = new Topic().withNumber(number).withDisease(disease).withVariant(variant)
 				.withDemographic(demographic).withOther(other);
 
 		return topic;
@@ -71,11 +77,6 @@ public class Topic {
 
 	public Topic withNumber(int number) {
 		this.number = number;
-		return this;
-	}
-
-	public Topic withType(Type type) {
-		this.type = type;
 		return this;
 	}
 
@@ -98,6 +99,10 @@ public class Topic {
 		this.other = other;
 		return this;
 	}
+	
+	private static boolean hasElement(Element element, String name) {
+		return element.getElementsByTagName(name).getLength() > 0 ? true : false;
+	}
 
 	private static String getElement(Element element, String name) {
 		return element.getElementsByTagName(name).item(0).getTextContent();
@@ -109,10 +114,6 @@ public class Topic {
 
 	public int getNumber() {
 		return number;
-	}
-
-	public Type getType() {
-		return type;
 	}
 
 	public String getDisease() {
@@ -133,8 +134,25 @@ public class Topic {
 
 	@Override
 	public String toString() {
-		return "Topic [number=" + number + ", type=" + type + ", disease=" + disease + ", variant=" + variant
+		return "Topic [number=" + number + ", disease=" + disease + ", variant=" + variant
 				+ ", demographic=" + demographic + ", other=" + other + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(number);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Topic other = (Topic) obj;
+		return Objects.equals(number, other.number);
 	}
 
 }
