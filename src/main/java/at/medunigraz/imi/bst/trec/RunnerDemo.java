@@ -16,7 +16,7 @@ public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
 	
 	public static void main(String[] args) {
-		final String id = "20170519";
+		final String id = "example-pmid";
 
 		File all = new File(StatsWriter.class.getResource("/topics/example.xml").getPath());
 		Topic topic = Topic.fromXML(all);
@@ -37,7 +37,7 @@ public class RunnerDemo {
 		
 		LOG.debug(te.getMetricsAsString());
 
-		StatsWriter sw = new StatsWriter(new File("stats.csv"));
+		StatsWriter sw = new StatsWriter(new File("stats/stats.csv"));
 		sw.write(te);
 		sw.close();
 	}
