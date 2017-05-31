@@ -69,6 +69,7 @@ public class TrecEval extends AbstractEvaluator {
 		String line = null;
 		try {
 			while ((line = reader.readLine()) != null) {
+				LOG.trace(line);
 				list.add(line);
 			}
 		} catch (IOException e) {
