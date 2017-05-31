@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,8 @@ import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import at.medunigraz.imi.bst.trec.model.Metrics;
 
 public class TrecEval extends AbstractEvaluator {
 	
@@ -24,11 +27,17 @@ public class TrecEval extends AbstractEvaluator {
 	private static final String COMMAND = "target/lib/trec_eval.9.0/trec_eval -m all_trec -q -c -M1000";
 	
 	private static final String TARGET = "all";
-	private static final String RUN_ID = "runid";
+	
+	private static final Set<String> STRING_METRICS = new HashSet<>();
+	
+	static {
+		STRING_METRICS.add("runid");
+		STRING_METRICS.add("relstring");
+	}
 
 	private File goldStandard, results;
 	
-	private Map<String, Double> metrics = new TreeMap<>();
+	private Map<String, Metrics> metricsPerTopic = new TreeMap<>();
 
 	public TrecEval(File goldStandard, File results) {
 		this.goldStandard = goldStandard;
@@ -89,50 +98,68 @@ public class TrecEval extends AbstractEvaluator {
 				continue;
 			}
 			
-			// We ignore the field "runid" (because it's a string)
-			if (fields[1].equals(TARGET) && !fields[0].equals(RUN_ID)) {
-				metrics.put(fields[0], Double.valueOf(fields[2]));
+			String metricName = fields[0];
+			String topic = fields[1];
+			String metricValue = fields[2];
+			
+			// We ignore metrics with string values
+			if (STRING_METRICS.contains(metricName)) {
+				continue;
 			}
+			
+			if (!metricsPerTopic.containsKey(topic)) {
+				LOG.debug("Adding topic " + topic);
+				metricsPerTopic.put(topic, new Metrics());
+			}
+			
+			Metrics old = metricsPerTopic.get(topic);
+			old.put(metricName, Double.valueOf(metricValue));
+			metricsPerTopic.put(topic, old);
 		}
 	}
 		
 	public String getMetricsAsString() {
 		StringBuilder sb = new StringBuilder();
 		
-		Set<Map.Entry<String, Double>> entries = metrics.entrySet();
-		for (Map.Entry<String, Double> entry : entries) {
-			sb.append(entry.getKey());
-			sb.append("=");
-			sb.append(entry.getValue());
+		Set<Map.Entry<String, Metrics>> entries = metricsPerTopic.entrySet();
+		for (Map.Entry<String, Metrics> entry : entries) {
 			sb.append("\n");
+			sb.append("Topic: ");
+			sb.append(entry.getKey());
+			sb.append("\n");
+			sb.append(entry.getValue().getMetricsAsString());
 		}
 		
 		return sb.toString();
 	}
+	
+	public double getMetricByTopic(String topic, String metric) {
+		return metricsPerTopic.get(topic).getMetric(metric);
+	}
 
 	@Override
 	public double getNDCG() {
-		return metrics.getOrDefault("ndcg", 0d);
+		return getMetricByTopic(TARGET, "ndcg");
 	}
 
 	@Override
 	public double getRPrec() {
-		return metrics.getOrDefault("Rprec", 0d);
+		return getMetricByTopic(TARGET, "Rprec");
 	}
 
 	@Override
 	public double getInfAP() {
-		return metrics.getOrDefault("infAP", 0d);
+		return getMetricByTopic(TARGET, "infAP");
 	}
 
 	@Override
 	public double getP10() {
-		return metrics.getOrDefault("P_10", 0d);
+		return getMetricByTopic(TARGET, "P_10");
 	}
 
 	@Override
 	public double getF() {
-		return metrics.getOrDefault("set_F", 0d);
+		return getMetricByTopic(TARGET, "set_F");
 	}
 
 }
