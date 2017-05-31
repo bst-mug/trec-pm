@@ -22,7 +22,7 @@ public class ElasticSearchTest {
 	public void testQuery() {
 		ElasticSearch es = new ElasticSearch();
 
-		List<Result> results = es.query(new Topic().withDisease("thyroid"));
+		List<Result> results = es.query(new Topic().withDisease("thyroid")).getResults();
 
 		assertFalse(results.isEmpty());
 	}

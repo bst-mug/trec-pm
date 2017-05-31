@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
@@ -14,6 +12,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import at.medunigraz.imi.bst.trec.model.Result;
+import at.medunigraz.imi.bst.trec.model.ResultList;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class TrecWriterTest {
@@ -27,11 +26,13 @@ public class TrecWriterTest {
 		File output = testFolder.newFile(OUTPUT);
 		TrecWriter tw = new TrecWriter(output);
 
+		Result result = new Result(28410400, 2.5f);
+		
 		Topic topic1 = new Topic().withNumber(1);
-		List<Result> results = new ArrayList<>();
-		results.add(new Result(28410400, 2.5f));
+		ResultList resultList1 = new ResultList(topic1);	
+		resultList1.add(result);
 
-		tw.write(topic1, results);
+		tw.write(resultList1);
 		tw.flush();
 
 		assertTrue(output.exists());
@@ -40,8 +41,12 @@ public class TrecWriterTest {
 		String expected1 = String.join("\t", "1", "Q0", "28410400", "0", "2.500000", "my-run") + "\n";
 		assertEquals(expected1, actual);
 
+		// Second topic with the same result
 		Topic topic2 = new Topic().withNumber(2);
-		tw.write(topic2, results);
+		ResultList resultList2 = new ResultList(topic2);
+		resultList2.add(result);
+		
+		tw.write(resultList2);
 		tw.flush();
 
 		actual = FileUtils.readFileToString(output, "UTF-8");

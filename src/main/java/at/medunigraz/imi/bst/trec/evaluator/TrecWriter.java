@@ -4,12 +4,11 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import com.opencsv.CSVWriter;
 
 import at.medunigraz.imi.bst.trec.model.Result;
-import at.medunigraz.imi.bst.trec.model.Topic;
+import at.medunigraz.imi.bst.trec.model.ResultList;
 
 public class TrecWriter implements Closeable {
 	private static final int NUM_FIELDS = 6;
@@ -23,16 +22,16 @@ public class TrecWriter implements Closeable {
 		}
 	}
 
-	public void write(Topic topic, List<Result> results) {
+	public void write(ResultList resultList) {		
 		String[] entries = new String[NUM_FIELDS];
-
+		
 		// Sets fixed fields
-		entries[0] = String.valueOf(topic.getNumber());
+		entries[0] = String.valueOf(resultList.getTopic().getNumber());
 		entries[1] = "Q0";
 		entries[3] = "0";
 		entries[5] = "my-run"; // TODO change to something meaningful
 
-		for (Result result : results) {
+		for (Result result : resultList.getResults()) {
 			entries[2] = String.valueOf(result.getId());
 			entries[4] = String.format("%.6f", result.getScore());
 			writer.writeNext(entries);
