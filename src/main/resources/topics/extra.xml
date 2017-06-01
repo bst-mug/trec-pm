@@ -53,43 +53,43 @@
     <demographic>62-year-old female</demographic>
     <other>Diabetes</other>
   </topic>
-  <topic number="10010">
+  <topic number="1010">
     <disease>Endometrial cancer</disease>
     <gene>PIK3CA Amplification</gene>
     <demographic>44-year-old female</demographic>
     <other>Diabetes</other>
   </topic>
-  <topic number="10011">
+  <topic number="1011">
     <disease>Moderately differentiated pancreatic adenocarcinoma</disease>
     <gene>KRAS, TP53, CDKN2A</gene>
     <demographic>44-year-old female</demographic>
     <other>None</other>
   </topic>
-  <topic number="10012">
+  <topic number="1012">
     <disease>Moderately differentiated pancreatic adenocarcinoma</disease>
     <gene>KRAS, TP53</gene>
     <demographic>65-year-old male</demographic>
     <other>None</other>
   </topic>
-  <topic number="10013">
+  <topic number="1013">
     <disease>Pancreatic adenocarcinoma</disease>
     <gene>XRCC1</gene>
     <demographic>37-year-old female</demographic>
     <other>None</other>
   </topic>
-  <topic number="10014">
+  <topic number="1014">
     <disease>Pancreatic adenocarcinoma</disease>
     <gene>XRCC1</gene>
     <demographic>76-year-old male</demographic>
     <other>None</other>
   </topic>
-  <topic number="10015">
+  <topic number="1015">
     <disease>Intraductal papillary mucinous neoplasm with high-grade dysplasia</disease>
     <gene>FGFR4, KIT</gene>
     <demographic>72-year-old male</demographic>
     <other>None</other>
   </topic>
-  <topic number="10016">
+  <topic number="1016">
     <disease>Pancreatic adenocarcinoma</disease>
     <gene>ERCC2</gene>
     <demographic>63-year-old male</demographic>
