@@ -12,7 +12,8 @@ import com.opencsv.CSVWriter;
 import at.medunigraz.imi.bst.trec.model.Metrics;
 
 public class StatsWriter implements Closeable, Flushable {
-	private static final String[] FIELDS = new String[] { "Topic", "NDCG", "RPrec", "infAP", "P10", "F" };
+	private static final String[] FIELDS = new String[] { "Topic", "ndcg", "Rprec", "infAP", "P_5", "P_10", "recall_5",
+			"recall_10", "set_P", "set_recall", "set_F" };
 
 	private CSVWriter writer;
 
@@ -30,8 +31,8 @@ public class StatsWriter implements Closeable, Flushable {
 		writer.writeNext(FIELDS);
 		flush();
 	}
-	
-	public void write(Map<String, Metrics> metricsByTopic) {		
+
+	public void write(Map<String, Metrics> metricsByTopic) {
 		for (Map.Entry<String, Metrics> entry : metricsByTopic.entrySet()) {
 			write(entry.getKey(), entry.getValue());
 		}
@@ -40,11 +41,10 @@ public class StatsWriter implements Closeable, Flushable {
 	public void write(String topic, Metrics metrics) {
 		String[] entries = new String[FIELDS.length];
 		entries[0] = topic;
-		entries[1] = String.valueOf(metrics.getNDCG());
-		entries[2] = String.valueOf(metrics.getRPrec());
-		entries[3] = String.valueOf(metrics.getInfAP());
-		entries[4] = String.valueOf(metrics.getP10());
-		entries[5] = String.valueOf(metrics.getF());
+		for (int i = 1; i < FIELDS.length; i++) {
+			entries[i] = String.valueOf(metrics.getMetric(FIELDS[i]));
+
+		}
 
 		writer.writeNext(entries);
 	}
