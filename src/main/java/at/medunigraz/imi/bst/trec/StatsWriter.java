@@ -31,12 +31,7 @@ public class StatsWriter implements Closeable, Flushable {
 		flush();
 	}
 	
-	public void write(Map<String, Metrics> metricsByTopic) {
-		// Overall metrics should be first so that Jenkins can process them.
-		final String first = "all";
-		Metrics firstMetrics = metricsByTopic.remove(first);
-		write(first, firstMetrics);
-		
+	public void write(Map<String, Metrics> metricsByTopic) {		
 		for (Map.Entry<String, Metrics> entry : metricsByTopic.entrySet()) {
 			write(entry.getKey(), entry.getValue());
 		}
