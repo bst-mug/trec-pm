@@ -5,13 +5,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Flushable;
 import java.io.IOException;
+import java.util.Map;
 
 import com.opencsv.CSVWriter;
 
-import at.medunigraz.imi.bst.trec.evaluator.Evaluator;
+import at.medunigraz.imi.bst.trec.model.Metrics;
 
 public class StatsWriter implements Closeable, Flushable {
-	private static final String[] FIELDS = new String[] { "NDCG", "RPrec", "infAP", "P10", "F" };
+	private static final String[] FIELDS = new String[] { "Topic", "NDCG", "RPrec", "infAP", "P10", "F" };
 
 	private CSVWriter writer;
 
@@ -29,14 +30,26 @@ public class StatsWriter implements Closeable, Flushable {
 		writer.writeNext(FIELDS);
 		flush();
 	}
+	
+	public void write(Map<String, Metrics> metricsByTopic) {
+		// Overall metrics should be first so that Jenkins can process them.
+		final String first = "all";
+		Metrics firstMetrics = metricsByTopic.remove(first);
+		write(first, firstMetrics);
+		
+		for (Map.Entry<String, Metrics> entry : metricsByTopic.entrySet()) {
+			write(entry.getKey(), entry.getValue());
+		}
+	}
 
-	public void write(Evaluator evaluator) {
+	public void write(String topic, Metrics metrics) {
 		String[] entries = new String[FIELDS.length];
-		entries[0] = String.valueOf(evaluator.getNDCG());
-		entries[1] = String.valueOf(evaluator.getRPrec());
-		entries[2] = String.valueOf(evaluator.getInfAP());
-		entries[3] = String.valueOf(evaluator.getP10());
-		entries[4] = String.valueOf(evaluator.getF());
+		entries[0] = topic;
+		entries[1] = String.valueOf(metrics.getNDCG());
+		entries[2] = String.valueOf(metrics.getRPrec());
+		entries[3] = String.valueOf(metrics.getInfAP());
+		entries[4] = String.valueOf(metrics.getP10());
+		entries[5] = String.valueOf(metrics.getF());
 
 		writer.writeNext(entries);
 	}

@@ -1,6 +1,7 @@
 package at.medunigraz.imi.bst.trec;
 
 import java.io.File;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import at.medunigraz.imi.bst.trec.evaluator.TrecEval;
 import at.medunigraz.imi.bst.trec.evaluator.TrecWriter;
 import at.medunigraz.imi.bst.trec.model.ResultList;
-import at.medunigraz.imi.bst.trec.model.Topic;
+import at.medunigraz.imi.bst.trec.model.TopicSet;
 import at.medunigraz.imi.bst.trec.search.ElasticSearch;
 
 public class RunnerDemo {
@@ -17,18 +18,18 @@ public class RunnerDemo {
 	public static void main(String[] args) {
 		final String id = "example-pmid";
 
-		File all = new File(StatsWriter.class.getResource("/topics/example.xml").getPath());
-		Topic topic = Topic.fromXML(all);
-
-		// TODO iterate over List<Topic>
-
-		ElasticSearch es = new ElasticSearch();
-		ResultList results = es.query(topic);
-
+		File example = new File(StatsWriter.class.getResource("/topics/example.xml").getPath());
+		TopicSet topicSet = new TopicSet(example);
+		
 		File output = new File("results/" + id + ".trec_results");
 		TrecWriter tw = new TrecWriter(output);
 
-		tw.write(results);
+		ElasticSearch es = new ElasticSearch();
+		Set<ResultList> resultListSet = es.query(topicSet);
+
+		for (ResultList resultList : resultListSet) {
+			tw.write(resultList);
+		}
 		tw.close();
 
 		File goldStandard = new File(StatsWriter.class.getResource("/gold-standard/" + id + ".qrels").getPath());
@@ -37,7 +38,7 @@ public class RunnerDemo {
 		LOG.debug(te.getMetricsAsString());
 
 		StatsWriter sw = new StatsWriter(new File("stats/stats.csv"));
-		sw.write(te);
+		sw.write(te.getMetrics());
 		sw.close();
 	}
 }
