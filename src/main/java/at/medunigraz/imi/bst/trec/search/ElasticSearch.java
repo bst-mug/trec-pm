@@ -30,6 +30,8 @@ public class ElasticSearch implements SearchEngine {
 		// Filter
 		// .setFrom(0).setSize(60).setExplain(true)
 		// .get();
+		
+		LOG.debug("Querying topic " + topic.getNumber() + "...");
 
 		QueryBuilder qb = multiMatchQuery(topic.getDisease(), "title", "abstract");
 
