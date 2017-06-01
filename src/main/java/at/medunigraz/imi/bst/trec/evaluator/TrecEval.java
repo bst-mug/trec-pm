@@ -133,6 +133,10 @@ public class TrecEval extends AbstractEvaluator {
 		return sb.toString();
 	}
 	
+	public Map<String, Metrics> getMetrics() {
+		return this.metricsPerTopic;
+	}
+	
 	public double getMetricByTopic(String topic, String metric) {
 		return metricsPerTopic.get(topic).getMetric(metric);
 	}

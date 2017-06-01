@@ -38,7 +38,7 @@ public class RunnerDemo {
 		LOG.debug(te.getMetricsAsString());
 
 		StatsWriter sw = new StatsWriter(new File("stats/stats.csv"));
-		sw.write(te);
+		sw.write(te.getMetrics());
 		sw.close();
 	}
 }
