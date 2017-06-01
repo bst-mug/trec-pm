@@ -29,4 +29,24 @@ public class Metrics {
 		
 		return sb.toString();
 	}
+	
+	public double getNDCG() {
+		return getMetric("ndcg");
+	}
+
+	public double getRPrec() {
+		return getMetric("Rprec");
+	}
+
+	public double getInfAP() {
+		return getMetric("infAP");
+	}
+
+	public double getP10() {
+		return getMetric("P_10");
+	}
+
+	public double getF() {
+		return getMetric("set_F");
+	}
 }
