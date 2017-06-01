@@ -136,6 +136,10 @@ public class TrecEval extends AbstractEvaluator {
 	public double getMetricByTopic(String topic, String metric) {
 		return metricsPerTopic.get(topic).getMetric(metric);
 	}
+	
+	public Metrics getMetricsByTopic(String topic) {
+		return metricsPerTopic.get(topic);
+	}
 
 	@Override
 	public double getNDCG() {
