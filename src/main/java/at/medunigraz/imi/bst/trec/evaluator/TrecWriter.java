@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Set;
 
 import com.opencsv.CSVWriter;
 
@@ -19,6 +20,12 @@ public class TrecWriter implements Closeable {
 			writer = new CSVWriter(new FileWriter(output), '\t', CSVWriter.NO_QUOTE_CHARACTER);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void write(Set<ResultList> resultListSet) {
+		for (ResultList resultList : resultListSet) {
+			write(resultList);
 		}
 	}
 

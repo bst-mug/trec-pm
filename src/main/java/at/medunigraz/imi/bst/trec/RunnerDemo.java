@@ -26,10 +26,8 @@ public class RunnerDemo {
 
 		ElasticSearch es = new ElasticSearch();
 		Set<ResultList> resultListSet = es.query(topicSet);
-
-		for (ResultList resultList : resultListSet) {
-			tw.write(resultList);
-		}
+		
+		tw.write(resultListSet);
 		tw.close();
 
 		File goldStandard = new File(StatsWriter.class.getResource("/gold-standard/" + id + ".qrels").getPath());
