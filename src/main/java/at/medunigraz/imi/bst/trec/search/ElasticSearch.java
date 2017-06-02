@@ -7,7 +7,9 @@ import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.json.JSONObject;
 
 import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.ResultList;
@@ -19,6 +21,12 @@ public class ElasticSearch implements SearchEngine {
 	private static final Logger LOG = LogManager.getLogger();
 
 	private Client client = ElasticClientFactory.getClient();
+	
+	public ResultList query(Topic topic, JSONObject jsonQuery) {
+		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
+		
+		return query(topic, qb);
+	}
 
 	@Override
 	public ResultList query(Topic topic) {
@@ -35,6 +43,10 @@ public class ElasticSearch implements SearchEngine {
 
 		QueryBuilder qb = multiMatchQuery(topic.getDisease(), "title", "abstract");
 
+		return query(topic, qb);
+	}
+	
+	private ResultList query(Topic topic, QueryBuilder qb) {
 		SearchResponse response = client.prepareSearch().setQuery(qb).setSize(1000).get();
 		LOG.trace(JsonUtils.prettify(response.toString()));
 
