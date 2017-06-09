@@ -4,6 +4,7 @@ import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -47,7 +48,10 @@ public class ElasticSearch implements SearchEngine {
 	}
 	
 	private ResultList query(Topic topic, QueryBuilder qb) {
-		SearchResponse response = client.prepareSearch().setQuery(qb).setSize(1000).get();
+		SearchRequestBuilder searchRequestBuilder = client.prepareSearch().setQuery(qb).setSize(1000);
+		LOG.trace(searchRequestBuilder.toString());
+		
+		SearchResponse response = searchRequestBuilder.get();
 		LOG.trace(JsonUtils.prettify(response.toString()));
 
 		SearchHit[] results = response.getHits().getHits();
