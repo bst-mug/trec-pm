@@ -34,11 +34,10 @@ public class Indexing {
     private final static Pattern YEAR_PATTERN = Pattern.compile("(\\d{4})");
 
     public static void main(String[] args) throws Exception {
-        indexAllExtraAbstracts("/Users/plopez/Desktop/extra_abstracts/");
         if (args.length == 1)
             indexAllExtraAbstracts(args[0]);
         else
-            System.out.println("1 args needed: folder containing the extra abstract TXTs");
+            System.out.println("1 arg needed: folder containing the extra abstract TXTs");
     }
 
     static long indexAllExtraAbstracts(String dataFolderWithFiles) throws Exception {
