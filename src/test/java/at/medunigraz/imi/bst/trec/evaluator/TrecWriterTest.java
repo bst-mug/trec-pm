@@ -26,7 +26,7 @@ public class TrecWriterTest {
 		File output = testFolder.newFile(OUTPUT);
 		TrecWriter tw = new TrecWriter(output);
 
-		Result result = new Result(28410400, 2.5f);
+		Result result = new Result(String.valueOf(28410400), 2.5f);
 		
 		Topic topic1 = new Topic().withNumber(1);
 		ResultList resultList1 = new ResultList(topic1);	
