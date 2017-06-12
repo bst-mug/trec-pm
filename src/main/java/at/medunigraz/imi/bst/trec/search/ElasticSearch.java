@@ -42,7 +42,7 @@ public class ElasticSearch implements SearchEngine {
 		
 		LOG.debug("Querying topic " + topic.getNumber() + "...");
 
-		QueryBuilder qb = multiMatchQuery(topic.getDisease(), "title", "abstract");
+		QueryBuilder qb = multiMatchQuery(topic.getDisease() + " " + topic.getVariant(), "title^2", "abstract", "keywords", "meshTags");
 
 		return query(topic, qb);
 	}
