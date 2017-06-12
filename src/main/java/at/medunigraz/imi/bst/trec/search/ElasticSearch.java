@@ -58,7 +58,7 @@ public class ElasticSearch implements SearchEngine {
 
 		ResultList ret = new ResultList(topic);
 		for (SearchHit hit : results) {
-			Result result = new Result(Integer.valueOf(hit.getId()), hit.getScore());
+			Result result = new Result(hit.getId(), hit.getScore());
 			ret.add(result);
 		}
 
