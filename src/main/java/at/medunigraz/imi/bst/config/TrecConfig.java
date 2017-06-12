@@ -11,6 +11,7 @@ public final class TrecConfig {
 
     public static final String INDEX_NAME = "trec";
     public static final String MEDLINE_TYPE = "medline";
+    public static final String EXTRA_TYPE = "extra";
     public static final String TRIALS_TYPE = "trials";
     
     public static final String ELASTIC_HOSTNAME = getString("ELASTIC_HOSTNAME");
@@ -31,6 +32,7 @@ public final class TrecConfig {
     public static final String DATA_FOLDER = "/Volumes/PabloSSD/trec/medline_xml_all/";
 
     public static final String SAMPLE_SMALL_XML = "src/main/resources/data/medline-sample.xml";
+    public static final String SAMPLE_EXTRA_ABSTRACT_TXT = "src/main/resources/data/extra-abstract-sample.txt";
 
     public static final List<String> SAMPLE_MULTI_XML = Arrays.asList(
                                                                     DATA_FOLDER + "uncompressed/medline17n0050.xml",
