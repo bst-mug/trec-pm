@@ -2,7 +2,6 @@ package at.medunigraz.imi.bst.extraabstracts;
 
 import at.medunigraz.imi.bst.config.TrecConfig;
 import at.medunigraz.imi.bst.medline.PubMedArticle;
-import at.medunigraz.imi.bst.medline.PubmedXmlHandler;
 import at.medunigraz.imi.bst.trec.search.ElasticClientFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -11,21 +10,12 @@ import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 

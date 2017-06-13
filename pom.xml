@@ -33,34 +33,6 @@
 					<mainClass>at.medunigraz.imi.bst.trec.RunnerDemo</mainClass>
 				</configuration>
 			</plugin>
-            <!-- USE TO COPY ALL NECESSARY LIBS to target
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-             -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
