@@ -23,6 +23,13 @@ public class ElasticSearch implements SearchEngine {
 
 	private Client client = ElasticClientFactory.getClient();
 	
+	public ResultList query(JSONObject jsonQuery) {
+		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
+		
+		return query(new Topic(), qb);
+	}
+	
+	@Deprecated
 	public ResultList query(Topic topic, JSONObject jsonQuery) {
 		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
 		
@@ -42,9 +49,13 @@ public class ElasticSearch implements SearchEngine {
 		
 		LOG.debug("Querying topic " + topic.getNumber() + "...");
 
-		QueryBuilder qb = multiMatchQuery(topic.getDisease(), "title", "abstract");
+		QueryBuilder qb = multiMatchQuery(topic.getDisease() + " " + topic.getVariant(), "title^2", "abstract", "keywords", "meshTags");
 
 		return query(topic, qb);
+	}
+	
+	public ResultList query(QueryBuilder qb) {
+		return query(new Topic(), qb);
 	}
 	
 	private ResultList query(Topic topic, QueryBuilder qb) {
@@ -58,7 +69,7 @@ public class ElasticSearch implements SearchEngine {
 
 		ResultList ret = new ResultList(topic);
 		for (SearchHit hit : results) {
-			Result result = new Result(Integer.valueOf(hit.getId()), hit.getScore());
+			Result result = new Result(hit.getId(), hit.getScore());
 			ret.add(result);
 		}
 

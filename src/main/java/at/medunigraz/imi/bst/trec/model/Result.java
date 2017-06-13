@@ -1,16 +1,16 @@
 package at.medunigraz.imi.bst.trec.model;
 
 public class Result {
-	private int id;
+	private String id;
 
 	private float score;
 
-	public Result(int id, float score) {
+	public Result(String id, float score) {
 		this.id = id;
 		this.score = score;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
