@@ -4,9 +4,12 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
+
 import org.junit.Assume;
 import org.junit.Test;
-import at.medunigraz.imi.bst.trec.model.ResultList;
+
+import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.utils.ConnectionUtils;
 
 public abstract class QueryDecoratorTest {
@@ -16,10 +19,10 @@ public abstract class QueryDecoratorTest {
 	@Test
 	public void testLiveQuery() {
 		Assume.assumeTrue(ConnectionUtils.checkElasticOpenPort());
-		ResultList resultList = decoratedQuery.query();
+		List<Result> resultList = decoratedQuery.query();
 		
-		assertFalse(resultList.getResults().isEmpty());
-		assertThat(resultList.getResults().size(), greaterThan(10));
+		assertFalse(resultList.isEmpty());
+		assertThat(resultList.size(), greaterThan(10));
 	}
 
 }

@@ -28,10 +28,7 @@ public class ElasticSearchTest {
 		File simple = new File(getClass().getResource("/templates/match-title-thyroid.json").getFile());
 		String jsonQuery = FileUtils.readFileToString(simple, "UTF-8");
 
-		// TODO This is actually not needed here, so remove it from the API
-		Topic topic = new Topic();
-
-		List<Result> results = es.query(topic, new JSONObject(jsonQuery)).getResults();
+		List<Result> results = es.query(new JSONObject(jsonQuery));
 
 		assertFalse(results.isEmpty());
 	}
@@ -40,7 +37,7 @@ public class ElasticSearchTest {
 	public void testQuery() {
 		ElasticSearch es = new ElasticSearch();
 
-		List<Result> results = es.query(new Topic().withDisease("thyroid")).getResults();
+		List<Result> results = es.query(new Topic().withDisease("thyroid"));
 
 		assertFalse(results.isEmpty());
 	}
