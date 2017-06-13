@@ -1,6 +1,8 @@
 package at.medunigraz.imi.bst.trec.model;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -11,11 +13,11 @@ import org.w3c.dom.Element;
 
 public class Topic {
 
-	private int number;
-	private String disease;
-	private String variant;
-	private String demographic;
-	private String other;
+	private int number = 0;
+	private String disease = "";
+	private String variant = "";
+	private String demographic = "";
+	private String other = "";
 
 	public Topic() {
 
@@ -130,6 +132,19 @@ public class Topic {
 
 	public String getOther() {
 		return other;
+	}
+	
+	public Map<String, String> getAttributes() {
+		Map<String, String> ret = new HashMap<>();
+		
+		// TODO use reflection
+		ret.put("number", String.valueOf(number));
+		ret.put("disease", disease);
+		ret.put("gene", variant);
+		ret.put("demographic", demographic);
+		ret.put("other", other);
+		
+		return ret;
 	}
 
 	@Override
