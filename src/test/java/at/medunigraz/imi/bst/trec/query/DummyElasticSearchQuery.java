@@ -1,6 +1,8 @@
 package at.medunigraz.imi.bst.trec.query;
 
-import at.medunigraz.imi.bst.trec.model.ResultList;
+import java.util.List;
+
+import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class DummyElasticSearchQuery extends ElasticSearchQuery {
@@ -10,7 +12,7 @@ public class DummyElasticSearchQuery extends ElasticSearchQuery {
 	}
 
 	@Override
-	public ResultList query() {
+	public List<Result> query() {
 		// NOOP
 		return null;
 	}

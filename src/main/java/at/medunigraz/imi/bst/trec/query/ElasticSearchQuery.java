@@ -1,8 +1,10 @@
 package at.medunigraz.imi.bst.trec.query;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
-import at.medunigraz.imi.bst.trec.model.ResultList;
+import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 import at.medunigraz.imi.bst.trec.search.ElasticSearch;
 
@@ -16,7 +18,7 @@ public class ElasticSearchQuery implements Query {
 	}
 
 	@Override
-	public ResultList query() {
+	public List<Result> query() {
 		ElasticSearch es = new ElasticSearch();
 		return es.query(jsonQuery);
 	}

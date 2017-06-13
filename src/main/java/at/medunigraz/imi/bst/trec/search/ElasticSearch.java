@@ -2,6 +2,9 @@ package at.medunigraz.imi.bst.trec.search;
 
 import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -13,7 +16,6 @@ import org.elasticsearch.search.SearchHit;
 import org.json.JSONObject;
 
 import at.medunigraz.imi.bst.trec.model.Result;
-import at.medunigraz.imi.bst.trec.model.ResultList;
 import at.medunigraz.imi.bst.trec.model.Topic;
 import at.medunigraz.imi.bst.trec.utils.JsonUtils;
 
@@ -23,21 +25,13 @@ public class ElasticSearch implements SearchEngine {
 
 	private Client client = ElasticClientFactory.getClient();
 	
-	public ResultList query(JSONObject jsonQuery) {
+	public List<Result> query(JSONObject jsonQuery) {
 		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
 		
-		return query(new Topic(), qb);
-	}
-	
-	@Deprecated
-	public ResultList query(Topic topic, JSONObject jsonQuery) {
-		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
-		
-		return query(topic, qb);
+		return query(qb);
 	}
 
-	@Override
-	public ResultList query(Topic topic) {
+	public List<Result> query(Topic topic) {
 		// SearchResponse response = client.prepareSearch("index1", "index2")
 		// .setTypes("type1", "type2")
 		// .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
@@ -51,14 +45,10 @@ public class ElasticSearch implements SearchEngine {
 
 		QueryBuilder qb = multiMatchQuery(topic.getDisease() + " " + topic.getVariant(), "title^2", "abstract", "keywords", "meshTags");
 
-		return query(topic, qb);
+		return query(qb);
 	}
 	
-	public ResultList query(QueryBuilder qb) {
-		return query(new Topic(), qb);
-	}
-	
-	private ResultList query(Topic topic, QueryBuilder qb) {
+	private List<Result> query(QueryBuilder qb) {
 		SearchRequestBuilder searchRequestBuilder = client.prepareSearch().setQuery(qb).setSize(1000);
 		LOG.trace(searchRequestBuilder.toString());
 		
@@ -67,7 +57,7 @@ public class ElasticSearch implements SearchEngine {
 
 		SearchHit[] results = response.getHits().getHits();
 
-		ResultList ret = new ResultList(topic);
+		List<Result> ret = new ArrayList<>();
 		for (SearchHit hit : results) {
 			Result result = new Result(hit.getId(), hit.getScore());
 			ret.add(result);

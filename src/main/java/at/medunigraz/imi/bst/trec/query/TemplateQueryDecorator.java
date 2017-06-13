@@ -2,11 +2,12 @@ package at.medunigraz.imi.bst.trec.query;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
-import at.medunigraz.imi.bst.trec.model.ResultList;
+import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class TemplateQueryDecorator extends QueryDecorator {
@@ -19,7 +20,7 @@ public class TemplateQueryDecorator extends QueryDecorator {
 	}
 
 	@Override
-	public ResultList query() {
+	public List<Result> query() {
 		applyTemplate();
 		return decoratedQuery.query();
 	}

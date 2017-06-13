@@ -1,6 +1,8 @@
 package at.medunigraz.imi.bst.trec.query;
 
-import at.medunigraz.imi.bst.trec.model.ResultList;
+import java.util.List;
+
+import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class QueryDecorator implements Query {
@@ -12,7 +14,7 @@ public class QueryDecorator implements Query {
 	}
 
 	@Override
-	public ResultList query() {
+	public List<Result> query() {
 		return decoratedQuery.query();
 	}
 	
