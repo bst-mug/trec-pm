@@ -15,7 +15,7 @@ public class TopicTest {
 
 		assertEquals(1, topic.getNumber());
 		assertEquals("Acute lymphoblastic leukemia", topic.getDisease());
-		assertEquals("ABL1, PTPN11", topic.getVariant());
+		assertEquals("ABL1, PTPN11", topic.getGene());
 		assertEquals("12-year-old male", topic.getDemographic());
 		assertEquals("No relevant factors", topic.getOther());
 	}
