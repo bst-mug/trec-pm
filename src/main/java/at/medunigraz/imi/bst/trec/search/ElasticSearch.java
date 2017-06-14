@@ -1,7 +1,5 @@
 package at.medunigraz.imi.bst.trec.search;
 
-import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,6 @@ import org.elasticsearch.search.SearchHit;
 import org.json.JSONObject;
 
 import at.medunigraz.imi.bst.trec.model.Result;
-import at.medunigraz.imi.bst.trec.model.Topic;
 import at.medunigraz.imi.bst.trec.utils.JsonUtils;
 
 public class ElasticSearch implements SearchEngine {
@@ -27,30 +24,13 @@ public class ElasticSearch implements SearchEngine {
 	
 	public List<Result> query(JSONObject jsonQuery) {
 		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
+		LOG.debug(JsonUtils.prettify(jsonQuery));
 		
-		return query(qb);
-	}
-
-	public List<Result> query(Topic topic) {
-		// SearchResponse response = client.prepareSearch("index1", "index2")
-		// .setTypes("type1", "type2")
-		// .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-		// .setQuery(QueryBuilders.termQuery("multi", "test")) // Query
-		// .setPostFilter(QueryBuilders.rangeQuery("age").from(12).to(18)) //
-		// Filter
-		// .setFrom(0).setSize(60).setExplain(true)
-		// .get();
-		
-		LOG.debug("Querying topic " + topic.getNumber() + "...");
-
-		QueryBuilder qb = multiMatchQuery(topic.getDisease() + " " + topic.getGene(), "title^2", "abstract", "keywords", "meshTags");
-
 		return query(qb);
 	}
 	
 	private List<Result> query(QueryBuilder qb) {
 		SearchRequestBuilder searchRequestBuilder = client.prepareSearch().setQuery(qb).setSize(1000);
-		LOG.debug(searchRequestBuilder.toString());
 		
 		SearchResponse response = searchRequestBuilder.get();
 		LOG.trace(JsonUtils.prettify(response.toString()));

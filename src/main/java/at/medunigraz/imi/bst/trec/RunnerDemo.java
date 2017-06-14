@@ -1,6 +1,8 @@
 package at.medunigraz.imi.bst.trec;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,9 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import at.medunigraz.imi.bst.trec.evaluator.TrecEval;
 import at.medunigraz.imi.bst.trec.evaluator.TrecWriter;
+import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.ResultList;
+import at.medunigraz.imi.bst.trec.model.Topic;
 import at.medunigraz.imi.bst.trec.model.TopicSet;
-import at.medunigraz.imi.bst.trec.search.ElasticSearch;
+import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
+import at.medunigraz.imi.bst.trec.query.Query;
+import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
 
 public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
@@ -18,6 +24,8 @@ public class RunnerDemo {
 	public static void main(String[] args) {
 		final String[] runIds = { "example", "extra" };
 		final String suffix = "pmid";
+		
+		final File template = new File(RunnerDemo.class.getResource("/templates/boost-title.json").getFile());
 
 		for (String id : runIds) {
 			LOG.info("Running collection '" + id + "'...");
@@ -27,8 +35,16 @@ public class RunnerDemo {
 			File output = new File("results/" + id + "-" + suffix + ".trec_results");
 			TrecWriter tw = new TrecWriter(output);
 
-			ElasticSearch es = new ElasticSearch();
-			Set<ResultList> resultListSet = es.query(topicSet);
+			// TODO DRY Issue #53
+			Set<ResultList> resultListSet = new HashSet<>();
+			for (Topic topic : topicSet.getTopics()) {
+				Query decoratedQuery = new TemplateQueryDecorator(template, new ElasticSearchQuery(topic));
+				List<Result> results = decoratedQuery.query();
+				
+				ResultList resultList = new ResultList(topic);
+				resultList.setResults(results);
+				resultListSet.add(resultList);
+			}
 
 			tw.write(resultListSet);
 			tw.close();
