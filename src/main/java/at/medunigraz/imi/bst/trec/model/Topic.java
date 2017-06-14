@@ -15,7 +15,7 @@ public class Topic {
 
 	private int number = 0;
 	private String disease = "";
-	private String variant = "";
+	private String gene = "";
 	private String demographic = "";
 	private String other = "";
 
@@ -30,7 +30,7 @@ public class Topic {
 	 * {@code
 	 * <topic number="1">
 	 *     <disease>Acute lymphoblastic leukemia</disease>
-	 *     <variant>ABL1, PTPN11</variant>
+	 *     <gene>ABL1, PTPN11</gene>
 	 *     <demographic>12-year-old male</demographic>
 	 *     <other>No relevant factors</other>
 	 * </topic>
@@ -61,17 +61,18 @@ public class Topic {
 		int number = Integer.parseInt(getAttribute(element, "number"));
 		String disease = getElement(element, "disease");
 		
-		String variant = "";
+		// Backwards compatibility
+		String gene = "";
 		if (hasElement(element, "variant")) {
-			variant = getElement(element, "variant");
+			gene = getElement(element, "variant");
 		} else if (hasElement(element, "gene")) {
-			variant = getElement(element, "gene");
+			gene = getElement(element, "gene");
 		}
 		
 		String demographic = getElement(element, "demographic");
 		String other = getElement(element, "other");
 
-		Topic topic = new Topic().withNumber(number).withDisease(disease).withVariant(variant)
+		Topic topic = new Topic().withNumber(number).withDisease(disease).withGene(gene)
 				.withDemographic(demographic).withOther(other);
 
 		return topic;
@@ -87,8 +88,8 @@ public class Topic {
 		return this;
 	}
 
-	public Topic withVariant(String variant) {
-		this.variant = variant;
+	public Topic withGene(String gene) {
+		this.gene = gene;
 		return this;
 	}
 
@@ -122,8 +123,8 @@ public class Topic {
 		return disease;
 	}
 
-	public String getVariant() {
-		return variant;
+	public String getGene() {
+		return gene;
 	}
 
 	public String getDemographic() {
@@ -140,7 +141,8 @@ public class Topic {
 		// TODO use reflection
 		ret.put("number", String.valueOf(number));
 		ret.put("disease", disease);
-		ret.put("gene", variant);
+		ret.put("gene", gene);
+		ret.put("variant", gene);	// Backwards compatibility
 		ret.put("demographic", demographic);
 		ret.put("other", other);
 		
@@ -149,7 +151,7 @@ public class Topic {
 
 	@Override
 	public String toString() {
-		return "Topic [number=" + number + ", disease=" + disease + ", variant=" + variant
+		return "Topic [number=" + number + ", disease=" + disease + ", gene=" + gene
 				+ ", demographic=" + demographic + ", other=" + other + "]";
 	}
 

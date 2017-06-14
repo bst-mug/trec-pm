@@ -21,7 +21,7 @@ public class TopicSetTest {
 		Topic firstTopic = topics.iterator().next();
 		assertEquals(1, firstTopic.getNumber());
 		assertEquals("Liposarcoma", firstTopic.getDisease());
-		assertEquals("CDK4 Amplification", firstTopic.getVariant());
+		assertEquals("CDK4 Amplification", firstTopic.getGene());
 		assertEquals("38-year-old male", firstTopic.getDemographic());
 		assertEquals("GERD", firstTopic.getOther());
 	}
