@@ -50,7 +50,7 @@ public class ElasticSearch implements SearchEngine {
 	
 	private List<Result> query(QueryBuilder qb) {
 		SearchRequestBuilder searchRequestBuilder = client.prepareSearch().setQuery(qb).setSize(1000);
-		LOG.trace(searchRequestBuilder.toString());
+		LOG.debug(searchRequestBuilder.toString());
 		
 		SearchResponse response = searchRequestBuilder.get();
 		LOG.trace(JsonUtils.prettify(response.toString()));
