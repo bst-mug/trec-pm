@@ -10,6 +10,10 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static String prettify(String json) {
-		return new JSONObject(json).toString(1);
+		return prettify(new JSONObject(json));
+	}
+	
+	public static String prettify(JSONObject json) {
+		return json.toString(1);
 	}
 }
