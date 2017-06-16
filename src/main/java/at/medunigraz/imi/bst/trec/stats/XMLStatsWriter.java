@@ -81,7 +81,8 @@ public class XMLStatsWriter implements StatsWriter {
 
 	@Override
 	public void write(String topic, Metrics metrics) {
-		Element topicElement = doc.createElement(topic);
+		Element topicElement = doc.createElement("topic");
+		topicElement.setAttribute("number", topic);
 		rootElement.appendChild(topicElement);
 
 		for (int i = 1; i < FIELDS.length; i++) {

@@ -18,6 +18,7 @@ import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
 import at.medunigraz.imi.bst.trec.query.Query;
 import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
 import at.medunigraz.imi.bst.trec.stats.CSVStatsWriter;
+import at.medunigraz.imi.bst.trec.stats.XMLStatsWriter;
 
 public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
@@ -55,10 +56,14 @@ public class RunnerDemo {
 			TrecEval te = new TrecEval(goldStandard, output);
 
 			LOG.trace(te.getMetricsAsString());
+			
+			XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + id + "-" + suffix + ".xml"));
+			xsw.write(te.getMetrics());
+			xsw.close();
 
-			CSVStatsWriter sw = new CSVStatsWriter(new File("stats/" + id + "-" + suffix + ".csv"));
-			sw.write(te.getMetrics());
-			sw.close();
+			CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + id + "-" + suffix + ".csv"));
+			csw.write(te.getMetrics());
+			csw.close();
 		}
 	}
 }

@@ -1,5 +1,5 @@
 <report>
-  <all>
+  <topic number="all">
     <ndcg>0.5</ndcg>
-  </all>
+  </topic>
 </report>
