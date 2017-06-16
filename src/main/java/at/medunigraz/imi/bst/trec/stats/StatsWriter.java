@@ -1,4 +1,4 @@
-package at.medunigraz.imi.bst.trec;
+package at.medunigraz.imi.bst.trec.stats;
 
 import java.io.Closeable;
 import java.io.File;

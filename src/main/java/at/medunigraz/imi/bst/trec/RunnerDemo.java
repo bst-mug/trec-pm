@@ -17,6 +17,7 @@ import at.medunigraz.imi.bst.trec.model.TopicSet;
 import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
 import at.medunigraz.imi.bst.trec.query.Query;
 import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
+import at.medunigraz.imi.bst.trec.stats.StatsWriter;
 
 public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
