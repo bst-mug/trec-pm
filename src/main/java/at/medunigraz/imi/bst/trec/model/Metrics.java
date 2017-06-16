@@ -16,6 +16,10 @@ public class Metrics {
 		return metrics.getOrDefault(name, 0d);
 	}
 	
+	public boolean hasMetric(String name) {
+		return metrics.containsKey(name);
+	}
+	
 	public String getMetricsAsString() {
 		StringBuilder sb = new StringBuilder();
 		

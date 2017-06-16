@@ -1,7 +1,6 @@
 package at.medunigraz.imi.bst.trec.stats;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,25 +19,13 @@ import at.medunigraz.imi.bst.trec.model.Metrics;
 
 public class XMLStatsWriter implements StatsWriter {
 
+	private Document doc;
 	private File output;
+	private Element rootElement;
 
 	public XMLStatsWriter(File output) {
 		this.output = output;
-	}
 
-	@Override
-	public void close() throws IOException {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void flush() throws IOException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void write(String topic, Metrics metrics) {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
 		DocumentBuilder documentBuilder = null;
@@ -49,25 +36,15 @@ public class XMLStatsWriter implements StatsWriter {
 			return;
 		}
 
-		Document doc = documentBuilder.newDocument();
+		doc = documentBuilder.newDocument();
 
-		
-		
-		Element rootElement = doc.createElement("report");
-		doc.appendChild(rootElement);
+		writeHeader();
+	}
 
-		Element topicElement = doc.createElement("all");
-		rootElement.appendChild(topicElement);
-		
-		Element metricElement = doc.createElement("ndcg");
-		metricElement.appendChild(doc.createTextNode("0.5"));
-		topicElement.appendChild(metricElement);
-		
-		
-		
-		
+	@Override
+	public void close() {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		
+
 		Transformer transformer = null;
 		try {
 			transformer = transformerFactory.newTransformer();
@@ -78,8 +55,7 @@ public class XMLStatsWriter implements StatsWriter {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-		
-		
+
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(output);
 
@@ -89,7 +65,38 @@ public class XMLStatsWriter implements StatsWriter {
 			e.printStackTrace();
 			return;
 		}
-
+		return;
 	}
 
+	@Override
+	public void flush() {
+		return;
+	}
+
+	private void writeHeader() {
+		rootElement = doc.createElement("report");
+		doc.appendChild(rootElement);
+		flush();
+	}
+
+	@Override
+	public void write(String topic, Metrics metrics) {
+		Element topicElement = doc.createElement(topic);
+		rootElement.appendChild(topicElement);
+
+		for (int i = 1; i < FIELDS.length; i++) {
+			String metricName = FIELDS[i];
+			
+			if (!metrics.hasMetric(metricName)) {
+				continue;
+			}
+			
+			String metricValue = String.valueOf(metrics.getMetric(metricName));
+
+			Element metricElement = doc.createElement(metricName);
+			metricElement.appendChild(doc.createTextNode(metricValue));
+
+			topicElement.appendChild(metricElement);
+		}
+	}
 }
