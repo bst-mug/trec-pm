@@ -17,7 +17,7 @@ import at.medunigraz.imi.bst.trec.model.TopicSet;
 import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
 import at.medunigraz.imi.bst.trec.query.Query;
 import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
-import at.medunigraz.imi.bst.trec.stats.StatsWriter;
+import at.medunigraz.imi.bst.trec.stats.CSVStatsWriter;
 
 public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
@@ -30,7 +30,7 @@ public class RunnerDemo {
 
 		for (String id : runIds) {
 			LOG.info("Running collection '" + id + "'...");
-			File example = new File(StatsWriter.class.getResource("/topics/" + id + ".xml").getPath());
+			File example = new File(CSVStatsWriter.class.getResource("/topics/" + id + ".xml").getPath());
 			TopicSet topicSet = new TopicSet(example);
 
 			File output = new File("results/" + id + "-" + suffix + ".trec_results");
@@ -51,12 +51,12 @@ public class RunnerDemo {
 			tw.close();
 
 			File goldStandard = new File(
-					StatsWriter.class.getResource("/gold-standard/" + id + "-" + suffix + ".qrels").getPath());
+					CSVStatsWriter.class.getResource("/gold-standard/" + id + "-" + suffix + ".qrels").getPath());
 			TrecEval te = new TrecEval(goldStandard, output);
 
 			LOG.trace(te.getMetricsAsString());
 
-			StatsWriter sw = new StatsWriter(new File("stats/" + id + "-" + suffix + ".csv"));
+			CSVStatsWriter sw = new CSVStatsWriter(new File("stats/" + id + "-" + suffix + ".csv"));
 			sw.write(te.getMetrics());
 			sw.close();
 		}
