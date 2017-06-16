@@ -1,23 +1,18 @@
-package at.medunigraz.imi.bst.trec;
+package at.medunigraz.imi.bst.trec.stats;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.Flushable;
 import java.io.IOException;
-import java.util.Map;
 
 import com.opencsv.CSVWriter;
 
 import at.medunigraz.imi.bst.trec.model.Metrics;
 
-public class StatsWriter implements Closeable, Flushable {
-	private static final String[] FIELDS = new String[] { "Topic", "ndcg", "Rprec", "infAP", "P_5", "P_10", "recall_5",
-			"recall_10", "set_P", "set_recall", "set_F" };
+public class CSVStatsWriter implements StatsWriter {
 
 	private CSVWriter writer;
 
-	public StatsWriter(File output) {
+	public CSVStatsWriter(File output) {
 		try {
 			writer = new CSVWriter(new FileWriter(output));
 		} catch (IOException e) {
@@ -32,12 +27,7 @@ public class StatsWriter implements Closeable, Flushable {
 		flush();
 	}
 
-	public void write(Map<String, Metrics> metricsByTopic) {
-		for (Map.Entry<String, Metrics> entry : metricsByTopic.entrySet()) {
-			write(entry.getKey(), entry.getValue());
-		}
-	}
-
+	@Override
 	public void write(String topic, Metrics metrics) {
 		String[] entries = new String[FIELDS.length];
 		entries[0] = topic;
