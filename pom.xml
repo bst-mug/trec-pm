@@ -7,6 +7,11 @@
     <groupId>at.medunigraz.imi.bst</groupId>
     <artifactId>trec2017</artifactId>
     <version>1.0-SNAPSHOT</version>
+    
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+    
     <build>
 	    <filters>
 			<filter>trec2017.properties</filter>
