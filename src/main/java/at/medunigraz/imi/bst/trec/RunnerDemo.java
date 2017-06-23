@@ -27,7 +27,7 @@ public class RunnerDemo {
 		final String[] runIds = { "example", "extra" };
 		final String suffix = "pmid";
 		
-		final File template = new File(RunnerDemo.class.getResource("/templates/treatment-synonyms.json").getFile());
+		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
 
 		for (String id : runIds) {
 			LOG.info("Running collection '" + id + "'...");
