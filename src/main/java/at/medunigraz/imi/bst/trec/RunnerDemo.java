@@ -17,6 +17,7 @@ import at.medunigraz.imi.bst.trec.model.TopicSet;
 import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
 import at.medunigraz.imi.bst.trec.query.Query;
 import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
+import at.medunigraz.imi.bst.trec.query.WordRemovalQueryDecorator;
 import at.medunigraz.imi.bst.trec.stats.CSVStatsWriter;
 import at.medunigraz.imi.bst.trec.stats.XMLStatsWriter;
 
@@ -26,7 +27,7 @@ public class RunnerDemo {
 	public static void main(String[] args) {
 		final String[] runIds = { "example", "extra" };
 		final String suffix = "pmid";
-		
+
 		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
 
 		for (String id : runIds) {
@@ -40,9 +41,10 @@ public class RunnerDemo {
 			// TODO DRY Issue #53
 			Set<ResultList> resultListSet = new HashSet<>();
 			for (Topic topic : topicSet.getTopics()) {
-				Query decoratedQuery = new TemplateQueryDecorator(template, new ElasticSearchQuery(topic));
+				Query decoratedQuery = new WordRemovalQueryDecorator(
+						new TemplateQueryDecorator(template, new ElasticSearchQuery(topic)));
 				List<Result> results = decoratedQuery.query();
-				
+
 				ResultList resultList = new ResultList(topic);
 				resultList.setResults(results);
 				resultListSet.add(resultList);
@@ -56,7 +58,7 @@ public class RunnerDemo {
 			TrecEval te = new TrecEval(goldStandard, output);
 
 			LOG.trace(te.getMetricsAsString());
-			
+
 			XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + id + "-" + suffix + ".xml"));
 			xsw.write(te.getMetrics());
 			xsw.close();
