@@ -108,7 +108,6 @@ public class TrecEval extends AbstractEvaluator {
 			}
 			
 			if (!metricsPerTopic.containsKey(topic)) {
-				LOG.debug("Adding topic " + topic);
 				metricsPerTopic.put(topic, new Metrics());
 			}
 			

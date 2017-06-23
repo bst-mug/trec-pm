@@ -57,7 +57,8 @@ public class RunnerDemo {
 					CSVStatsWriter.class.getResource("/gold-standard/" + id + "-" + suffix + ".qrels").getPath());
 			TrecEval te = new TrecEval(goldStandard, output);
 
-			LOG.trace(te.getMetricsAsString());
+			LOG.debug("NDCG: " + te.getNDCG());
+			LOG.trace(te.getMetricsByTopic("all"));
 
 			XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + id + "-" + suffix + ".xml"));
 			xsw.write(te.getMetrics());
