@@ -17,7 +17,7 @@
 		"should": [
 			{
 				"multi_match": {
-					"query": "{{gene}}",
+					"query": "{{gene}} gene genotype DNA base",
 					"fields": [
 						"title^2",
 						"abstract",
