@@ -3,6 +3,9 @@ apikey.txt
 
 *.class
 
+# Server SSH Key
+google-cloud-trec-key
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
