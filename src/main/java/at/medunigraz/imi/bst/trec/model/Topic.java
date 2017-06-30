@@ -8,6 +8,7 @@ import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.sun.glass.ui.View;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -129,6 +130,22 @@ public class Topic {
 
 	public String getDemographic() {
 		return demographic;
+	}
+
+	public int getAge() {
+		try {
+			return Integer.parseInt(demographic.replaceAll("[^0-9]+", ""));
+		}
+		catch (Exception e) {
+			return -1;
+		}
+	}
+
+	public String getSex() {
+		if (demographic.toLowerCase().contains("female"))
+			return "female";
+		else
+			return "male";
 	}
 
 	public String getOther() {
