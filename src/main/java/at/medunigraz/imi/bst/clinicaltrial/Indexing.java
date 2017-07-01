@@ -1,10 +1,7 @@
 package at.medunigraz.imi.bst.clinicaltrial;
 
 import at.medunigraz.imi.bst.config.TrecConfig;
-import at.medunigraz.imi.bst.medline.PubMedArticle;
 import at.medunigraz.imi.bst.trec.search.ElasticClientFactory;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -14,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -42,7 +38,7 @@ public class Indexing {
 
         for (ClinicalTrial trial: clinicalTrials) {
 
-            //System.out.println("ADDING: " + trial.id);
+            System.out.println("ADDING: " + trial.id);
 
             bulkRequest.add(client.prepareIndex(TrecConfig.INDEX_TRIALS_NAME, TrecConfig.TRIALS_TYPE, trial.id)
                     .setSource(jsonBuilder()
@@ -95,8 +91,6 @@ public class Indexing {
 
     public static ClinicalTrial getClinicalTrialFromFile(String xmlTrialFileName) throws IOException {
 
-        //System.out.println("DATA FILE: " + xmlTrialFileName);
-        return(ClinicalTrial.fromXml(new XmlTrial(xmlTrialFileName)));
+        return(ClinicalTrial.fromXml(xmlTrialFileName));
     }
-
 }
