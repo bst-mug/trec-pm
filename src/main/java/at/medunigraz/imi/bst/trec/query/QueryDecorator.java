@@ -14,13 +14,8 @@ public class QueryDecorator implements Query {
 	}
 
 	@Override
-	public List<Result> query() {
-		return decoratedQuery.query();
-	}
-	
-	@Override
-	public Topic getTopic() {
-		return decoratedQuery.getTopic();
+	public List<Result> query(Topic topic) {
+		return decoratedQuery.query(topic);
 	}
 
 	@Override

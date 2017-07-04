@@ -7,12 +7,11 @@ import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class DummyElasticSearchQuery extends ElasticSearchQuery {
 
-	public DummyElasticSearchQuery(Topic topic) {
-		super(topic);
+	public DummyElasticSearchQuery() {
 	}
 
 	@Override
-	public List<Result> query() {
+	public List<Result> query(Topic topic) {
 		// NOOP
 		return null;
 	}

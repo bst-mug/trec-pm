@@ -13,18 +13,18 @@ public class GeneExpanderQueryDecoratorTest extends QueryDecoratorTest {
 	private static final String SYNONYMS = "TP53";
 
 	private final File template = new File(getClass().getResource("/templates/match-title-gene.json").getFile());
-	private final Topic topic = new Topic().withGene(GENE);
 
 	public GeneExpanderQueryDecoratorTest() {
 		this.decoratedQuery = new GeneExpanderQueryDecorator(
-				new TemplateQueryDecorator(template, new ElasticSearchQuery(topic)));
+				new TemplateQueryDecorator(template, new ElasticSearchQuery()));
+		this.topic = new Topic().withGene(GENE);
 	}
 
 	@Test
 	public void testGetJSONQuery() {
 		Query decoratedQuery = new GeneExpanderQueryDecorator(
-				new TemplateQueryDecorator(template, new DummyElasticSearchQuery(topic)));
-		decoratedQuery.query();
+				new TemplateQueryDecorator(template, new DummyElasticSearchQuery()));
+		decoratedQuery.query(topic);
 
 		String actual = decoratedQuery.getJSONQuery();
 		String expected = String.format("{\"match\":{\"title\":\"%s %s\"}}", GENE, SYNONYMS);

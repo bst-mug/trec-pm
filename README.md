@@ -10,5 +10,5 @@ Code is mantained by the BST Team at the [Institute of Medical Informatics, Stat
 ## Dependencies
 - JDK 8+
 - maven
-- make (for trec_eval tool)
-- gcc (for trec_eval tool)
+- make (for `trec_eval` tool)
+- gcc (for `trec_eval` tool)
