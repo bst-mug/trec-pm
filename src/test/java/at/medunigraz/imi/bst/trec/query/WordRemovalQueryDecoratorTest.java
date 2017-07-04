@@ -13,18 +13,18 @@ public class WordRemovalQueryDecoratorTest extends QueryDecoratorTest {
 	private static final String FILTERED_DISEASE = "Thyroid";
 
 	private final File template = new File(getClass().getResource("/templates/match-title.json").getFile());
-	private final Topic topic = new Topic().withDisease(DISEASE);
 
 	public WordRemovalQueryDecoratorTest() {
 		this.decoratedQuery = new WordRemovalQueryDecorator(
-				new TemplateQueryDecorator(template, new ElasticSearchQuery(topic)));
+				new TemplateQueryDecorator(template, new ElasticSearchQuery()));
+		this.topic = new Topic().withDisease(DISEASE);
 	}
 
 	@Test
 	public void testGetJSONQuery() {
 		Query decoratedQuery = new WordRemovalQueryDecorator(
-				new TemplateQueryDecorator(template, new DummyElasticSearchQuery(topic)));
-		decoratedQuery.query();
+				new TemplateQueryDecorator(template, new DummyElasticSearchQuery()));
+		decoratedQuery.query(topic);
 
 		String actual = decoratedQuery.getJSONQuery();
 		String expected = String.format("{\"match\":{\"title\":\"%s\"}}", FILTERED_DISEASE);

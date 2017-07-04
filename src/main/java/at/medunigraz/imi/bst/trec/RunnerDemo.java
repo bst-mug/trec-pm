@@ -29,7 +29,9 @@ public class RunnerDemo {
 		final String suffix = "pmid";
 
 		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
-
+		Query decorator = new WordRemovalQueryDecorator(
+				new TemplateQueryDecorator(template, new ElasticSearchQuery()));
+		
 		for (String id : runIds) {
 			LOG.info("Running collection '" + id + "'...");
 			File example = new File(CSVStatsWriter.class.getResource("/topics/" + id + ".xml").getPath());
@@ -41,9 +43,7 @@ public class RunnerDemo {
 			// TODO DRY Issue #53
 			Set<ResultList> resultListSet = new HashSet<>();
 			for (Topic topic : topicSet.getTopics()) {
-				Query decoratedQuery = new WordRemovalQueryDecorator(
-						new TemplateQueryDecorator(template, new ElasticSearchQuery(topic)));
-				List<Result> results = decoratedQuery.query();
+				List<Result> results = decorator.query(topic);
 
 				ResultList resultList = new ResultList(topic);
 				resultList.setResults(results);

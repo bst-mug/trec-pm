@@ -20,9 +20,9 @@ public class TemplateQueryDecorator extends QueryDecorator {
 	}
 
 	@Override
-	public List<Result> query() {
-		applyTemplate();
-		return decoratedQuery.query();
+	public List<Result> query(Topic topic) {
+		applyTemplate(topic);
+		return decoratedQuery.query(topic);
 	}
 
 	private String readTemplate(File template) {
@@ -35,9 +35,7 @@ public class TemplateQueryDecorator extends QueryDecorator {
 		return ret;
 	}
 
-	private void applyTemplate() {
-		Topic topic = decoratedQuery.getTopic();
-		
+	private void applyTemplate(Topic topic) {
 		String jsonQuery = jsonTemplate;
 		
 		for (Map.Entry<String, String> entry : topic.getAttributes().entrySet()) {

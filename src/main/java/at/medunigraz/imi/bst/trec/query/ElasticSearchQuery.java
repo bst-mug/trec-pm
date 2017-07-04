@@ -11,21 +11,14 @@ import at.medunigraz.imi.bst.trec.search.ElasticSearch;
 public class ElasticSearchQuery implements Query {
 	
 	private JSONObject jsonQuery;
-	private Topic topic;
 	
-	public ElasticSearchQuery(Topic topic) {
-		this.topic = topic;
+	public ElasticSearchQuery() {
 	}
 
 	@Override
-	public List<Result> query() {
+	public List<Result> query(Topic topic) {
 		ElasticSearch es = new ElasticSearch();
 		return es.query(jsonQuery);
-	}
-	
-	@Override
-	public Topic getTopic() {
-		return topic;
 	}
 	
 	@Override

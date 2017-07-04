@@ -24,17 +24,16 @@ public class WordRemovalQueryDecorator extends QueryDecorator {
 	}
 
 	@Override
-	public List<Result> query() {
-		removeStopwords();
-		return decoratedQuery.query();
+	public List<Result> query(Topic topic) {
+		removeStopwords(topic);
+		return decoratedQuery.query(topic);
 	}
 
 	private void readStopwords() {
 		// TODO read stopwords list from file
 	}
 
-	private void removeStopwords() {
-		Topic topic = decoratedQuery.getTopic();
+	private void removeStopwords(Topic topic) {
 		String[] diseaseTokens = topic.getDisease().split(TOKEN_SEPARATOR);
 
 		StringBuilder filteredDisease = new StringBuilder();

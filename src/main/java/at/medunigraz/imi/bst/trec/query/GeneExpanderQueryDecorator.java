@@ -13,18 +13,16 @@ public class GeneExpanderQueryDecorator extends QueryDecorator {
 	}
 
 	@Override
-	public List<Result> query() {
-		expandGenes();
-		return decoratedQuery.query();
+	public List<Result> query(Topic topic) {
+		expandGenes(topic);
+		return decoratedQuery.query(topic);
 	}
 
 	private void readGenes() {
 		// FIXME read gene list
 	}
 
-	private void expandGenes() {
-		Topic topic = decoratedQuery.getTopic();
-
+	private void expandGenes(Topic topic) {
 		// FIXME use gene list to expand accordingly
 		if (topic.getGene() == "p53") {
 			topic.withGene("p53 TP53");
