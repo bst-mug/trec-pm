@@ -44,6 +44,7 @@ public class Gene {
 			switch (field) {
 			case SYMBOL:
 				expansions.add(getSymbol());
+				break;
 			case SYNONYMS:
 				expansions.addAll(getSynonyms());
 				break;
