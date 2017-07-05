@@ -69,6 +69,11 @@
                                     dest="${project.build.directory}/lib/" />
                                 <exec executable="make" failonerror="true"
                                     dir="${project.build.directory}/lib/trec_eval.9.0/" />
+                                    
+                                <get src="ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz"
+                                    dest="${basedir}/src/main/resources/genes/Homo_sapiens.gene_info.gz"
+                                    verbose="false" usetimestamp="true" />
+                                <gunzip src="${basedir}/src/main/resources/genes/Homo_sapiens.gene_info.gz" />
                             </tasks>
                         </configuration>
                         <goals>
