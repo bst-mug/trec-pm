@@ -10,11 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import at.medunigraz.imi.bst.trec.evaluator.TrecEval;
 import at.medunigraz.imi.bst.trec.evaluator.TrecWriter;
+import at.medunigraz.imi.bst.trec.model.Gene;
 import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.ResultList;
 import at.medunigraz.imi.bst.trec.model.Topic;
 import at.medunigraz.imi.bst.trec.model.TopicSet;
 import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
+import at.medunigraz.imi.bst.trec.query.GeneExpanderQueryDecorator;
 import at.medunigraz.imi.bst.trec.query.Query;
 import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
 import at.medunigraz.imi.bst.trec.query.WordRemovalQueryDecorator;
@@ -29,9 +31,10 @@ public class RunnerDemo {
 		final String suffix = "pmid";
 
 		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
-		Query decorator = new WordRemovalQueryDecorator(
-				new TemplateQueryDecorator(template, new ElasticSearchQuery()));
-		
+		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
+		Query decorator = new WordRemovalQueryDecorator(new GeneExpanderQueryDecorator(expandTo,
+				new TemplateQueryDecorator(template, new ElasticSearchQuery())));
+
 		for (String id : runIds) {
 			LOG.info("Running collection '" + id + "'...");
 			File example = new File(CSVStatsWriter.class.getResource("/topics/" + id + ".xml").getPath());
