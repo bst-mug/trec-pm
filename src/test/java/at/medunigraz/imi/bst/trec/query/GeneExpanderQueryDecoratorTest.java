@@ -21,13 +21,18 @@ public class GeneExpanderQueryDecoratorTest extends QueryDecoratorTest {
 	}
 
 	@Test
-	public void testGetJSONQuery() {
-		Query decoratedQuery = new GeneExpanderQueryDecorator(
-				new TemplateQueryDecorator(template, new DummyElasticSearchQuery()));
-		decoratedQuery.query(topic);
-
-		String actual = decoratedQuery.getJSONQuery();
-		String expected = String.format("{\"match\":{\"title\":\"%s %s\"}}", GENE, SYNONYMS);
+	public void testGetTopic() {
+		DummyElasticSearchQuery dummyQuery = new DummyElasticSearchQuery();
+		Query decorator = new GeneExpanderQueryDecorator(dummyQuery);
+		
+		decorator.query(new Topic().withGene(GENE));
+		String actual = dummyQuery.getTopic().getGene();
+		String expected = GENE + " " + SYNONYMS;
 		assertEquals(expected, actual);
+		
+//		decorator.query(new Topic().withGene(SYNONYMS));
+//		actual = dummyQuery.getTopic().getGene();
+//		expected = SYNONYMS + " " + GENE;
+//		assertEquals(expected, actual);
 	}
 }
