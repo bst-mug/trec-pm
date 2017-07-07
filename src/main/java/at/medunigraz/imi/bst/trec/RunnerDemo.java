@@ -27,8 +27,7 @@ public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
 
 	public static void main(String[] args) {
-		final String[] runIds = { "example", "extra" };
-		final String suffix = "pmid";
+		final String[] runIds = { "example-pmid", "extra-pmid" };
 
 		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
 		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
@@ -36,11 +35,14 @@ public class RunnerDemo {
 				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec"))));
 
 		for (String id : runIds) {
+			final String collection = id.substring(0, id.indexOf('-'));
+			
 			LOG.info("Running collection '" + id + "'...");
-			File example = new File(CSVStatsWriter.class.getResource("/topics/" + id + ".xml").getPath());
+			
+			File example = new File(CSVStatsWriter.class.getResource("/topics/" + collection + ".xml").getPath());
 			TopicSet topicSet = new TopicSet(example);
 
-			File output = new File("results/" + id + "-" + suffix + ".trec_results");
+			File output = new File("results/" + id + ".trec_results");
 			TrecWriter tw = new TrecWriter(output);
 
 			// TODO DRY Issue #53
@@ -57,17 +59,17 @@ public class RunnerDemo {
 			tw.close();
 
 			File goldStandard = new File(
-					CSVStatsWriter.class.getResource("/gold-standard/" + id + "-" + suffix + ".qrels").getPath());
+					CSVStatsWriter.class.getResource("/gold-standard/" + id + ".qrels").getPath());
 			TrecEval te = new TrecEval(goldStandard, output);
 
 			LOG.debug("NDCG: " + te.getNDCG());
 			LOG.trace(te.getMetricsByTopic("all"));
 
-			XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + id + "-" + suffix + ".xml"));
+			XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + id + ".xml"));
 			xsw.write(te.getMetrics());
 			xsw.close();
 
-			CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + id + "-" + suffix + ".csv"));
+			CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + id + ".csv"));
 			csw.write(te.getMetrics());
 			csw.close();
 		}
