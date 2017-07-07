@@ -27,12 +27,16 @@ public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
 
 	public static void main(String[] args) {
-		final String[] runIds = { "example-pmid", "extra-pmid" };
+		//final String[] runIds = { "example-pmid", "extra-pmid" };
+		final String[] runIds = { "extra-ct" };
 
-		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
-		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
-		Query decorator = new WordRemovalQueryDecorator(new GeneExpanderQueryDecorator(expandTo,
-				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec"))));
+		final File template = new File(RunnerDemo.class.getResource("/templates/baseline-ct.json").getFile());
+		Query decorator = new TemplateQueryDecorator(template, new ElasticSearchQuery("clinicaltrials"));
+		
+//		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
+//		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
+//		Query decorator = new WordRemovalQueryDecorator(new GeneExpanderQueryDecorator(expandTo,
+//				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec"))));
 
 		for (String id : runIds) {
 			final String collection = id.substring(0, id.indexOf('-'));
