@@ -8,7 +8,6 @@ import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import com.sun.glass.ui.View;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
