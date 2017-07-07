@@ -27,7 +27,7 @@ public class RunnerDemo {
 	private static final Logger LOG = LogManager.getLogger();
 
 	public static void main(String[] args) {
-		String[] pmRuns = { "example-pmid", "extra-pmid" };
+		String[] pmRuns = { "example-pmid", "extra-pmid", "topics2017-pmid" };
 		
 		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
 		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
