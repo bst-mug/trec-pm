@@ -161,6 +161,8 @@ public class Topic {
 		ret.put("variant", gene);	// Backwards compatibility
 		ret.put("demographic", demographic);
 		ret.put("other", other);
+		ret.put("sex", getSex());
+		ret.put("age", String.valueOf(getAge()));
 		
 		return ret;
 	}
