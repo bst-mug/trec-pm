@@ -15,7 +15,7 @@ public class TemplateQueryDecoratorTest extends QueryDecoratorTest {
 	private final File template = new File(getClass().getResource("/templates/match-title.json").getFile());
 
 	public TemplateQueryDecoratorTest() {
-		this.decoratedQuery = new TemplateQueryDecorator(template, new ElasticSearchQuery());
+		this.decoratedQuery = new TemplateQueryDecorator(template, new ElasticSearchQuery("trec"));
 		this.topic = new Topic().withDisease(DISEASE);
 	}
 

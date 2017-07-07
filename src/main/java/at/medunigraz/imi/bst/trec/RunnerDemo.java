@@ -33,7 +33,7 @@ public class RunnerDemo {
 		final File template = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
 		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 		Query decorator = new WordRemovalQueryDecorator(new GeneExpanderQueryDecorator(expandTo,
-				new TemplateQueryDecorator(template, new ElasticSearchQuery())));
+				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec"))));
 
 		for (String id : runIds) {
 			LOG.info("Running collection '" + id + "'...");

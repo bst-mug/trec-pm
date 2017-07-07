@@ -16,7 +16,7 @@ public class WordRemovalQueryDecoratorTest extends QueryDecoratorTest {
 
 	public WordRemovalQueryDecoratorTest() {
 		this.decoratedQuery = new WordRemovalQueryDecorator(
-				new TemplateQueryDecorator(template, new ElasticSearchQuery()));
+				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec")));
 		this.topic = new Topic().withDisease(DISEASE);
 	}
 
