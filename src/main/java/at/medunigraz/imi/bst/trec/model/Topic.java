@@ -8,7 +8,6 @@ import java.util.Objects;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import com.sun.glass.ui.View;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -162,6 +161,8 @@ public class Topic {
 		ret.put("variant", gene);	// Backwards compatibility
 		ret.put("demographic", demographic);
 		ret.put("other", other);
+		ret.put("sex", getSex());
+		ret.put("age", String.valueOf(getAge()));
 		
 		return ret;
 	}

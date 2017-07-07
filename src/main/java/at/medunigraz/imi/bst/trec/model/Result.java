@@ -11,7 +11,7 @@ public class Result {
 	}
 
 	public String getId() {
-		return id;
+		return id.replace("NCT", "");
 	}
 
 	public float getScore() {

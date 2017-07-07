@@ -18,7 +18,7 @@ public class GeneExpanderQueryDecoratorTest extends QueryDecoratorTest {
 
 	public GeneExpanderQueryDecoratorTest() {
 		this.decoratedQuery = new GeneExpanderQueryDecorator(EXPAND_TO,
-				new TemplateQueryDecorator(template, new ElasticSearchQuery()));
+				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec")));
 		this.topic = new Topic().withGene(GENE);
 	}
 

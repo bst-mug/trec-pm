@@ -12,12 +12,15 @@ public class ElasticSearchQuery implements Query {
 	
 	private JSONObject jsonQuery;
 	
-	public ElasticSearchQuery() {
+	private String index;
+	
+	public ElasticSearchQuery(String index) {
+		this.index = index;
 	}
 
 	@Override
 	public List<Result> query(Topic topic) {
-		ElasticSearch es = new ElasticSearch();
+		ElasticSearch es = new ElasticSearch(index);
 		return es.query(jsonQuery);
 	}
 	
