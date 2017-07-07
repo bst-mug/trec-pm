@@ -22,6 +22,16 @@ public class ElasticSearch implements SearchEngine {
 
 	private Client client = ElasticClientFactory.getClient();
 	
+	private String index;
+	
+	public ElasticSearch() {
+		this.index = "_all";
+	}
+	
+	public ElasticSearch(String index) {
+		this.index = index;
+	}
+	
 	public List<Result> query(JSONObject jsonQuery) {
 		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
 		LOG.debug(JsonUtils.prettify(jsonQuery));
@@ -30,7 +40,7 @@ public class ElasticSearch implements SearchEngine {
 	}
 	
 	private List<Result> query(QueryBuilder qb) {
-		SearchRequestBuilder searchRequestBuilder = client.prepareSearch().setQuery(qb).setSize(1000)
+		SearchRequestBuilder searchRequestBuilder = client.prepareSearch(index).setQuery(qb).setSize(1000)
 				.addStoredField("_id");
 
 		SearchResponse response = searchRequestBuilder.get();
