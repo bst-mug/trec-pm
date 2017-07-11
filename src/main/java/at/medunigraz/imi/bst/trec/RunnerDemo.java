@@ -31,8 +31,8 @@ public class RunnerDemo {
 		
 		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
 		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
-		Query pmDecorator = new WordRemovalQueryDecorator(new GeneExpanderQueryDecorator(expandTo,
-				new TemplateQueryDecorator(pmTemplate, new ElasticSearchQuery("trec"))));
+		Query pmDecorator = new WordRemovalQueryDecorator(
+				new TemplateQueryDecorator(pmTemplate, new ElasticSearchQuery("trec")));
 
 		for (String id : pmRuns) {
 			runExperiment(id, pmDecorator);
