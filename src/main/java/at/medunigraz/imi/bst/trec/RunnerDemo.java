@@ -29,7 +29,7 @@ public class RunnerDemo {
 	public static void main(String[] args) {
 		String[] pmRuns = { "example-pmid", "extra-pmid", "topics2017-pmid" };
 		
-		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/must-match-disease.json").getFile());
+		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/must-match-gene.json").getFile());
 		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 		Query pmDecorator = new WordRemovalQueryDecorator(
 				new TemplateQueryDecorator(pmTemplate, new ElasticSearchQuery("trec")));
