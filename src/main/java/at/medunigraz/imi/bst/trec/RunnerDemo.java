@@ -21,15 +21,15 @@ public class RunnerDemo {
 		Query pmDecorator = new WordRemovalQueryDecorator(
 				new TemplateQueryDecorator(pmTemplate, new ElasticSearchQuery("trec")));
 		
-		bestExperiments.add(new Experiment().withId("example-pmid").withDecorator(pmDecorator));
-		bestExperiments.add(new Experiment().withId("extra-pmid").withDecorator(pmDecorator));
-		bestExperiments.add(new Experiment().withId("topics2017-pmid").withDecorator(pmDecorator));
+		bestExperiments.add(Experiment.create().withId("example-pmid").withDecorator(pmDecorator));
+		bestExperiments.add(Experiment.create().withId("extra-pmid").withDecorator(pmDecorator));
+		bestExperiments.add(Experiment.create().withId("topics2017-pmid").withDecorator(pmDecorator));
 		
 
 		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/baseline-ct.json").getFile());
 		Query ctDecorator = new TemplateQueryDecorator(ctTemplate, new ElasticSearchQuery("clinicaltrials"));
 		
-		bestExperiments.add(new Experiment().withId("extra-ct").withDecorator(ctDecorator));
+		bestExperiments.add(Experiment.create().withId("extra-ct").withDecorator(ctDecorator));
 		
 		
 		for (Experiment exp : bestExperiments) {
@@ -40,9 +40,9 @@ public class RunnerDemo {
 				e.printStackTrace();
 			}
 		}
-
+		
 		for (Experiment exp : bestExperiments) {
-	
+
 		}
 	}
 	

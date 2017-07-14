@@ -25,7 +25,15 @@ public class Experiment extends Thread {
 	private String id;
 	private Query decorator;
 
-	public Experiment() {
+	private Experiment() {
+	}
+
+	public static Experiment create() {
+		return new Experiment();
+	}
+
+	public static Experiment create(Experiment base) {
+		return new Experiment().withId(base.id).withDecorator(base.decorator);
 	}
 
 	public Experiment withId(String id) {
@@ -41,8 +49,10 @@ public class Experiment extends Thread {
 	@Override
 	public void run() {
 		final String collection = id.substring(0, id.indexOf('-'));
+		
+		final String name = id + " with decorator " + decorator.getName();
 
-		LOG.info("Running collection '" + id + "'...");
+		LOG.info("Running collection " + name + "...");
 
 		File example = new File(CSVStatsWriter.class.getResource("/topics/" + collection + ".xml").getPath());
 		TopicSet topicSet = new TopicSet(example);
@@ -66,9 +76,6 @@ public class Experiment extends Thread {
 		File goldStandard = new File(CSVStatsWriter.class.getResource("/gold-standard/" + id + ".qrels").getPath());
 		TrecEval te = new TrecEval(goldStandard, output);
 
-		LOG.debug("NDCG: " + te.getNDCG());
-		LOG.trace(te.getMetricsByTopic("all"));
-
 		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + id + ".xml"));
 		xsw.write(te.getMetrics());
 		xsw.close();
@@ -76,7 +83,8 @@ public class Experiment extends Thread {
 		CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + id + ".csv"));
 		csw.write(te.getMetrics());
 		csw.close();
-		
-		LOG.info("Collection '" + id + "' finished.");
+
+		LOG.info("Collection " + name + " finished. NDCG: " + te.getNDCG());
+		LOG.trace(te.getMetricsByTopic("all"));
 	}
 }
