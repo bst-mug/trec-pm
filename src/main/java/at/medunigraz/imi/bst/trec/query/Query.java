@@ -11,4 +11,6 @@ public interface Query {
 	public void setJSONQuery(String jsonQuery);
 	
 	public String getJSONQuery();
+	
+	public String getName();
 }
