@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,7 +53,7 @@ public class TrecEval extends AbstractEvaluator {
 		Process proc = null;
 		try {
 			proc = Runtime.getRuntime().exec(command);
-			proc.waitFor();
+			proc.waitFor(10, TimeUnit.SECONDS);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
