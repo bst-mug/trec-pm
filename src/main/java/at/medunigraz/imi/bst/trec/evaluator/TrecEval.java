@@ -51,8 +51,12 @@ public class TrecEval extends AbstractEvaluator {
 		String command = String.join(" ", COMMAND, goldStandard.getAbsolutePath(), results.getAbsolutePath());
 
 		Process proc = null;
+		String[] error = null, output = null;
 		try {
 			proc = Runtime.getRuntime().exec(command);
+			// XXX caveat: error output buffer might be full first and induce deadlock
+			output = collectStream(proc.getInputStream());
+			error = collectStream(proc.getErrorStream());
 			proc.waitFor(10, TimeUnit.SECONDS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,7 +64,6 @@ public class TrecEval extends AbstractEvaluator {
 
 		int exit = proc.exitValue();
 		if (exit != 0) {
-			String[] error = collectStream(proc.getErrorStream());
 			LOG.error(String.format("Process exited with code %d and error message:", exit));
 			for (String e : error) {
 				LOG.error(e);
@@ -68,7 +71,6 @@ public class TrecEval extends AbstractEvaluator {
 			return;
 		}
 
-		String[] output = collectStream(proc.getInputStream());
 		parseOutput(output);
 	}
 
