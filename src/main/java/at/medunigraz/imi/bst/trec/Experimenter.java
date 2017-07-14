@@ -6,28 +6,24 @@ import java.util.Set;
 import at.medunigraz.imi.bst.trec.experiment.Experiment;
 import at.medunigraz.imi.bst.trec.experiment.ExperimentsBuilder;
 import at.medunigraz.imi.bst.trec.model.Gene;
-import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
-import at.medunigraz.imi.bst.trec.query.GeneExpanderQueryDecorator;
-import at.medunigraz.imi.bst.trec.query.Query;
-import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
-import at.medunigraz.imi.bst.trec.query.WordRemovalQueryDecorator;
 
 public class Experimenter {
 	public static void main(String[] args) {
 		final File boostTemplate = new File(Experimenter.class.getResource("/templates/boost-extra.json").getFile());
+		final File geneTemplate = new File(Experimenter.class.getResource("/templates/must-match-gene.json").getFile());
+		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 
-		Query baselineDecorator = new WordRemovalQueryDecorator(
-				new TemplateQueryDecorator(boostTemplate, new ElasticSearchQuery("trec")));
-		
-		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
-		Query geneDecorator = new WordRemovalQueryDecorator(new GeneExpanderQueryDecorator(expandTo,
-				new TemplateQueryDecorator(boostTemplate, new ElasticSearchQuery("trec"))));
-		
 		ExperimentsBuilder builder = new ExperimentsBuilder();
-		
-		builder.newExperiment().withId("topics2017-pmid").withDecorator(baselineDecorator);	
-		builder.newExperiment().withId("topics2017-pmid").withDecorator(geneDecorator);
-			
+
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(boostTemplate).withWordRemoval();
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(boostTemplate).withGeneExpansion(expandTo).withWordRemoval();
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(geneTemplate).withWordRemoval();
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(geneTemplate).withGeneExpansion(expandTo).withWordRemoval();
+
 		Set<Experiment> experiments = builder.build();
 
 		for (Experiment exp : experiments) {
@@ -38,7 +34,7 @@ public class Experimenter {
 				e.printStackTrace();
 			}
 		}
-		
+
 		for (Experiment exp : experiments) {
 
 		}
