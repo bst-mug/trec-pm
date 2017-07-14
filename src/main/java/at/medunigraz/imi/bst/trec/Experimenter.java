@@ -1,10 +1,10 @@
 package at.medunigraz.imi.bst.trec;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Set;
 
 import at.medunigraz.imi.bst.trec.experiment.Experiment;
+import at.medunigraz.imi.bst.trec.experiment.ExperimentsBuilder;
 import at.medunigraz.imi.bst.trec.model.Gene;
 import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
 import at.medunigraz.imi.bst.trec.query.GeneExpanderQueryDecorator;
@@ -14,19 +14,21 @@ import at.medunigraz.imi.bst.trec.query.WordRemovalQueryDecorator;
 
 public class Experimenter {
 	public static void main(String[] args) {
-		Set<Experiment> experiments = new HashSet<>();
-
-		final File pmTemplate = new File(Experimenter.class.getResource("/templates/must-match-gene.json").getFile());
+		final File boostTemplate = new File(Experimenter.class.getResource("/templates/boost-extra.json").getFile());
 
 		Query baselineDecorator = new WordRemovalQueryDecorator(
-				new TemplateQueryDecorator(pmTemplate, new ElasticSearchQuery("trec")));
-		Experiment base = Experiment.create().withId("topics2017-pmid").withDecorator(baselineDecorator);
-		experiments.add(base);
-
+				new TemplateQueryDecorator(boostTemplate, new ElasticSearchQuery("trec")));
+		
 		Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 		Query geneDecorator = new WordRemovalQueryDecorator(new GeneExpanderQueryDecorator(expandTo,
-				new TemplateQueryDecorator(pmTemplate, new ElasticSearchQuery("trec"))));
-		experiments.add(Experiment.create(base).withDecorator(geneDecorator));
+				new TemplateQueryDecorator(boostTemplate, new ElasticSearchQuery("trec"))));
+		
+		ExperimentsBuilder builder = new ExperimentsBuilder();
+		
+		builder.newExperiment().withId("topics2017-pmid").withDecorator(baselineDecorator);	
+		builder.newExperiment().withId("topics2017-pmid").withDecorator(geneDecorator);
+			
+		Set<Experiment> experiments = builder.build();
 
 		for (Experiment exp : experiments) {
 			exp.start();

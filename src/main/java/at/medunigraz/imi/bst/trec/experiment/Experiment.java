@@ -25,31 +25,10 @@ public class Experiment extends Thread {
 	private String id;
 	private Query decorator;
 
-	private Experiment() {
-	}
-
-	public static Experiment create() {
-		return new Experiment();
-	}
-
-	public static Experiment create(Experiment base) {
-		return new Experiment().withId(base.id).withDecorator(base.decorator);
-	}
-
-	public Experiment withId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public Experiment withDecorator(Query decorator) {
-		this.decorator = decorator;
-		return this;
-	}
-
 	@Override
 	public void run() {
 		final String collection = id.substring(0, id.indexOf('-'));
-		
+
 		final String name = id + " with decorator " + decorator.getName();
 
 		LOG.info("Running collection " + name + "...");
@@ -84,7 +63,25 @@ public class Experiment extends Thread {
 		csw.write(te.getMetrics());
 		csw.close();
 
-		LOG.info("Collection " + name + " finished. NDCG: " + te.getNDCG());
+		LOG.info("Got NDCG: " + te.getNDCG() + " for collection " + name);
 		LOG.trace(te.getMetricsByTopic("all"));
 	}
+	
+	public void setExperimentId(String id) {
+		this.id = id;
+	}
+
+	public void setDecorator(Query decorator) {
+		this.decorator = decorator;
+	}
+
+	public String getExperimentId() {
+		return id;
+	}
+
+	public Query getDecorator() {
+		return decorator;
+	}
+	
+	
 }
