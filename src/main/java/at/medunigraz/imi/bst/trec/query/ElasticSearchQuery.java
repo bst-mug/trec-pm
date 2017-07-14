@@ -34,4 +34,9 @@ public class ElasticSearchQuery implements Query {
 		return jsonQuery.toString();
 	}
 
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+
 }

@@ -27,5 +27,10 @@ public class QueryDecorator implements Query {
 	public String getJSONQuery() {
 		return decoratedQuery.getJSONQuery();
 	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName() + "-" + decoratedQuery.getName();
+	}
 	
 }
