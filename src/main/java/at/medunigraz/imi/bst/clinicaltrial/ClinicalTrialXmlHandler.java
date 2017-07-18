@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class ClinicalTrialXmlHandler extends DefaultHandler {
 
-    public static Pattern INCL_EXCL_PATTERN = Pattern.compile("[Ii]nclusion [Cc]riteria:(.+)[Ee]xclusion [Cc]riteria:(.+)");
+    public static Pattern INCL_EXCL_PATTERN = Pattern.compile("[Ii]nclusion [Cc]riteria:(.+?)(?:[Ee]xclusion [Cc]riteria:(.+))?$");
 
     private static final String TAG_START = "clinical_study";
     private static final String TAG_ID = "nct_id";

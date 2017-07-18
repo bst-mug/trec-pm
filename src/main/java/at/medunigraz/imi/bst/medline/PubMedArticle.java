@@ -33,4 +33,20 @@ public class PubMedArticle {
                "ABSTRACT: " + this.docAbstract + "\n" +
                "MESHTAGS: " + this.meshTags + "\n";
     }
+    
+	public int getPublicationYear() {
+		int ret = 0;
+		
+		if (publicationYear == null) {
+			return ret;
+		}
+
+		try {
+			ret = Integer.parseInt(publicationYear);
+		} catch (NumberFormatException e) {
+			return ret;
+		}
+		
+		return ret;
+	}
 }

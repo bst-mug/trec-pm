@@ -52,7 +52,7 @@ public class Indexing {
                             .field("pubmedId", StringEscapeUtils.escapeJson(article.pubMedId))
                             .field("title", StringEscapeUtils.escapeJson(article.docTitle))
                             .field("publicationDate", StringEscapeUtils.escapeJson(StringEscapeUtils.escapeJson((article.publicationYear))))
-                            .field("publicationYear", StringEscapeUtils.escapeJson(article.publicationYear))
+                            .field("publicationYear", article.getPublicationYear())
                             .field("abstract", StringEscapeUtils.escapeJson(article.docAbstract))
                             .endObject()
                     )
