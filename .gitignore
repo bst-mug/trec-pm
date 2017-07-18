@@ -31,3 +31,6 @@ target
 /.classpath
 /.project
 /.settings
+
+# MacOS stuff
+*.DS_Store
