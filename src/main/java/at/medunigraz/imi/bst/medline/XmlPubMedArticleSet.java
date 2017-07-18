@@ -47,6 +47,7 @@ public class XmlPubMedArticleSet {
         try {
 
             SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             SAXParser saxParser = factory.newSAXParser();
             saxParser.parse(xmlPubMed, handler);
         } catch (Exception e) {
