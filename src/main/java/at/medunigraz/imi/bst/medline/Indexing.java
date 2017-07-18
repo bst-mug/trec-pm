@@ -62,6 +62,7 @@ public class Indexing {
                             .field("title", StringEscapeUtils.escapeJson(article.docTitle))
                             .field("publicationDate", StringEscapeUtils.escapeJson(article.publicationMonth +
                                                              " " + StringEscapeUtils.escapeJson((article.publicationYear))))
+                            .field("publicationYear", StringEscapeUtils.escapeJson(article.publicationYear))
                             .field("abstract", StringEscapeUtils.escapeJson(article.docAbstract))
                             .field("meshTags", article.meshTags)
                             .endObject()
