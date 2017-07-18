@@ -34,3 +34,7 @@ target
 
 # MacOS stuff
 *.DS_Store
+
+# Output folders
+stats
+results
