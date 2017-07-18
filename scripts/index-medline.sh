@@ -1,2 +1,9 @@
 #!/bin/bash
-nohup java -cp lib/*:trec2017-1.0-SNAPSHOT.jar at.medunigraz.imi.bst.medline.Indexing /home/info/trec/data/medline/compressed 1 | tee medline.log
+
+PATH=/mnt/trec/data/medline/extracted
+#PATH=/home/info/trec/data/medline/compressed
+
+# Fixes Java heap space error
+export MAVEN_OPTS=-Xmx4g
+
+nohup mvn -DskipTests=true install exec:java -Dexec.mainClass="at.medunigraz.imi.bst.medline.Indexing" -Dexec.args="$PATH 1" | tee medline.log

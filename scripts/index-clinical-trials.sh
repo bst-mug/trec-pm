@@ -1,2 +1,6 @@
 #!/bin/bash
-nohup java -cp lib/*:trec2017-1.0-SNAPSHOT.jar at.medunigraz.imi.bst.clinicaltrial.Indexing /home/info/trec/data/clinicaltrials | tee clinicaltrials.log
+
+PATH=/mnt/trec/data/clinicaltrials/extracted
+#PATH=/home/info/trec/data/clinicaltrials
+
+nohup mvn -DskipTests=true install exec:java -Dexec.mainClass="at.medunigraz.imi.bst.clinicaltrial.Indexing" -Dexec.args="$PATH" | tee clinicaltrials.log
