@@ -14,6 +14,7 @@ public class WordRemovalQueryDecorator extends QueryDecorator {
 		DOMAIN_STOPWORDS.add("cancer");
 		DOMAIN_STOPWORDS.add("carcinoma");
 		DOMAIN_STOPWORDS.add("tumor");
+		DOMAIN_STOPWORDS.add("amplification");
 	};
 
 	private static final String TOKEN_SEPARATOR = " ";
@@ -25,7 +26,8 @@ public class WordRemovalQueryDecorator extends QueryDecorator {
 
 	@Override
 	public List<Result> query(Topic topic) {
-		removeStopwords(topic);
+		topic.withDisease(removeStopwords(topic.getDisease()));
+		topic.withGene(removeStopwords(topic.getGene()));
 		return decoratedQuery.query(topic);
 	}
 
@@ -33,18 +35,18 @@ public class WordRemovalQueryDecorator extends QueryDecorator {
 		// TODO read stopwords list from file
 	}
 
-	private void removeStopwords(Topic topic) {
-		String[] diseaseTokens = topic.getDisease().split(TOKEN_SEPARATOR);
+	private String removeStopwords(String target) {
+		String[] diseaseTokens = target.split(TOKEN_SEPARATOR);
 
-		StringBuilder filteredDisease = new StringBuilder();
+		StringBuilder filteredTarget = new StringBuilder();
 		for (String token : diseaseTokens) {
 			if (!DOMAIN_STOPWORDS.contains(token.toLowerCase())) {
-				filteredDisease.append(token);
-				filteredDisease.append(TOKEN_SEPARATOR);
+				filteredTarget.append(token);
+				filteredTarget.append(TOKEN_SEPARATOR);
 			}
 		}
-
-		topic.withDisease(filteredDisease.toString().trim());
+		
+		return filteredTarget.toString().trim();
 	}
 
 }
