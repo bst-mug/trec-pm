@@ -29,7 +29,7 @@ public class KeywordExperimenter {
 
 			for (String keyword : lines) {
 				builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL)
-						.withTarget(Experiment.Task.PUBMED).withTemplate(keywordTemplate).withKeyword(keyword)
+						.withTarget(Experiment.Task.PUBMED).withKeyword(keyword).withTemplate(keywordTemplate)
 						.withWordRemoval();
 			}
 		}
