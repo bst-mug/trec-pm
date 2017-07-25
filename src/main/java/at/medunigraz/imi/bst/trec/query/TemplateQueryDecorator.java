@@ -16,11 +16,11 @@ public class TemplateQueryDecorator extends MapQueryDecorator {
 	public TemplateQueryDecorator(File template, Query decoratedQuery) {
 		super(decoratedQuery);
 		this.template = template;
-		setJSONQuery(readTemplate(template));
 	}
 
 	@Override
 	public List<Result> query(Topic topic) {
+		setJSONQuery(readTemplate(template));
 		map(topic.getAttributes());
 		return decoratedQuery.query(topic);
 	}
