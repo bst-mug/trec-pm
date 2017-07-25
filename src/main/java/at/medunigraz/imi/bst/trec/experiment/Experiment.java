@@ -43,7 +43,7 @@ public class Experiment extends Thread {
 	public void run() {
 		final String collection = getExperimentId().substring(0, getExperimentId().indexOf('-'));
 
-		final String name = getExperimentId() + " with decorator " + decorator.getName();
+		final String name = getExperimentId() + " with decorators " + decorator.getName();
 
 		LOG.info("Running collection " + name + "...");
 
