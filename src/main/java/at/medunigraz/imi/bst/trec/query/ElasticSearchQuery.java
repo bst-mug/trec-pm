@@ -10,7 +10,7 @@ import at.medunigraz.imi.bst.trec.search.ElasticSearch;
 
 public class ElasticSearchQuery implements Query {
 	
-	private JSONObject jsonQuery;
+	private String jsonQuery;
 	
 	private String index;
 	
@@ -21,17 +21,17 @@ public class ElasticSearchQuery implements Query {
 	@Override
 	public List<Result> query(Topic topic) {
 		ElasticSearch es = new ElasticSearch(index);
-		return es.query(jsonQuery);
+		return es.query(new JSONObject(jsonQuery));
 	}
 	
 	@Override
 	public void setJSONQuery(String jsonQuery) {
-		this.jsonQuery = new JSONObject(jsonQuery);
+		this.jsonQuery = jsonQuery;
 	}
 
 	@Override
 	public String getJSONQuery() {
-		return jsonQuery.toString();
+		return jsonQuery;
 	}
 
 	@Override
