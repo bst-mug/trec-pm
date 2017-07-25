@@ -7,14 +7,22 @@ import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class StaticMapQueryDecorator extends MapQueryDecorator {
+	
+	private Map<String, String> keymap;
 
 	public StaticMapQueryDecorator(Map<String, String> keymap, Query decoratedQuery) {
 		super(decoratedQuery);
+		this.keymap = keymap;
 		map(keymap);
 	}
 	
 	@Override
 	public List<Result> query(Topic topic) {
 		return decoratedQuery.query(topic);
+	}
+	
+	@Override
+	protected String getMyName() {
+		return getSimpleClassName() + "(" + keymap.values() + ")";
 	}
 }

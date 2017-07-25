@@ -10,9 +10,12 @@ import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class TemplateQueryDecorator extends MapQueryDecorator {
+	
+	private File template;
 
 	public TemplateQueryDecorator(File template, Query decoratedQuery) {
 		super(decoratedQuery);
+		this.template = template;
 		setJSONQuery(readTemplate(template));
 	}
 
@@ -30,6 +33,11 @@ public class TemplateQueryDecorator extends MapQueryDecorator {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+	
+	@Override
+	protected String getMyName() {
+		return getSimpleClassName() + "(" + template.getName() + ")";
 	}
 
 }
