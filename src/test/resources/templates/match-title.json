@@ -1,5 +1,1 @@
-{
-	"match": {
-		"title": "{{disease}}"
-	}
-}
+{"match":{"title":"{{disease}}"}}

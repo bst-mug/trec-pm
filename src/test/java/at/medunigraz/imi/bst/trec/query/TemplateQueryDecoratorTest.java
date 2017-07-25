@@ -22,10 +22,17 @@ public class TemplateQueryDecoratorTest extends QueryDecoratorTest {
 	@Test
 	public void testGetJSONQuery() {
 		Query decoratedQuery = new TemplateQueryDecorator(template, new DummyElasticSearchQuery());
+		
 		decoratedQuery.query(topic);
-
 		String actual = decoratedQuery.getJSONQuery();
 		String expected = String.format("{\"match\":{\"title\":\"%s\"}}", DISEASE);
+		assertEquals(expected, actual);
+		
+		final String disease2 = "breast"; 
+		topic.withDisease(disease2);
+		decoratedQuery.query(topic);
+		actual = decoratedQuery.getJSONQuery();
+		expected = String.format("{\"match\":{\"title\":\"%s\"}}", disease2);
 		assertEquals(expected, actual);
 	}
 
