@@ -12,31 +12,35 @@ import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class StaticMapQueryDecoratorTest extends QueryDecoratorTest {
 	
-	private static final String DISEASE = "thyroid";
+	private static final String KEYWORD = "cancer";
 
-	private final File template = new File(getClass().getResource("/templates/match-title.json").getFile());
+	private final File template = new File(getClass().getResource("/templates/match-keyword.json").getFile());
 
 	private static Map<String, String> keymap = new HashMap<>();
 
 	static {
-		keymap.put("disease", DISEASE);
+		keymap.put("keyword", KEYWORD);
 	}
 
 	public StaticMapQueryDecoratorTest() {
-
-		this.decoratedQuery = new StaticMapQueryDecorator(keymap,
-				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec")));
+		this.decoratedQuery = new TemplateQueryDecorator(template,
+				new StaticMapQueryDecorator(keymap, new ElasticSearchQuery("trec")));
 		this.topic = new Topic();
 	}
 
 	@Test
 	public void testGetJSONQuery() {
-		Query decoratedQuery = new StaticMapQueryDecorator(keymap,
-				new TemplateQueryDecorator(template, new DummyElasticSearchQuery()));
+		Query decoratedQuery = new TemplateQueryDecorator(template,
+				new StaticMapQueryDecorator(keymap, new DummyElasticSearchQuery()));
+		
 		decoratedQuery.query(topic);
-
 		String actual = decoratedQuery.getJSONQuery();
-		String expected = String.format("{\"match\":{\"title\":\"%s\"}}", DISEASE);
+		String expected = String.format("{\"match\":{\"title\":\"%s\"}}", KEYWORD);
+		assertEquals(expected, actual);
+		
+		decoratedQuery.query(topic);
+		actual = decoratedQuery.getJSONQuery();
+		expected = String.format("{\"match\":{\"title\":\"%s\"}}", KEYWORD);
 		assertEquals(expected, actual);
 	}
 

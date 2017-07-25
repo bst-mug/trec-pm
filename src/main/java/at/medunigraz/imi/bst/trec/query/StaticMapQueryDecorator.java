@@ -13,11 +13,11 @@ public class StaticMapQueryDecorator extends MapQueryDecorator {
 	public StaticMapQueryDecorator(Map<String, String> keymap, Query decoratedQuery) {
 		super(decoratedQuery);
 		this.keymap = keymap;
-		map(keymap);
 	}
 	
 	@Override
 	public List<Result> query(Topic topic) {
+		map(keymap);
 		return decoratedQuery.query(topic);
 	}
 	
