@@ -14,11 +14,18 @@ public class KeywordExperimenter {
 	public static void main(String[] args) {
 		final File keywordTemplate = new File(
 				KeywordExperimenter.class.getResource("/templates/keyword.json").getFile());
-		final File keywordsFolder = new File(KeywordExperimenter.class.getResource("/keywords/").getFile());
+		final File keywordsSource = new File(KeywordExperimenter.class.getResource("/keywords/").getFile());
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
-		for (File keywordFile : keywordsFolder.listFiles()) {
+		File[] files = null;
+		if (keywordsSource.isDirectory()) {
+			files = keywordsSource.listFiles();
+		} else {
+			files = new File[] { keywordsSource };
+		}
+
+		for (File keywordFile : files) {
 			List<String> lines;
 			try {
 				lines = FileUtils.readLines(keywordFile, "UTF-8");
