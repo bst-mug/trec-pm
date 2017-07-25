@@ -6,9 +6,9 @@ import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class QueryDecorator implements Query {
-	
+
 	protected Query decoratedQuery;
-	
+
 	public QueryDecorator(Query decoratedQuery) {
 		this.decoratedQuery = decoratedQuery;
 	}
@@ -30,7 +30,15 @@ public class QueryDecorator implements Query {
 
 	@Override
 	public String getName() {
-		return this.getClass().getSimpleName() + "-" + decoratedQuery.getName();
+		return getMyName() + ", " + decoratedQuery.getName();
 	}
 	
+	protected String getSimpleClassName() {
+		return this.getClass().getSimpleName().replace("QueryDecorator", "");
+	}
+	
+	protected String getMyName() {
+		return getSimpleClassName();
+	}
+
 }
