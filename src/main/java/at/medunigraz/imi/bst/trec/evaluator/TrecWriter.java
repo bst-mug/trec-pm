@@ -35,11 +35,12 @@ public class TrecWriter implements Closeable {
 		// Sets fixed fields
 		entries[0] = String.valueOf(resultList.getTopic().getNumber());
 		entries[1] = "Q0";
-		entries[3] = "0";
-		entries[5] = "baseline"; // TODO change to something meaningful
-
+		entries[5] = "mugbaseline"; // XXX must be 1-12 alphanumeric characters
+		
+		int rank = 1;
 		for (Result result : resultList.getResults()) {
 			entries[2] = String.valueOf(result.getId());
+			entries[3] = String.valueOf(rank++);
 			entries[4] = String.format("%.6f", result.getScore());
 			writer.writeNext(entries);
 		}
