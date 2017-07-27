@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import at.medunigraz.imi.bst.config.TrecConfig;
 import at.medunigraz.imi.bst.trec.evaluator.TrecEval;
 import at.medunigraz.imi.bst.trec.evaluator.TrecWriter;
 import at.medunigraz.imi.bst.trec.model.Result;
@@ -79,6 +80,9 @@ public class Experiment extends Thread {
 
 		LOG.info("Got NDCG: " + te.getNDCG() + " for collection " + name);
 		LOG.trace(te.getMetricsByTopic("all"));
+		
+		// TODO Experiment API #53
+		System.out.println(te.getNDCG() + ";" + name);
 	}
 	
 	@Deprecated
@@ -129,6 +133,20 @@ public class Experiment extends Thread {
 		default:
 			return "";
 		}
+	}
+	
+	public String[] getTypes() {
+		String[] ret = new String[0];	// Everything
+		
+		if (task == Task.CLINICAL_TRIALS) {
+			return new String[] { TrecConfig.TRIALS_TYPE };
+		}
+		
+		if (task == Task.PUBMED && goldStandard == GoldStandard.FINAL) {
+			return new String[] { TrecConfig.EXTRA_TYPE, TrecConfig.MEDLINE_TYPE };
+		}
+		
+		return ret;
 	}
 	
 	public String getShortTaskName() {
