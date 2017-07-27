@@ -36,7 +36,7 @@ public class TrecWriter implements Closeable {
 		entries[0] = String.valueOf(resultList.getTopic().getNumber());
 		entries[1] = "Q0";
 		entries[3] = "0";
-		entries[5] = "my-run"; // TODO change to something meaningful
+		entries[5] = "baseline"; // TODO change to something meaningful
 
 		for (Result result : resultList.getResults()) {
 			entries[2] = String.valueOf(result.getId());
