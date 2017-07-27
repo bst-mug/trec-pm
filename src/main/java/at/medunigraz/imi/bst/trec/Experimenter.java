@@ -13,24 +13,30 @@ public class Experimenter {
 		final File geneTemplate = new File(Experimenter.class.getResource("/templates/must-match-gene.json").getFile());
 		final File boostKeywordsTemplate = new File(
 				RunnerDemo.class.getResource("/templates/boost-keywords.json").getFile());
-		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
+		final File relaxedTemplate = new File(RunnerDemo.class.getResource("/templates/relaxed.json").getFile());
+//		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(boostTemplate).withWordRemoval();
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
-				.withTemplate(boostTemplate).withGeneExpansion(expandTo).withWordRemoval();
+//		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+//				.withTemplate(boostTemplate).withGeneExpansion(expandTo).withWordRemoval();
 		
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(geneTemplate).withWordRemoval();
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
-				.withTemplate(geneTemplate).withGeneExpansion(expandTo).withWordRemoval();
+//		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+//				.withTemplate(geneTemplate).withGeneExpansion(expandTo).withWordRemoval();
 		
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(boostKeywordsTemplate).withWordRemoval();
+//		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+//				.withTemplate(boostKeywordsTemplate).withGeneExpansion(expandTo).withWordRemoval();
+		
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
-				.withTemplate(boostKeywordsTemplate).withGeneExpansion(expandTo).withWordRemoval();
+				.withKeyword(String.valueOf(2)).withTemplate(relaxedTemplate).withWordRemoval();
+//		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+//				.withTemplate(simplifiedTemplate).withGeneExpansion(expandTo).withWordRemoval();
 
 		Set<Experiment> experiments = builder.build();
 
