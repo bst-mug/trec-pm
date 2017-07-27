@@ -22,12 +22,10 @@ public class ElasticSearch implements SearchEngine {
 
 	private Client client = ElasticClientFactory.getClient();
 	
-	private String index;
-	private String[] types;
+	private String index = "_all";
+	private String[] types = new String[0];
 	
 	public ElasticSearch() {
-		this.index = "_all";
-		this.types = new String[0];
 	}
 	
 	public ElasticSearch(String index) {
