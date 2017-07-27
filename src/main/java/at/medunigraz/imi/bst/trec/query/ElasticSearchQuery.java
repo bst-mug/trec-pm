@@ -13,14 +13,26 @@ public class ElasticSearchQuery implements Query {
 	private String jsonQuery;
 	
 	private String index;
+	private String[] types = null;
 	
 	public ElasticSearchQuery(String index) {
 		this.index = index;
 	}
+	
+	public ElasticSearchQuery(String index, String... types) {
+		this.index = index;
+		this.types = types;
+	}
 
 	@Override
 	public List<Result> query(Topic topic) {
-		ElasticSearch es = new ElasticSearch(index);
+		ElasticSearch es = null;
+		if (types != null) {
+			es = new ElasticSearch(index, types);
+		} else {
+			es = new ElasticSearch(index);
+		}
+		
 		return es.query(new JSONObject(jsonQuery));
 	}
 	
