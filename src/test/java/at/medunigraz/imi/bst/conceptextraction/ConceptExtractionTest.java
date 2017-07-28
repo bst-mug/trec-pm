@@ -7,10 +7,7 @@ import at.medunigraz.imi.bst.lexigram.GraphUtils;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -56,7 +53,7 @@ public class ConceptExtractionTest {
                 containsInAnyOrder("notfoundlabel"));
     }
 
-    @Test
+    @Ignore
     public void exampleSearchConcepts() throws UnirestException {
         String keyword = "acute%20lymphoblastic%20leukemia";
         String url = "https://api.lexigram.io/v1/lexigraph/search?q="+ keyword;
@@ -80,7 +77,7 @@ public class ConceptExtractionTest {
         }
     }
 
-    @Test
+    @Ignore
     public void exampleEntityExtraction() throws UnirestException {
         String url = "https://api.lexigram.io/v1/extract/entities";
         String text = "The patient was given some hydrocodone for control of her pain."+
