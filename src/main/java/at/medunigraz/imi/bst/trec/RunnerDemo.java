@@ -22,6 +22,8 @@ public class RunnerDemo {
 				.withTemplate(pmTemplate).withWordRemoval();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA)
 				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate);
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL)
+				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate);
 
 		Set<Experiment> bestExperiments = builder.build();
 
