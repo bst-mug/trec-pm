@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 import at.medunigraz.imi.bst.trec.model.Gene;
+import at.medunigraz.imi.bst.trec.query.DiseaseExpanderQueryDecorator;
+import at.medunigraz.imi.bst.trec.query.DiseaseReplacerQueryDecorator;
 import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
 import at.medunigraz.imi.bst.trec.query.GeneExpanderQueryDecorator;
 import at.medunigraz.imi.bst.trec.query.Query;
@@ -73,6 +75,18 @@ public class ExperimentsBuilder {
 	public ExperimentsBuilder withGeneExpansion(Gene.Field[] expandTo) {
 		Query previousDecorator = buildingExp.getDecorator();
 		buildingExp.setDecorator(new GeneExpanderQueryDecorator(expandTo, previousDecorator));
+		return this;
+	}
+	
+	public ExperimentsBuilder withDiseaseReplacer() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new DiseaseReplacerQueryDecorator(previousDecorator));
+		return this;
+	}
+	
+	public ExperimentsBuilder withDiseaseExpander() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new DiseaseExpanderQueryDecorator(previousDecorator));
 		return this;
 	}
 
