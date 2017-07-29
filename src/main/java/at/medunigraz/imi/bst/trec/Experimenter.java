@@ -14,7 +14,9 @@ public class Experimenter {
 		final File boostKeywordsTemplate = new File(
 				RunnerDemo.class.getResource("/templates/boost-keywords.json").getFile());
 		final File relaxedTemplate = new File(RunnerDemo.class.getResource("/templates/relaxed.json").getFile());
-		final File simplifiedTemplate = new File(RunnerDemo.class.getResource("/templates/simplified.json").getFile());
+		final File englishTemplate = new File(RunnerDemo.class.getResource("/templates/english.json").getFile());
+		final File b0Template = new File(RunnerDemo.class.getResource("/templates/b0.json").getFile());
+		final File synonymTemplate = new File(RunnerDemo.class.getResource("/templates/synonym.json").getFile());
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
@@ -36,7 +38,13 @@ public class Experimenter {
 				.withKeyword(String.valueOf(2)).withTemplate(relaxedTemplate).withWordRemoval();
 
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
-				.withTemplate(simplifiedTemplate).withWordRemoval();
+				.withTemplate(englishTemplate).withWordRemoval();
+
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(b0Template).withWordRemoval();
+
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(synonymTemplate).withWordRemoval();
 
 		Set<Experiment> experiments = builder.build();
 
