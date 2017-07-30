@@ -46,6 +46,11 @@ public class Experimenter {
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(synonymTemplate).withWordRemoval();
 
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(boostKeywordsTemplate).withWordRemoval().withDiseaseExpander();
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(boostKeywordsTemplate).withWordRemoval().withDiseaseReplacer();
+
 		Set<Experiment> experiments = builder.build();
 
 		for (Experiment exp : experiments) {
