@@ -10,6 +10,8 @@ public class ClinicalTrialsExperimenter {
 	public static void main(String[] args) {
 		final File baselineTemplate = new File(
 				ClinicalTrialsExperimenter.class.getResource("/templates/baseline-ct.json").getFile());
+		final File mustMatchTemplate = new File(
+				ClinicalTrialsExperimenter.class.getResource("/templates/must-match-ct.json").getFile());
 		final File mustNotOtherTemplate = new File(
 				ClinicalTrialsExperimenter.class.getResource("/templates/must-not-other.json").getFile());
 
@@ -17,7 +19,8 @@ public class ClinicalTrialsExperimenter {
 
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA)
 				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(baselineTemplate);
-
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA)
+				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(mustMatchTemplate);
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA)
 				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(mustNotOtherTemplate);
 
