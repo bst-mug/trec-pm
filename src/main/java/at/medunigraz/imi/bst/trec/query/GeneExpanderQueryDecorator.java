@@ -1,7 +1,9 @@
 package at.medunigraz.imi.bst.trec.query;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +76,39 @@ public class GeneExpanderQueryDecorator extends QueryDecorator {
 		}
 
 		topic.withGene(expandedGenes.toString().trim());
+	}
+
+	/**
+	 * Creates a dump in SOLR synonym file
+	 * 
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws IOException {
+		final File solrSynonyms = new File("geneSynonyms.txt");
+		BufferedWriter writer = new BufferedWriter(new FileWriter(solrSynonyms));
+
+		final Gene.Field[] expandTo = { Gene.Field.DESCRIPTION, Gene.Field.SYNONYMS, Gene.Field.OTHER_DESIGNATIONS };
+		// Gene.Field.SYMBOL,
+		// Gene.Field.DESCRIPTION,
+		// Gene.Field.SYNONYMS,
+		// Gene.Field.OTHER_DESIGNATIONS
+
+		GeneExpanderQueryDecorator decorator = new GeneExpanderQueryDecorator(expandTo, null);
+
+		for (Map.Entry<String, Gene> entry : decorator.symbolToGene.entrySet()) {
+			String symbol = entry.getKey();
+			Gene gene = entry.getValue();
+
+			StringBuilder sb = new StringBuilder(symbol);
+			sb.append(" => ");
+			sb.append(gene.getExpandedField(", ", expandTo));
+			sb.append("\n");
+
+			writer.write(sb.toString());
+		}
+
+		writer.close();
 	}
 
 }
