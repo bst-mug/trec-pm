@@ -10,7 +10,7 @@ public class RunnerDemo {
 	public static void main(String[] args) {
 		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/regexp-drugs.json").getFile());
 
-		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/baseline-ct.json").getFile());
+		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/must-match-ct.json").getFile());
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
