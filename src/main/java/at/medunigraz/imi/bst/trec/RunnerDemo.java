@@ -8,7 +8,7 @@ import at.medunigraz.imi.bst.trec.experiment.ExperimentsBuilder;
 
 public class RunnerDemo {
 	public static void main(String[] args) {
-		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/boost-keywords.json").getFile());
+		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/regexp-drugs.json").getFile());
 
 		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/baseline-ct.json").getFile());
 

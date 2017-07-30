@@ -17,6 +17,8 @@ public class Experimenter {
 		final File englishTemplate = new File(RunnerDemo.class.getResource("/templates/english.json").getFile());
 		final File b0Template = new File(RunnerDemo.class.getResource("/templates/b0.json").getFile());
 		final File synonymTemplate = new File(RunnerDemo.class.getResource("/templates/synonym.json").getFile());
+		final File regexpDrugsTemplate = new File(
+				RunnerDemo.class.getResource("/templates/regexp-drugs.json").getFile());
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
@@ -50,6 +52,9 @@ public class Experimenter {
 				.withTemplate(boostKeywordsTemplate).withWordRemoval().withDiseaseExpander();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(boostKeywordsTemplate).withWordRemoval().withDiseaseReplacer();
+
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(regexpDrugsTemplate).withWordRemoval();
 
 		Set<Experiment> experiments = builder.build();
 
