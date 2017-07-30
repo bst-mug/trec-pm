@@ -19,9 +19,7 @@
 				"match": {
 					"sex": "{{sex}}"
 				}
-			}
-		],
-		"should": [
+			},
 			{
 				"multi_match": {
 					"query": "{{disease}}",
@@ -47,15 +45,41 @@
 					"type": "best_fields",
 					"boost": 1
 				}
+			}
+		],
+		"should": [
+			{
+				"bool": {
+					"should": {
+						"multi_match": {
+							"query": "gene genotype DNA base",
+							"fields": [
+								"title^2",
+								"summary",
+								"inclusion",
+							],
+							"tie_breaker": 0.3,
+							"type": "best_fields"
+						}
+					}
+				}
 			},
 			{
-				"match": {
-					"exclusion": {
-						"query": "{{other}}",
-						"boost": -2
+				"bool": {
+					"should": {
+						"multi_match": {
+							"query": "therapy treatment prognosis prognostic survival patient resistance recurrence targets malignancy study therapeutical outcome",
+							"fields": [
+								"title^2",
+								"summary",
+								"inclusion",
+							],
+							"tie_breaker": 0.3,
+							"type": "best_fields"
+						}
 					}
 				}
 			}
-		],
+		]
 	}
 }
