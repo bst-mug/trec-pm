@@ -10,7 +10,7 @@ public class RunnerDemo {
 	public static void main(String[] args) {
 		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/regexp-drugs.json").getFile());
 
-		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/cancer-synonyms-ct.json").getFile());
+		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/improved-ct.json").getFile());
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
@@ -21,9 +21,9 @@ public class RunnerDemo {
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(pmTemplate).withWordRemoval();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA)
-				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate);
+				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate).withWordRemoval();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL)
-				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate);
+				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate).withWordRemoval();
 
 		Set<Experiment> bestExperiments = builder.build();
 
