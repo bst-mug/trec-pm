@@ -60,18 +60,23 @@ public class Gene {
 		}
 
 		StringBuilder ret = new StringBuilder();
+		String prefix = "";
 		for (String str : expansions) {
-			ret.append(str);
-			ret.append(delimiter);
+			ret.append(prefix);
+			ret.append(escapeChars(str));
+			prefix = delimiter;
 		}
 
-		return ret.toString().trim();
-
+		return ret.toString();
+	}
+	
+	private String escapeChars(String input) {
+		return input.replace(",", " ");
 	}
 
 	private static String[] parseMultipleField(String field) {
 		if (field.equals("-")) {
-			return null;
+			return new String[0];
 		}
 
 		return field.split("\\|");
