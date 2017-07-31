@@ -73,7 +73,7 @@
 				"bool": {
 					"should": {
 						"multi_match": {
-							"query": "therapy treatment prognosis prognostic survival patient resistance recurrence targets malignancy study therapeutical outcome",
+							"query": "surgery therapy treatment prognosis prognostic survival patient resistance recurrence targets malignancy study therapeutical outcome",
 							"fields": [
 								"title.b0_bm25^2",
 								"abstract.b0_bm25"
