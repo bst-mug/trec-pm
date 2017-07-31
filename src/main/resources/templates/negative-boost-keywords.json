@@ -36,6 +36,17 @@
 				}
 			},
 			{
+				"query_string": {
+					"query": "*mab *nib *cin *one *ate *mus *lin",
+					"fields": [
+								"title^2",
+								"abstract",
+								"keyword",
+								"meshTags"
+							]
+				}
+			},
+			{
 				"bool": {
 					"should": {
 						"multi_match": {
@@ -73,7 +84,22 @@
 				"bool": {
 					"should": {
 						"multi_match": {
-							"query": "{{keyword}}",
+							"query": "therapy treatment prognosis prognostic survival patient resistance recurrence targets malignancy study therapeutical outcome",
+							"fields": [
+								"title^2",
+								"abstract"
+							],
+							"tie_breaker": 0.3,
+							"type": "best_fields"
+						}
+					}
+				}
+			},
+			{
+				"bool": {
+					"should": {
+						"multi_match": {
+							"query": "transcript paraffin tumorigenesis embedded formalin fish tissue probes detection screening",
 							"fields": [
 								"title^2",
 								"abstract"

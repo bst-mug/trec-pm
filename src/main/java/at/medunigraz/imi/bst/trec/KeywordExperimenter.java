@@ -14,7 +14,7 @@ public class KeywordExperimenter {
 	public static void main(String[] args) {
 		final File keywordTemplate = new File(
 				KeywordExperimenter.class.getResource("/templates/keyword.json").getFile());
-		final File keywordsSource = new File(KeywordExperimenter.class.getResource("/keywords/").getFile());
+		final File keywordsSource = new File(KeywordExperimenter.class.getResource("/negative-keywords/").getFile());
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 

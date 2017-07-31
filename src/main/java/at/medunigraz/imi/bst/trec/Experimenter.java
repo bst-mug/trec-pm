@@ -19,6 +19,8 @@ public class Experimenter {
 		final File synonymTemplate = new File(RunnerDemo.class.getResource("/templates/synonym.json").getFile());
 		final File regexpDrugsTemplate = new File(
 				RunnerDemo.class.getResource("/templates/regexp-drugs.json").getFile());
+		final File negativeBoostKeywordsTemplate = new File(
+				RunnerDemo.class.getResource("/templates/negative-boost-keywords.json").getFile());
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
@@ -55,6 +57,9 @@ public class Experimenter {
 
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(regexpDrugsTemplate).withWordRemoval();
+		
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+				.withTemplate(negativeBoostKeywordsTemplate).withWordRemoval();
 
 		Set<Experiment> experiments = builder.build();
 
