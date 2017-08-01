@@ -36,17 +36,6 @@
 				}
 			},
 			{
-				"query_string": {
-					"query": "*mab *nib *cin *one *ate *mus *lin",
-					"fields": [
-								"title^2",
-								"abstract",
-								"keyword",
-								"meshTags"
-							]
-				}
-			},
-			{
 				"bool": {
 					"should": {
 						"multi_match": {
