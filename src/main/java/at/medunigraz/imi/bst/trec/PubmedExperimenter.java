@@ -7,20 +7,20 @@ import at.medunigraz.imi.bst.trec.experiment.Experiment;
 import at.medunigraz.imi.bst.trec.experiment.ExperimentsBuilder;
 import at.medunigraz.imi.bst.trec.model.Gene;
 
-public class Experimenter {
+public class PubmedExperimenter {
 	public static void main(String[] args) {
-		final File boostTemplate = new File(Experimenter.class.getResource("/templates/boost-extra.json").getFile());
-		final File geneTemplate = new File(Experimenter.class.getResource("/templates/must-match-gene.json").getFile());
+		final File boostTemplate = new File(PubmedExperimenter.class.getResource("/templates/boost-extra.json").getFile());
+		final File geneTemplate = new File(PubmedExperimenter.class.getResource("/templates/must-match-gene.json").getFile());
 		final File boostKeywordsTemplate = new File(
-				RunnerDemo.class.getResource("/templates/boost-keywords.json").getFile());
-		final File relaxedTemplate = new File(RunnerDemo.class.getResource("/templates/relaxed.json").getFile());
-		final File englishTemplate = new File(RunnerDemo.class.getResource("/templates/english.json").getFile());
-		final File b0Template = new File(RunnerDemo.class.getResource("/templates/b0.json").getFile());
-		final File synonymTemplate = new File(RunnerDemo.class.getResource("/templates/synonym.json").getFile());
+				PubmedExperimenter.class.getResource("/templates/boost-keywords.json").getFile());
+		final File relaxedTemplate = new File(PubmedExperimenter.class.getResource("/templates/relaxed.json").getFile());
+		final File englishTemplate = new File(PubmedExperimenter.class.getResource("/templates/english.json").getFile());
+		final File b0Template = new File(PubmedExperimenter.class.getResource("/templates/b0.json").getFile());
+		final File synonymTemplate = new File(PubmedExperimenter.class.getResource("/templates/synonym.json").getFile());
 		final File regexpDrugsTemplate = new File(
-				RunnerDemo.class.getResource("/templates/regexp-drugs.json").getFile());
+				PubmedExperimenter.class.getResource("/templates/regexp-drugs.json").getFile());
 		final File negativeBoostKeywordsTemplate = new File(
-				RunnerDemo.class.getResource("/templates/negative-boost-keywords.json").getFile());
+				PubmedExperimenter.class.getResource("/templates/negative-boost-keywords.json").getFile());
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
