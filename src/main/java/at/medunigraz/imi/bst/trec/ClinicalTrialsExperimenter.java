@@ -30,12 +30,12 @@ public class ClinicalTrialsExperimenter {
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
-		// Judging order: 3
+		// mugctbase
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(baselineTemplate);
 
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(mustMatchTemplate);
 
-		// Judging order: 5
+		// mugctmust
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(mustNotOtherTemplate);
 
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(cancerSynonymsTemplate)
@@ -43,15 +43,15 @@ public class ClinicalTrialsExperimenter {
 
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(boostTemplate);
 
-		// Judging order: 1
+		// mugctboost
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
 				.withWordRemoval();
 
-		// Judging order: 2
+		// mugctdisease
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
 				.withWordRemoval().withDiseaseExpander();
 
-		// Judging order: 4
+		// mugctgene
 		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
 				.withGeneExpansion(expandTo).withWordRemoval();
 

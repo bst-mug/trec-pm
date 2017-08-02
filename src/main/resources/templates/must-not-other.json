@@ -1,6 +1,6 @@
 {
 	"bool": {
-		"must": [
+		"should": [
 			{
 				"range": {
 					"minimum_age": {
@@ -30,7 +30,7 @@
 					],
 					"tie_breaker": 0.3,
 					"type": "best_fields",
-					"boost": 1
+					"boost": 2
 				}
 			},
 			{
@@ -43,11 +43,9 @@
 					],
 					"tie_breaker": 0.3,
 					"type": "best_fields",
-					"boost": 1
+					"boost": 2
 				}
-			}
-		],
-		"should": [
+			},
 			{
 				"match": {
 					"exclusion": {
