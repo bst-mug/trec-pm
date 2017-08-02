@@ -1,38 +1,48 @@
 {
 	"bool": {
-		"must": [
+		"should": [
 			{
 				"multi_match": {
 					"query": "{{disease}}",
 					"fields": [
-						"title.synonym^2",
-						"abstract.synonym",
+						"title^2",
+						"abstract",
 						"keyword",
-						"meshTags.synonym"
+						"meshTags"
 					],
 					"tie_breaker": 0.3,
 					"type": "best_fields",
-					"boost": 1
+					"boost": 2
 				}
 			},
 			{
 				"multi_match": {
 					"query": "{{gene}}",
 					"fields": [
-						"title.synonym^2",
-						"abstract.synonym",
+						"title^2",
+						"abstract",
 						"keyword",
-						"meshTags.synonym"
+						"meshTags"
 					],
 					"tie_breaker": 0.3,
-					"type": "best_fields"
+					"type": "best_fields",
+					"boost": 2
 				}
-			}
-		],
-		"should": [
+			},
 			{
 				"match": {
 					"_type": "extra"
+				}
+			},
+			{
+				"query_string": {
+					"query": "*mab *nib *cin *one *ate *mus *lin",
+					"fields": [
+								"title^2",
+								"abstract",
+								"keyword",
+								"meshTags"
+							]
 				}
 			},
 			{
@@ -41,10 +51,10 @@
 						"multi_match": {
 							"query": "cancer carcinoma tumor",
 							"fields": [
-								"title.synonym^2",
-								"abstract.synonym",
+								"title^2",
+								"abstract",
 								"keyword",
-								"meshTags.synonym"
+								"meshTags"
 							],
 							"tie_breaker": 0.3,
 							"type": "best_fields"
@@ -58,10 +68,10 @@
 						"multi_match": {
 							"query": "gene genotype DNA base",
 							"fields": [
-								"title.synonym^2",
-								"abstract.synonym",
+								"title^2",
+								"abstract",
 								"keyword",
-								"meshTags.synonym"
+								"meshTags"
 							],
 							"tie_breaker": 0.3,
 							"type": "best_fields"
@@ -75,8 +85,8 @@
 						"multi_match": {
 							"query": "surgery therapy treatment prognosis prognostic survival patient resistance recurrence targets malignancy study therapeutical outcome",
 							"fields": [
-								"title.synonym^2",
-								"abstract.synonym"
+								"title^2",
+								"abstract"
 							],
 							"tie_breaker": 0.3,
 							"type": "best_fields"
