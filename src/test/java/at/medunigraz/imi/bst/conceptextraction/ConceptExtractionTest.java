@@ -43,12 +43,15 @@ public class ConceptExtractionTest {
 
     @Test
     public void addSynonyms() throws UnirestException {
-        Assert.assertThat(GraphUtils.addSynonymsFromBestConceptMatch("cholangiocarcinoma"),
-                containsInAnyOrder("cholangiocellular carcinoma",
-                        "cholangiocarcinoma of biliary tract",
-                        "bile duct carcinoma",
-                        "cholangiocarcinoma",
-                        "bile duct adenocarcinoma"));
+        Assert.assertThat(GraphUtils.addSynonymsFromBestConceptMatch("Cervical cancer"),
+                containsInAnyOrder("carcinoma of cervix",
+                        "cancer of the uterine cervix",
+                        "malignant neoplasm of cervix",
+                        "malignant tumor of cervix",
+                        "cancer of cervix uteri",
+                        "cervical cancer",
+                        "malignant neoplasm of cervix uteri",
+                        "cancer of cervix"));
         Assert.assertThat(GraphUtils.addSynonymsFromBestConceptMatch("notfoundlabel"),
                 containsInAnyOrder("notfoundlabel"));
     }
