@@ -1,5 +1,5 @@
-setwd("~/git/bst-mug/trec2017/paper/provisional-results")
-#setwd("~/Dropbox/TREC/Poster/boxplots")
+#setwd("~/git/bst-mug/trec2017/paper/provisional-results")
+setwd("~/Dropbox/TREC/Poster/boxplots")
 
 library(dplyr)
 library(ggplot2)
@@ -63,7 +63,14 @@ for(run_id in run_ids[seq(2, length(run_ids))]) {
 results$run <- factor(results$run, levels=run_ids)
 
 #mug_green <- "#007A25"
-extra_color <- "darkred"
+tug_red <- "#ff0a6e"
+tug_blue <- "#4f82bd"
+tug_green <- "#9cba59"
+tug_magenta <- "#8063a3"
+tug_orange <- "#f79645"
+tug_colors <- c(tug_red, tug_blue, tug_green, tug_magenta, tug_orange)
+
+extra_color <- tug_red
 
 plots <- list()
 for (i in seq(1, length(metrics))) {
