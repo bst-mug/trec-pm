@@ -5,6 +5,12 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 
+tug_red <- "#ff0a6e"
+tug_blue <- "#4f82bd"
+tug_green <- "#9cba59"
+tug_magenta <- "#8063a3"
+tug_orange <- "#f79645"
+
 # Scientific Abstracts
 # run_ids <- c('mugpubboost', 'mugpubshould', 'mugpubbase', 'mugpubdiseas', 'mugpubgene')
 # folder <- "scientific_abstracts"
@@ -12,8 +18,10 @@ library(gridExtra)
 # metrics <- c("infNDCG", "P10", "R-prec")
 # metrics_best <- c(0.5782, 0.8552, 0.3928)
 # metrics_median <- c(0.2685, 0.3586, 0.1739)
+# metrics_worst <- c(0.0012, 0.0034, 0.0002)
 # ## best <- 0.5872 # FIXME 0.5782 ???
 # file_extension <- ".trec_eval"
+# tug_colors <- c(mugpubboost=tug_red, mugpubshould=tug_blue, mugpubbase=tug_green, mugpubdiseas=tug_magenta, mugpubgene=tug_orange)
 
 
 # Clinical Trials
@@ -23,7 +31,9 @@ task_name <- folder
 metrics <- c("P5", "P10", "P15")
 metrics_best <- c(0.7714, 0.6750, 0.5905)
 metrics_median <- c(0.2929, 0.2536, 0.2262)
+metrics_worst <- c(0.0000, 0.0000, 0.0000)
 file_extension <- ""
+tug_colors <- c(mugctboost=tug_red, mugctdisease=tug_blue, mugctbase=tug_green, mugctgene=tug_magenta, mugctmust=tug_orange)
 
 
 # TODO create empty data.frame and iterate only?
@@ -63,20 +73,14 @@ for(run_id in run_ids[seq(2, length(run_ids))]) {
 results$run <- factor(results$run, levels=run_ids)
 
 #mug_green <- "#007A25"
-tug_red <- "#ff0a6e"
-tug_blue <- "#4f82bd"
-tug_green <- "#9cba59"
-tug_magenta <- "#8063a3"
-tug_orange <- "#f79645"
-tug_colors <- c(tug_red, tug_blue, tug_green, tug_magenta, tug_orange)
-
-extra_color <- tug_red
+extra_color <- "darkred"
 
 plots <- list()
 for (i in seq(1, length(metrics))) {
   target <- metrics[i]
   best <- metrics_best[i]
   median <- metrics_median[i]
+  worst <- metrics_worst[i]
     
   test <- results %>% filter(measure==target,topic!='all')
 
@@ -84,6 +88,7 @@ for (i in seq(1, length(metrics))) {
   
   g <- ggplot(test, aes(x=run, y=value, fill=run)) +
       geom_boxplot(alpha=0.8) + 
+      scale_fill_manual(values=tug_colors) +
       xlab("") +
       ylab(target) + 
       theme_linedraw() +
@@ -91,7 +96,7 @@ for (i in seq(1, length(metrics))) {
         plot.background = element_blank(),
         panel.background = element_blank()) +
     
-      stat_summary(fun.y=mean, color=extra_color, geom="point", shape=18, size=3,show.legend = FALSE) + 
+      stat_summary(fun.y=mean, color=extra_color, geom="point", shape=18, size=2,show.legend = FALSE) + 
       #geom_text(data = means, aes(label = round(value,4), y = value + 0.04)) +
       guides(fill=FALSE) + scale_y_continuous(breaks=seq(0,1,0.1), limits=c(0,1))
   
@@ -99,6 +104,9 @@ for (i in seq(1, length(metrics))) {
       # + geom_text(aes(0.6,best,label="best", vjust = 1), color=extra_color)
   
   g <- g + geom_hline(yintercept=median, linetype="dashed", color = extra_color)
+    # + geom_text(aes(0.7,median,label="median", vjust = 1), color=extra_color)
+  
+  # g <- g + geom_hline(yintercept=worst, linetype="dashed", color = extra_color)
     # + geom_text(aes(0.7,median,label="median", vjust = 1), color=extra_color)
   
   plots <- append(plots, list(g))
