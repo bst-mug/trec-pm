@@ -14,3 +14,10 @@ Code is mantained by the BST Team at the [Institute of Medical Informatics, Stat
 - make (for `trec_eval` tool)
 - gcc (for `trec_eval` tool)
 - Elasticsearch 5.4.0+
+
+## Documentation
+
+- [TREC-PM 2017 overview paper](https://trec.nist.gov/pubs/trec26/papers/Overview-PM.pdf)
+- [Our poster for a quick overview](https://github.com/bst-mug/trec2017/blob/master/docs/poster.pdf)
+- [Our presentation slides](https://github.com/bst-mug/trec2017/blob/master/docs/presentation.pdf)
+- [Paper describing our strategy in more detail](https://trec.nist.gov/pubs/trec26/papers/imi_mug-PM.pdf)
