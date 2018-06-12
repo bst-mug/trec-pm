@@ -4,12 +4,19 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TrecEvalTest {
 
 	private static final String GOLD = "/gold-standard/test.qrels";
 	private static final String RESULTS = "/results/test.trec_results";
+
+	@Before
+	public void setUp() {
+		Assume.assumeTrue(TrecEval.scriptExists());
+	}
 
 	@Test
 	public void testMissingFiles() {

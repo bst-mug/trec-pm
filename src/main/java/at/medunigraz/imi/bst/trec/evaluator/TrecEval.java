@@ -22,10 +22,12 @@ public class TrecEval extends AbstractEvaluator {
 	
 	private static final Logger LOG = LogManager.getLogger();
 
+	private static final String TREC_EVAL_SCRIPT = "target/lib/trec_eval.9.0/trec_eval";
+
 	/**
 	 * -m all_trec -q -c -M1000
 	 */
-	private static final String COMMAND = "target/lib/trec_eval.9.0/trec_eval -m all_trec -q -c -M1000";
+	private static final String COMMAND = TREC_EVAL_SCRIPT + " -m all_trec -q -c -M1000";
 	
 	private static final String TARGET = "all";
 	
@@ -44,6 +46,10 @@ public class TrecEval extends AbstractEvaluator {
 		this.goldStandard = goldStandard;
 		this.results = results;
 		evaluate();
+	}
+
+	public static boolean scriptExists() {
+		return new File(TREC_EVAL_SCRIPT).isFile();
 	}
 
 	@Override
