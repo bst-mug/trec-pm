@@ -63,14 +63,14 @@
                         <configuration>
                             <tasks>
                                 <mkdir dir="${project.build.directory}/lib" />
-                                <get src="http://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz"
-                                    dest="${project.build.directory}/lib/trec_eval_latest.tar.gz"
-                                    verbose="false" usetimestamp="true" />
-                                <gunzip src="${project.build.directory}/lib/trec_eval_latest.tar.gz" />
-                                <untar src="${project.build.directory}/lib/trec_eval_latest.tar"
-                                    dest="${project.build.directory}/lib/" />
-                                <exec executable="make" failonerror="true"
-                                    dir="${project.build.directory}/lib/trec_eval.9.0/" />
+                                <!--<get src="http://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz"-->
+                                    <!--dest="${project.build.directory}/lib/trec_eval_latest.tar.gz"-->
+                                    <!--verbose="false" usetimestamp="true" />-->
+                                <!--<gunzip src="${project.build.directory}/lib/trec_eval_latest.tar.gz" />-->
+                                <!--<untar src="${project.build.directory}/lib/trec_eval_latest.tar"-->
+                                    <!--dest="${project.build.directory}/lib/" />-->
+                                <!--<exec executable="make" failonerror="true"-->
+                                    <!--dir="${project.build.directory}/lib/trec_eval.9.0/" />-->
                                     
                                 <get src="ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz"
                                     dest="${basedir}/src/main/resources/genes/Homo_sapiens.gene_info.gz"
