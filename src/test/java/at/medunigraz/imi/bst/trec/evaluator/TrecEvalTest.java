@@ -17,11 +17,6 @@ public class TrecEvalTest {
 	public void setUp() {
 		Assume.assumeTrue(TrecEval.scriptExists());
 	}
-
-	@Test
-	public void testMissingFiles() {
-		// FIXME
-	}
 	
 	@Test
 	public void testEvaluate() {
