@@ -23,11 +23,7 @@ public abstract class AbstractEvaluator implements Evaluator {
 
     protected File goldStandard, results;
 
-    private double ndcg = 0;
-    private double rprec = 0;
-    private double infap = 0;
-    private double p10 = 0;
-    private double f = 0;
+    private static final String TARGET = "all";
 
     protected String[] collectStream(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -102,44 +98,56 @@ public abstract class AbstractEvaluator implements Evaluator {
         parseOutput(output);
     }
 
+    public String getMetricsAsString() {
+        StringBuilder sb = new StringBuilder();
+
+        Set<Map.Entry<String, Metrics>> entries = metricsPerTopic.entrySet();
+        for (Map.Entry<String, Metrics> entry : entries) {
+            sb.append("\n");
+            sb.append("Topic: ");
+            sb.append(entry.getKey());
+            sb.append("\n");
+            sb.append(entry.getValue().getMetricsAsString());
+        }
+
+        return sb.toString();
+    }
+
+    public Map<String, Metrics> getMetrics() {
+        return this.metricsPerTopic;
+    }
+
+    public double getMetricByTopic(String topic, String metric) {
+        return metricsPerTopic.get(topic).getMetric(metric);
+    }
+
+    public Metrics getMetricsByTopic(String topic) {
+        return metricsPerTopic.get(topic);
+    }
+
     @Override
     public double getNDCG() {
-        if (ndcg == 0) {
-            evaluate();
-        }
-        return ndcg;
+        return getMetricByTopic(TARGET, "ndcg");
     }
 
     @Override
     public double getRPrec() {
-        if (rprec == 0) {
-            evaluate();
-        }
-        return rprec;
+        return getMetricByTopic(TARGET, "Rprec");
     }
 
     @Override
     public double getInfAP() {
-        if (infap == 0) {
-            evaluate();
-        }
-        return infap;
+        return getMetricByTopic(TARGET, "infAP");
     }
 
     @Override
     public double getP10() {
-        if (p10 == 0) {
-            evaluate();
-        }
-        return p10;
+        return getMetricByTopic(TARGET, "P_10");
     }
 
     @Override
     public double getF() {
-        if (f == 0) {
-            evaluate();
-        }
-        return f;
+        return getMetricByTopic(TARGET, "set_F");
     }
 
 }

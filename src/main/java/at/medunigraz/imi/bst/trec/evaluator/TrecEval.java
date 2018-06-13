@@ -29,7 +29,6 @@ public class TrecEval extends AbstractEvaluator {
 	 */
 	private static final String COMMAND = TREC_EVAL_SCRIPT + " -m all_trec -q -c -M1000";
 
-	private static final String TARGET = "all";
 
 	public TrecEval(File goldStandard, File results) {
 		super.goldStandard = goldStandard;
@@ -48,57 +47,4 @@ public class TrecEval extends AbstractEvaluator {
 	public static boolean scriptExists() {
 		return new File(TREC_EVAL_SCRIPT).isFile();
 	}
-
-	public String getMetricsAsString() {
-		StringBuilder sb = new StringBuilder();
-
-		Set<Map.Entry<String, Metrics>> entries = metricsPerTopic.entrySet();
-		for (Map.Entry<String, Metrics> entry : entries) {
-			sb.append("\n");
-			sb.append("Topic: ");
-			sb.append(entry.getKey());
-			sb.append("\n");
-			sb.append(entry.getValue().getMetricsAsString());
-		}
-
-		return sb.toString();
-	}
-
-	public Map<String, Metrics> getMetrics() {
-		return this.metricsPerTopic;
-	}
-
-	public double getMetricByTopic(String topic, String metric) {
-		return metricsPerTopic.get(topic).getMetric(metric);
-	}
-
-	public Metrics getMetricsByTopic(String topic) {
-		return metricsPerTopic.get(topic);
-	}
-
-	@Override
-	public double getNDCG() {
-		return getMetricByTopic(TARGET, "ndcg");
-	}
-
-	@Override
-	public double getRPrec() {
-		return getMetricByTopic(TARGET, "Rprec");
-	}
-
-	@Override
-	public double getInfAP() {
-		return getMetricByTopic(TARGET, "infAP");
-	}
-
-	@Override
-	public double getP10() {
-		return getMetricByTopic(TARGET, "P_10");
-	}
-
-	@Override
-	public double getF() {
-		return getMetricByTopic(TARGET, "set_F");
-	}
-
 }
