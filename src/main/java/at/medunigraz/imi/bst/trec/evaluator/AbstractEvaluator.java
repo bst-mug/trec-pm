@@ -4,11 +4,9 @@ import at.medunigraz.imi.bst.trec.model.Metrics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractEvaluator implements Evaluator {
 
@@ -22,6 +20,8 @@ public abstract class AbstractEvaluator implements Evaluator {
     }
 
     protected Map<String, Metrics> metricsPerTopic = new TreeMap<>();
+
+    protected File goldStandard, results;
 
     private double ndcg = 0;
     private double rprec = 0;
@@ -69,6 +69,37 @@ public abstract class AbstractEvaluator implements Evaluator {
             old.put(metricName, Double.valueOf(metricValue));
             metricsPerTopic.put(topic, old);
         }
+    }
+
+    public abstract List<String> getFullCommand();
+
+    @Override
+    public void evaluate() {
+        String command = String.join(" ", getFullCommand());
+
+        Process proc = null;
+        String[] error = null;
+        String[] output = null;
+        try {
+            proc = Runtime.getRuntime().exec(command);
+            // XXX caveat: error output buffer might be full first and induce deadlock
+            output = collectStream(proc.getInputStream());
+            error = collectStream(proc.getErrorStream());
+            proc.waitFor(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int exit = proc.exitValue();
+        if (exit != 0) {
+            LOG.error(String.format("Process exited with code %d and error message:", exit));
+            for (String e : error) {
+                LOG.error(e);
+            }
+            return;
+        }
+
+        parseOutput(output);
     }
 
     @Override

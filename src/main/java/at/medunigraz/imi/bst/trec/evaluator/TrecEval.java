@@ -31,49 +31,25 @@ public class TrecEval extends AbstractEvaluator {
 
 	private static final String TARGET = "all";
 
-
-	private File goldStandard, results;
-
 	public TrecEval(File goldStandard, File results) {
-		this.goldStandard = goldStandard;
-		this.results = results;
+		super.goldStandard = goldStandard;
+		super.results = results;
 		evaluate();
+	}
+
+	public List<String> getFullCommand() {
+		List<String> fullCommand = new ArrayList<>();
+		fullCommand.add(COMMAND);
+		fullCommand.add(goldStandard.getAbsolutePath());
+		fullCommand.add(results.getAbsolutePath());
+		return fullCommand;
 	}
 
 	public static boolean scriptExists() {
 		return new File(TREC_EVAL_SCRIPT).isFile();
 	}
 
-	@Override
-	public void evaluate() {
-		String command = String.join(" ", COMMAND, goldStandard.getAbsolutePath(), results.getAbsolutePath());
-
-		Process proc = null;
-		String[] error = null;
-		String[] output = null;
-		try {
-			proc = Runtime.getRuntime().exec(command);
-			// XXX caveat: error output buffer might be full first and induce deadlock
-			output = collectStream(proc.getInputStream());
-			error = collectStream(proc.getErrorStream());
-			proc.waitFor(10, TimeUnit.SECONDS);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		int exit = proc.exitValue();
-		if (exit != 0) {
-			LOG.error(String.format("Process exited with code %d and error message:", exit));
-			for (String e : error) {
-				LOG.error(e);
-			}
-			return;
-		}
-
-		parseOutput(output);
-	}
-
-    public String getMetricsAsString() {
+	public String getMetricsAsString() {
 		StringBuilder sb = new StringBuilder();
 
 		Set<Map.Entry<String, Metrics>> entries = metricsPerTopic.entrySet();
