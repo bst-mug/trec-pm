@@ -150,4 +150,7 @@ public abstract class AbstractEvaluator implements Evaluator {
         return getMetricByTopic(TARGET, "set_F");
     }
 
+    public double getInfNDCG() {
+        return getMetricByTopic(TARGET, "infNDCG");
+    }
 }
