@@ -81,25 +81,7 @@ public class TrecEval extends AbstractEvaluator {
 		parseOutput(output);
 	}
 
-	private String[] collectStream(InputStream is) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-
-		List<String> list = new ArrayList<>();
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				LOG.trace(line);
-				list.add(line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		String[] ret = new String[list.size()];
-		return list.toArray(ret);
-	}
-
-	private void parseOutput(String[] output) {
+    private void parseOutput(String[] output) {
 		for (String s : output) {
 			String[] fields = s.split("\\s+");
 			
