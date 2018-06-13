@@ -20,18 +20,14 @@ public abstract class AbstractEvaluator implements Evaluator {
     private double p10 = 0;
     private double f = 0;
 
-    protected String[] collectStream(InputStream is) {
+    protected String[] collectStream(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
         List<String> list = new ArrayList<>();
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                LOG.trace(line);
-                list.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            LOG.trace(line);
+            list.add(line);
         }
 
         String[] ret = new String[list.size()];
