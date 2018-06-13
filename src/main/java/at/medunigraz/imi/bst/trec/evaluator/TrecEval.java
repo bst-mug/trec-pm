@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import at.medunigraz.imi.bst.trec.model.Metrics;
 
 public class TrecEval extends AbstractEvaluator {
-	
+
 	private static final Logger LOG = LogManager.getLogger();
 
 	private static final String TREC_EVAL_SCRIPT = "target/lib/trec_eval.9.0/trec_eval";
@@ -28,19 +28,11 @@ public class TrecEval extends AbstractEvaluator {
 	 * -m all_trec -q -c -M1000
 	 */
 	private static final String COMMAND = TREC_EVAL_SCRIPT + " -m all_trec -q -c -M1000";
-	
+
 	private static final String TARGET = "all";
-	
-	private static final Set<String> STRING_METRICS = new HashSet<>();
-	
-	static {
-		STRING_METRICS.add("runid");
-		STRING_METRICS.add("relstring");
-	}
+
 
 	private File goldStandard, results;
-	
-	private Map<String, Metrics> metricsPerTopic = new TreeMap<>();
 
 	public TrecEval(File goldStandard, File results) {
 		this.goldStandard = goldStandard;
@@ -81,37 +73,9 @@ public class TrecEval extends AbstractEvaluator {
 		parseOutput(output);
 	}
 
-    private void parseOutput(String[] output) {
-		for (String s : output) {
-			String[] fields = s.split("\\s+");
-			
-			// Rprec	all	0.0000
-			if (fields.length != 3) {
-				continue;
-			}
-			
-			String metricName = fields[0];
-			String topic = fields[1];
-			String metricValue = fields[2];
-			
-			// We ignore metrics with string values
-			if (STRING_METRICS.contains(metricName)) {
-				continue;
-			}
-			
-			if (!metricsPerTopic.containsKey(topic)) {
-				metricsPerTopic.put(topic, new Metrics());
-			}
-			
-			Metrics old = metricsPerTopic.get(topic);
-			old.put(metricName, Double.valueOf(metricValue));
-			metricsPerTopic.put(topic, old);
-		}
-	}
-		
-	public String getMetricsAsString() {
+    public String getMetricsAsString() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		Set<Map.Entry<String, Metrics>> entries = metricsPerTopic.entrySet();
 		for (Map.Entry<String, Metrics> entry : entries) {
 			sb.append("\n");
@@ -120,18 +84,18 @@ public class TrecEval extends AbstractEvaluator {
 			sb.append("\n");
 			sb.append(entry.getValue().getMetricsAsString());
 		}
-		
+
 		return sb.toString();
 	}
-	
+
 	public Map<String, Metrics> getMetrics() {
 		return this.metricsPerTopic;
 	}
-	
+
 	public double getMetricByTopic(String topic, String metric) {
 		return metricsPerTopic.get(topic).getMetric(metric);
 	}
-	
+
 	public Metrics getMetricsByTopic(String topic) {
 		return metricsPerTopic.get(topic);
 	}
