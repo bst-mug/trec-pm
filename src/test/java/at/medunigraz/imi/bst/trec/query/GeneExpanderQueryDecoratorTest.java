@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
+import at.medunigraz.imi.bst.config.TrecConfig;
 import org.junit.Test;
 
 import at.medunigraz.imi.bst.trec.model.Gene;
@@ -18,7 +19,7 @@ public class GeneExpanderQueryDecoratorTest extends QueryDecoratorTest {
 
 	public GeneExpanderQueryDecoratorTest() {
 		this.decoratedQuery = new GeneExpanderQueryDecorator(EXPAND_TO,
-				new TemplateQueryDecorator(template, new ElasticSearchQuery("trec")));
+				new TemplateQueryDecorator(template, new ElasticSearchQuery(TrecConfig.ELASTIC_BA_INDEX)));
 		this.topic = new Topic().withGene(GENE);
 	}
 

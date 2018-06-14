@@ -40,7 +40,7 @@ public class Indexing {
 
             System.out.println("ADDING: " + trial.id);
 
-            bulkRequest.add(client.prepareIndex(TrecConfig.INDEX_TRIALS_NAME, TrecConfig.TRIALS_TYPE, trial.id)
+            bulkRequest.add(client.prepareIndex(TrecConfig.ELASTIC_CT_INDEX, TrecConfig.ELASTIC_CT_TYPE, trial.id)
                     .setSource(jsonBuilder()
                             .startObject()
                             .field("id", trial.id)

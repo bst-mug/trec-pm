@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import at.medunigraz.imi.bst.config.TrecConfig;
 import org.junit.Test;
 
 import at.medunigraz.imi.bst.trec.model.Topic;
@@ -24,7 +25,7 @@ public class StaticMapQueryDecoratorTest extends QueryDecoratorTest {
 
 	public StaticMapQueryDecoratorTest() {
 		this.decoratedQuery = new TemplateQueryDecorator(template,
-				new StaticMapQueryDecorator(keymap, new ElasticSearchQuery("trec")));
+				new StaticMapQueryDecorator(keymap, new ElasticSearchQuery(TrecConfig.ELASTIC_BA_INDEX)));
 		this.topic = new Topic();
 	}
 

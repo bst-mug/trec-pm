@@ -3,6 +3,7 @@ package at.medunigraz.imi.bst.trec.search;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import at.medunigraz.imi.bst.config.TrecConfig;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.health.ClusterHealthStatus;
@@ -24,7 +25,7 @@ public class ElasticClientFactoryTest {
 
 		ClusterHealthResponse health = client.admin().cluster().prepareHealth().get();
 		String actual = health.getClusterName();
-		assertEquals("elasticsearch", actual); // Any check
+		assertEquals(TrecConfig.ELASTIC_CLUSTER, actual); // Any check
 	}
 
 	@Test

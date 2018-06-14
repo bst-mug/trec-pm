@@ -9,16 +9,17 @@ public final class TrecConfig {
 
     /* STORAGE - ELASTICSEARCH */
 
-    public static final String INDEX_NAME = "trec";
-    public static final String MEDLINE_TYPE = "medline";
-    public static final String EXTRA_TYPE = "extra";
-    public static final String INDEX_TRIALS_NAME = "clinicaltrials";
-    public static final String TRIALS_TYPE = "clinicaltrials";
+    public static final String ELASTIC_BA_INDEX = getString("ELASTIC_BA_INDEX");
+    public static final String ELASTIC_BA_MEDLINE_TYPE = getString("ELASTIC_BA_MEDLINE_TYPE");
+    public static final String ELASTIC_BA_EXTRA_TYPE = getString("ELASTIC_BA_EXTRA_TYPE");
+    public static final String ELASTIC_CT_INDEX = getString("ELASTIC_CT_INDEX");
+    public static final String ELASTIC_CT_TYPE = getString("ELASTIC_CT_TYPE");
     
     public static final String ELASTIC_HOSTNAME = getString("ELASTIC_HOSTNAME");
-    public static final int ELASTIC_PORT = 9300;
-    
-    
+    public static final int ELASTIC_PORT = getInteger("ELASTIC_PORT");
+    public static final String ELASTIC_CLUSTER = getString("ELASTIC_CLUSTER");
+
+
 
 
     /* DATA - MEDLINE */
@@ -51,5 +52,9 @@ public final class TrecConfig {
 	public static String getString(String key) {
 		return PROPERTIES.getString(key);
 	}
+
+	public static int getInteger(String key) {
+	    return Integer.parseInt(PROPERTIES.getString(key));
+    }
 
 }
