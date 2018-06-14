@@ -57,7 +57,8 @@ public class TrecEval extends AbstractEvaluator {
 		String command = String.join(" ", COMMAND, goldStandard.getAbsolutePath(), results.getAbsolutePath());
 
 		Process proc = null;
-		String[] error = null, output = null;
+		String[] error = null;
+		String[] output = null;
 		try {
 			proc = Runtime.getRuntime().exec(command);
 			// XXX caveat: error output buffer might be full first and induce deadlock

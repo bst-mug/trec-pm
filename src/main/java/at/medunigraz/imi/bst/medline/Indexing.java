@@ -55,7 +55,7 @@ public class Indexing {
 
         for (PubMedArticle article: pubMedArticles) {
 
-            bulkRequest.add(client.prepareIndex(TrecConfig.INDEX_NAME, TrecConfig.MEDLINE_TYPE, article.pubMedId)
+            bulkRequest.add(client.prepareIndex(TrecConfig.ELASTIC_BA_INDEX, TrecConfig.ELASTIC_BA_MEDLINE_TYPE, article.pubMedId)
                     .setSource(jsonBuilder()
                             .startObject()
                             .field("pubmedId", StringEscapeUtils.escapeJson(article.pubMedId))

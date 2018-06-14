@@ -124,12 +124,12 @@ public class Experiment extends Thread {
 		}
 	}
 	
-	public String getTaskName() {
+	public String getIndexName() {
 		switch (task) {
 		case CLINICAL_TRIALS:
-			return "clinicaltrials";
+			return TrecConfig.ELASTIC_CT_INDEX;
 		case PUBMED:
-			return "trec";
+			return TrecConfig.ELASTIC_BA_INDEX;
 		default:
 			return "";
 		}
@@ -139,11 +139,11 @@ public class Experiment extends Thread {
 		String[] ret = new String[0];	// Everything
 		
 		if (task == Task.CLINICAL_TRIALS) {
-			return new String[] { TrecConfig.TRIALS_TYPE };
+			return new String[] { TrecConfig.ELASTIC_CT_TYPE};
 		}
 		
 		if (task == Task.PUBMED && goldStandard == GoldStandard.FINAL) {
-			return new String[] { TrecConfig.EXTRA_TYPE, TrecConfig.MEDLINE_TYPE };
+			return new String[] { TrecConfig.ELASTIC_BA_EXTRA_TYPE, TrecConfig.ELASTIC_BA_MEDLINE_TYPE};
 		}
 		
 		return ret;
