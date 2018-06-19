@@ -13,7 +13,7 @@ public class BoostExperimenter {
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
 		for (float i = 1; i <= 5; i += 0.5) {
-			builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL)
+			builder.newExperiment().withGoldStandard(Experiment.GoldStandard.OFFICIAL_2017)
 					.withTarget(Experiment.Task.PUBMED).withKeyword(String.valueOf(i)).withTemplate(relaxedTemplate)
 					.withWordRemoval();
 		}
