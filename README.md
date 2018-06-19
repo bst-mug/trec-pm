@@ -22,6 +22,6 @@ Also of interest:
 - Elasticsearch 5.4.0+
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/00d52e98173d4629be22a4224a48a223)](https://www.codacy.com/app/michelole/trec-pm)
-[![Build Status](https://travis-ci.org/bst-mug/trec2017.svg?branch=master)](https://travis-ci.org/bst-mug/trec2017)
-[![Coverage Status](https://coveralls.io/repos/github/bst-mug/trec2017/badge.svg?branch=master)](https://coveralls.io/github/bst-mug/trec2017?branch=master)
+[![Build Status](https://travis-ci.com/bst-mug/trec-pm.svg?branch=master)](https://travis-ci.com/bst-mug/trec-pm)
+[![Coverage Status](https://coveralls.io/repos/github/bst-mug/trec-pm/badge.svg?branch=master)](https://coveralls.io/github/bst-mug/trec-pm?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
