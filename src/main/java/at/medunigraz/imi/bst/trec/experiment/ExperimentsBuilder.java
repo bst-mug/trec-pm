@@ -97,7 +97,7 @@ public class ExperimentsBuilder {
 
 	public ExperimentsBuilder withTarget(Experiment.Task task) {
 		buildingExp.setTask(task);
-		buildingExp.setDecorator(new ElasticSearchQuery(buildingExp.getTaskName(), buildingExp.getTypes()));
+		buildingExp.setDecorator(new ElasticSearchQuery(buildingExp.getIndexName(), buildingExp.getTypes()));
 		return this;
 	}
 

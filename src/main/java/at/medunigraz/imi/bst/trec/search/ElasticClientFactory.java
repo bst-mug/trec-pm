@@ -37,7 +37,9 @@ public class ElasticClientFactory implements Closeable {
 			return;
 		}
 
-		client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(address);
+		Settings settings = Settings.builder()
+				.put("cluster.name", TrecConfig.ELASTIC_CLUSTER).build();
+		client = new PreBuiltTransportClient(settings).addTransportAddress(address);
 	}
 
 	public void close() {
