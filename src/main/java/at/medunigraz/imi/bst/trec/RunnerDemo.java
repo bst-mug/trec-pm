@@ -14,14 +14,8 @@ public class RunnerDemo {
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXAMPLE).withTarget(Experiment.Task.PUBMED)
-				.withTemplate(pmTemplate).withWordRemoval();
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA).withTarget(Experiment.Task.PUBMED)
-				.withTemplate(pmTemplate).withWordRemoval();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.INTERNAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(pmTemplate).withWordRemoval();
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA)
-				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate).withWordRemoval();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.INTERNAL)
 				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate).withWordRemoval();
 

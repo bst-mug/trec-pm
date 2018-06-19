@@ -37,7 +37,7 @@ public class Experiment extends Thread {
 	}
 	
 	public static enum GoldStandard {
-		EXAMPLE, EXTRA, INTERNAL
+		INTERNAL
 	}
 
 	@Override
@@ -113,10 +113,6 @@ public class Experiment extends Thread {
 
 	public String getCollectionName() {
 		switch (goldStandard) {
-		case EXAMPLE:
-			return "example";
-		case EXTRA:
-			return "extra";
 		case INTERNAL:
 			return "topics2017";
 		default:
