@@ -35,7 +35,7 @@ public class KeywordExperimenter {
 			}
 
 			for (String keyword : lines) {
-				builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL)
+				builder.newExperiment().withGoldStandard(Experiment.GoldStandard.INTERNAL)
 						.withTarget(Experiment.Task.PUBMED).withKeyword(keyword).withTemplate(keywordTemplate)
 						.withWordRemoval();
 			}

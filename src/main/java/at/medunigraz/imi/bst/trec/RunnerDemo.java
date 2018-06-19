@@ -18,11 +18,11 @@ public class RunnerDemo {
 				.withTemplate(pmTemplate).withWordRemoval();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(pmTemplate).withWordRemoval();
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL).withTarget(Experiment.Task.PUBMED)
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.INTERNAL).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(pmTemplate).withWordRemoval();
 		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.EXTRA)
 				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate).withWordRemoval();
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.FINAL)
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.INTERNAL)
 				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate).withWordRemoval();
 
 		Set<Experiment> bestExperiments = builder.build();

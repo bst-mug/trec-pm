@@ -37,7 +37,7 @@ public class Experiment extends Thread {
 	}
 	
 	public static enum GoldStandard {
-		EXAMPLE, EXTRA, FINAL
+		EXAMPLE, EXTRA, INTERNAL
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class Experiment extends Thread {
 			return "example";
 		case EXTRA:
 			return "extra";
-		case FINAL:
+		case INTERNAL:
 			return "topics2017";
 		default:
 			return "";
@@ -142,7 +142,7 @@ public class Experiment extends Thread {
 			return new String[] { TrecConfig.ELASTIC_CT_TYPE};
 		}
 		
-		if (task == Task.PUBMED && goldStandard == GoldStandard.FINAL) {
+		if (task == Task.PUBMED && goldStandard == GoldStandard.INTERNAL) {
 			return new String[] { TrecConfig.ELASTIC_BA_EXTRA_TYPE, TrecConfig.ELASTIC_BA_MEDLINE_TYPE};
 		}
 		

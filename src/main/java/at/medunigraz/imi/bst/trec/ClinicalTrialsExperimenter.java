@@ -24,7 +24,7 @@ public class ClinicalTrialsExperimenter {
 
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.SYNONYMS };
 
-		// XXX Change this to Experiment.GoldStandard.FINAL for submission
+		// XXX Change this to Experiment.GoldStandard.INTERNAL for submission
 		final Experiment.GoldStandard goldStandard = Experiment.GoldStandard.EXTRA;
 		final Experiment.Task target = Experiment.Task.CLINICAL_TRIALS;
 

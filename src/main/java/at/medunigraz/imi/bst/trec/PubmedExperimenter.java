@@ -30,7 +30,7 @@ public class PubmedExperimenter {
 
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
 
-		final Experiment.GoldStandard goldStandard = Experiment.GoldStandard.FINAL;
+		final Experiment.GoldStandard goldStandard = Experiment.GoldStandard.INTERNAL;
 		final Experiment.Task target = Experiment.Task.PUBMED;
 
 		
