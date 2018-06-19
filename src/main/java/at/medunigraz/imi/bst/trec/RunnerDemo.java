@@ -14,9 +14,9 @@ public class RunnerDemo {
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.INTERNAL).withTarget(Experiment.Task.PUBMED)
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.OFFICIAL_2017).withTarget(Experiment.Task.PUBMED)
 				.withTemplate(pmTemplate).withWordRemoval();
-		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.INTERNAL)
+		builder.newExperiment().withGoldStandard(Experiment.GoldStandard.OFFICIAL_2017)
 				.withTarget(Experiment.Task.CLINICAL_TRIALS).withTemplate(ctTemplate).withWordRemoval();
 
 		Set<Experiment> bestExperiments = builder.build();
