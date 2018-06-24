@@ -3,18 +3,17 @@ package at.medunigraz.imi.bst.trec.experiment;
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import at.medunigraz.imi.bst.trec.evaluator.SampleEval;
+import at.medunigraz.imi.bst.trec.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import at.medunigraz.imi.bst.config.TrecConfig;
 import at.medunigraz.imi.bst.trec.evaluator.TrecEval;
 import at.medunigraz.imi.bst.trec.evaluator.TrecWriter;
-import at.medunigraz.imi.bst.trec.model.Result;
-import at.medunigraz.imi.bst.trec.model.ResultList;
-import at.medunigraz.imi.bst.trec.model.Topic;
-import at.medunigraz.imi.bst.trec.model.TopicSet;
 import at.medunigraz.imi.bst.trec.query.Query;
 import at.medunigraz.imi.bst.trec.stats.CSVStatsWriter;
 import at.medunigraz.imi.bst.trec.stats.XMLStatsWriter;
@@ -70,17 +69,30 @@ public class Experiment extends Thread {
 
 		File goldStandard = new File(CSVStatsWriter.class.getResource("/gold-standard/" + getGoldStandardFileName()).getPath());
 		TrecEval te = new TrecEval(goldStandard, output);
+        Map<String, Metrics> metrics = te.getMetrics();
+
+        if (hasSampleGoldStandard()) {
+            SampleEval se = new SampleEval(getSampleGoldStandard(), output);
+
+            // TODO Refactor into MetricSet
+            Map<String, Metrics> sampleEvalMetrics = se.getMetrics();
+            for (Map.Entry<String, Metrics> entry : metrics.entrySet()) {
+                String topic = entry.getKey();
+                entry.getValue().merge(sampleEvalMetrics.get(topic));
+            }
+        }
 
 		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + getExperimentId() + ".xml"));
-		xsw.write(te.getMetrics());
+		xsw.write(metrics);
 		xsw.close();
 
 		CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + getExperimentId() + ".csv"));
-		csw.write(te.getMetrics());
+		csw.write(metrics);
 		csw.close();
 
-		LOG.info("Got NDCG: " + te.getNDCG() + " for collection " + name);
-		LOG.trace(te.getMetricsByTopic("all"));
+		Metrics allMetrics = metrics.get("all");
+		LOG.info("Got NDCG = {}, infNDCG = {}, P@10 = {} for collection {}", allMetrics.getNDCG(), allMetrics.getInfNDCG(), allMetrics.getP10(), name);
+		LOG.trace(allMetrics);
 		
 		// TODO Experiment API #53
 		System.out.println(te.getNDCG() + ";" + name);
@@ -124,7 +136,6 @@ public class Experiment extends Thread {
 		} else if (goldStandard == GoldStandard.INTERNAL && task == Task.CLINICAL_TRIALS) {
 			return "topics2017-ct.qrels";
 		} else if (goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.PUBMED) {
-			// TODO switch to sample-qrels-final-abstracts.txt once we have sample_eval.pl working (but check if all relevant metrics are provided)
 			return "qrels-treceval-abstracts.2017.txt";
 		} else if (goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.CLINICAL_TRIALS) {
 			return "qrels-treceval-clinical_trials.2017.txt";
@@ -132,6 +143,18 @@ public class Experiment extends Thread {
 			throw new RuntimeException("Invalid combination of gold standard and task.");
 		}
 	}
+
+	private File getSampleGoldStandard() {
+        if (hasSampleGoldStandard()) {
+            return new File(getClass().getResource("/gold-standard/sample-qrels-final-abstracts.txt").getPath());
+        } else {
+            throw new RuntimeException("No available sample gold standard.");
+        }
+    }
+
+	private boolean hasSampleGoldStandard() {
+	    return goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.PUBMED;
+    }
 	
 	public String getIndexName() {
 		switch (task) {

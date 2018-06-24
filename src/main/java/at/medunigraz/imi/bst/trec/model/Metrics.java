@@ -33,9 +33,18 @@ public class Metrics {
 		
 		return sb.toString();
 	}
+
+	public void merge(Metrics b) {
+		// TODO check for duplicate keys, e.g. "infAP"
+		metrics.putAll(b.metrics);
+	}
 	
 	public double getNDCG() {
 		return getMetric("ndcg");
+	}
+
+	public double getInfNDCG() {
+		return  getMetric("infNDCG");
 	}
 
 	public double getRPrec() {
