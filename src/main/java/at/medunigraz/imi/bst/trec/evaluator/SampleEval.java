@@ -9,8 +9,6 @@ import java.util.List;
 
 public class SampleEval extends AbstractEvaluator {
 
-    private static final Logger LOG = LogManager.getLogger();
-
     private static final String SCRIPT = "target/lib/sample_eval.pl";
 
     /**
