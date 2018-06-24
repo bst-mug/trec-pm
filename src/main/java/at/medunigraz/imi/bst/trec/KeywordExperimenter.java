@@ -13,7 +13,7 @@ import at.medunigraz.imi.bst.trec.experiment.ExperimentsBuilder;
 public class KeywordExperimenter {
 	public static void main(String[] args) {
 		final File keywordTemplate = new File(
-				KeywordExperimenter.class.getResource("/templates/keyword.json").getFile());
+				KeywordExperimenter.class.getResource("/templates/biomedical_articles/keyword.json").getFile());
 		final File keywordsSource = new File(KeywordExperimenter.class.getResource("/negative-keywords/").getFile());
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();

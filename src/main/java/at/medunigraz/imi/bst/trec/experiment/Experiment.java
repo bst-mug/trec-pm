@@ -19,9 +19,6 @@ public class Experiment extends Thread {
 
 	private static final Logger LOG = LogManager.getLogger();
 
-	@Deprecated
-	private String id = null;
-	
 	private Query decorator;
 	
 	private Task task;
@@ -49,7 +46,8 @@ public class Experiment extends Thread {
 		TopicSet topicSet = new TopicSet(example);
 
 		File output = new File("results/" + getExperimentId() + ".trec_results");
-		TrecWriter tw = new TrecWriter(output);
+		final String runName = "experiment";  // TODO generate from experimentID, but respecting TREC syntax
+		TrecWriter tw = new TrecWriter(output, runName);
 
 		// TODO DRY Issue #53
 		List<ResultList> resultListSet = new ArrayList<>();
@@ -94,21 +92,12 @@ public class Experiment extends Thread {
 		// TODO Experiment API #53
 		System.out.println(te.getNDCG() + ";" + name);
 	}
-	
-	@Deprecated
-	public void setExperimentId(String id) {
-		this.id = id;
-	}
 
 	public void setDecorator(Query decorator) {
 		this.decorator = decorator;
 	}
 
 	public String getExperimentId() {
-		if (id != null) {
-			return id;
-		}
-		
 		return this.goldStandard + "-" + getShortTaskName();
 		
 	}
