@@ -1,10 +1,7 @@
 package at.medunigraz.imi.bst.trec.experiment;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import at.medunigraz.imi.bst.trec.evaluator.SampleEval;
 import at.medunigraz.imi.bst.trec.model.*;
@@ -55,7 +52,7 @@ public class Experiment extends Thread {
 		TrecWriter tw = new TrecWriter(output);
 
 		// TODO DRY Issue #53
-		Set<ResultList> resultListSet = new HashSet<>();
+		List<ResultList> resultListSet = new ArrayList<>();
 		for (Topic topic : topicSet.getTopics()) {
 			List<Result> results = decorator.query(topic);
 
