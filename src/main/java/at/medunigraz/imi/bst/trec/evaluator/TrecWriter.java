@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class TrecWriter implements Closeable {
 		}
 	}
 	
-	public void write(Set<ResultList> resultListSet) {
+	public void write(List<ResultList> resultListSet) {
 		for (ResultList resultList : resultListSet) {
 			write(resultList);
 		}
