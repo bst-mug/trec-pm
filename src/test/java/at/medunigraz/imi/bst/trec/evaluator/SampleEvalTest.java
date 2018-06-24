@@ -8,26 +8,23 @@ import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 
-public class TrecEvalTest {
+public class SampleEvalTest {
 
-    private static final String GOLD = "/gold-standard/test.qrels";
+    private static final String GOLD = "/gold-standard/test-sample.qrels";
     private static final String RESULTS = "/results/test.trec_results";
 
     @Before
     public void setUp() {
-        Assume.assumeTrue(TrecEval.scriptExists());
+        Assume.assumeTrue(SampleEval.scriptExists());
     }
 
     @Test
-    public void testEvaluate() {
+    public void evaluate() {
         File goldStandard = new File(getClass().getResource(GOLD).getFile());
         File results = new File(getClass().getResource(RESULTS).getFile());
 
-        TrecEval t = new TrecEval(goldStandard, results);
-        assertEquals(0.6309, t.getNDCG(), 0.00001);
-        assertEquals(0.0, t.getRPrec(), 0.00001);	// TODO Figure out a better test set
+        SampleEval t = new SampleEval(goldStandard, results);
+        assertEquals(0.6309, t.getInfNDCG(), 0.00001);
         assertEquals(0.5, t.getInfAP(), 0.00001);
-        assertEquals(0.1, t.getP10(), 0.00001);
-        assertEquals(0.5, t.getF(), 0.00001);
     }
 }

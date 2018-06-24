@@ -7,20 +7,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrecEval extends AbstractEvaluator {
+public class SampleEval extends AbstractEvaluator {
 
-    private static final String TREC_EVAL_SCRIPT = "target/lib/trec_eval.9.0/trec_eval";
+    private static final String SCRIPT = "target/lib/sample_eval.pl";
 
     /**
-     * -m all_trec -q -c -M1000
+     * $ perl sample_eval.pl
+     * Usage:  sample_eval.pl [-q] <qrel_file> <trec_file>
      */
-    private static final String COMMAND = TREC_EVAL_SCRIPT + " -m all_trec -q -c -M1000";
+    private static final String COMMAND = "perl " + SCRIPT + " -q";
 
-
-    public TrecEval(File goldStandard, File results) {
+    public SampleEval(File goldStandard, File results) {
         super.goldStandard = goldStandard;
         super.results = results;
         evaluate();
+    }
+
+    public static boolean scriptExists() {
+        return new File(SCRIPT).isFile();
     }
 
     public List<String> getFullCommand() {
@@ -31,7 +35,4 @@ public class TrecEval extends AbstractEvaluator {
         return fullCommand;
     }
 
-    public static boolean scriptExists() {
-        return new File(TREC_EVAL_SCRIPT).isFile();
-    }
 }
