@@ -46,7 +46,8 @@ public class Experiment extends Thread {
 		TopicSet topicSet = new TopicSet(example);
 
 		File output = new File("results/" + getExperimentId() + ".trec_results");
-		TrecWriter tw = new TrecWriter(output);
+		final String runName = "experiment";  // TODO generate from experimentID, but respecting TREC syntax
+		TrecWriter tw = new TrecWriter(output, runName);
 
 		// TODO DRY Issue #53
 		List<ResultList> resultListSet = new ArrayList<>();

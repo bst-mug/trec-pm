@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import com.opencsv.CSVWriter;
 
@@ -14,15 +15,28 @@ import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.ResultList;
 
 public class TrecWriter implements Closeable {
+	private static final String VALID_RUN_NAME_REGEX = "[a-zA-Z0-9]{1,12}";
 	private static final int NUM_FIELDS = 6;
 	private CSVWriter writer;
+	private String runName;
 
-	public TrecWriter(File output) {
+	public TrecWriter(File output, String runName) {
+		if (!checkRunName(runName)) {
+			throw new RuntimeException("Invalid run name!");
+		}
+
+		this.runName = runName;
+
 		try {
 			writer = new CSVWriter(new FileWriter(output), '\t', CSVWriter.NO_QUOTE_CHARACTER);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean checkRunName(String runName) {
+		final Pattern valid = Pattern.compile(VALID_RUN_NAME_REGEX);
+		return valid.matcher(runName).matches();
 	}
 	
 	public void write(List<ResultList> resultListSet) {
@@ -37,7 +51,7 @@ public class TrecWriter implements Closeable {
 		// Sets fixed fields
 		entries[0] = String.valueOf(resultList.getTopic().getNumber());
 		entries[1] = "Q0";
-		entries[5] = "mugpubbase"; // XXX must be 1-12 alphanumeric characters
+		entries[5] = runName; // XXX must be 1-12 alphanumeric characters
 		
 		int rank = 1;
 		for (Result result : resultList.getResults()) {

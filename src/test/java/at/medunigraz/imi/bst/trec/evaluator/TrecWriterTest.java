@@ -17,6 +17,7 @@ import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class TrecWriterTest {
 	private static final String OUTPUT = "TrecWriterTest.trec_results";
+	private static final String RUN_NAME = "test";
 
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder();
@@ -24,7 +25,7 @@ public class TrecWriterTest {
 	@Test
 	public void testWrite() throws IOException {
 		File output = testFolder.newFile(OUTPUT);
-		TrecWriter tw = new TrecWriter(output);
+		TrecWriter tw = new TrecWriter(output, RUN_NAME);
 
 		Result result = new Result(String.valueOf(28410400), 2.5f);
 		
@@ -38,7 +39,7 @@ public class TrecWriterTest {
 		assertTrue(output.exists());
 
 		String actual = FileUtils.readFileToString(output, "UTF-8");
-		String expected1 = String.join("\t", "1", "Q0", "28410400", "1", "2.500000", "mugpubbase") + "\n";
+		String expected1 = String.join("\t", "1", "Q0", "28410400", "1", "2.500000", RUN_NAME) + "\n";
 		assertEquals(expected1, actual);
 
 		// Second topic with the same result
@@ -50,7 +51,7 @@ public class TrecWriterTest {
 		tw.flush();
 
 		actual = FileUtils.readFileToString(output, "UTF-8");
-		String expected2 = String.join("\t", "2", "Q0", "28410400", "1", "2.500000", "mugpubbase") + "\n";
+		String expected2 = String.join("\t", "2", "Q0", "28410400", "1", "2.500000", RUN_NAME) + "\n";
 		assertEquals(expected1 + expected2, actual);
 
 		tw.close();
