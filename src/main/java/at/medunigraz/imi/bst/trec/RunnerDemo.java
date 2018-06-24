@@ -8,9 +8,9 @@ import at.medunigraz.imi.bst.trec.experiment.ExperimentsBuilder;
 
 public class RunnerDemo {
 	public static void main(String[] args) {
-		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/negative-boost-keywords.json").getFile());
+		final File pmTemplate = new File(RunnerDemo.class.getResource("/templates/biomedical_articles/negative-boost-keywords.json").getFile());
 
-		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/improved-ct.json").getFile());
+		final File ctTemplate = new File(RunnerDemo.class.getResource("/templates/biomedical_articles/improved-ct.json").getFile());
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 

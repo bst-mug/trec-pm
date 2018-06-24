@@ -8,7 +8,7 @@ import at.medunigraz.imi.bst.trec.experiment.ExperimentsBuilder;
 
 public class BoostExperimenter {
 	public static void main(String[] args) {
-		final File relaxedTemplate = new File(RunnerDemo.class.getResource("/templates/relaxed.json").getFile());
+		final File relaxedTemplate = new File(RunnerDemo.class.getResource("/templates/biomedical_articles/relaxed.json").getFile());
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 

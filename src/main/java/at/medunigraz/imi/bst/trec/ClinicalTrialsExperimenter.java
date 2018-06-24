@@ -10,17 +10,17 @@ import at.medunigraz.imi.bst.trec.model.Gene;
 public class ClinicalTrialsExperimenter {
 	public static void main(String[] args) {
 		final File baselineTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/baseline-ct.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/baseline-ct.json").getFile());
 		final File mustNotOtherTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/must-not-other.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/must-not-other.json").getFile());
 		final File mustMatchTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/must-match-ct.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/must-match-ct.json").getFile());
 		final File cancerSynonymsTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/cancer-synonyms-ct.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/cancer-synonyms-ct.json").getFile());
 		final File boostTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/boost-ct.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/boost-ct.json").getFile());
 		final File improvedTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/improved-ct.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/improved-ct.json").getFile());
 
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.SYNONYMS };
 
