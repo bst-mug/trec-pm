@@ -31,19 +31,6 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
-	public ExperimentsBuilder newExperiment(Experiment base) {
-		buildingExp = new Experiment();
-		buildingExp.setExperimentId(base.getExperimentId());
-		buildingExp.setDecorator(base.getDecorator());
-		return this;
-	}
-
-	@Deprecated
-	public ExperimentsBuilder withId(String id) {
-		buildingExp.setExperimentId(id);
-		return this;
-	}
-
 	@Deprecated
 	public ExperimentsBuilder withDecorator(Query decorator) {
 		buildingExp.setDecorator(decorator);

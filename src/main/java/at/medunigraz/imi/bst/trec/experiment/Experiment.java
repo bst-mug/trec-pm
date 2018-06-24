@@ -19,9 +19,6 @@ public class Experiment extends Thread {
 
 	private static final Logger LOG = LogManager.getLogger();
 
-	@Deprecated
-	private String id = null;
-	
 	private Query decorator;
 	
 	private Task task;
@@ -94,21 +91,12 @@ public class Experiment extends Thread {
 		// TODO Experiment API #53
 		System.out.println(te.getNDCG() + ";" + name);
 	}
-	
-	@Deprecated
-	public void setExperimentId(String id) {
-		this.id = id;
-	}
 
 	public void setDecorator(Query decorator) {
 		this.decorator = decorator;
 	}
 
 	public String getExperimentId() {
-		if (id != null) {
-			return id;
-		}
-		
 		return this.goldStandard + "-" + getShortTaskName();
 		
 	}
