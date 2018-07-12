@@ -20,23 +20,8 @@ public class ClinicalTrial {
     public String inclusion;
     public String exclusion;
 
-
-    public ClinicalTrial(String id, String brief_title, String official_title, String summary, String description, Set<String> sex, int minAge, int maxAge, String inclusion, String exclusion) {
-        this.id = id;
-        this.brief_title = brief_title;
-        this.official_title = official_title;
-        this.summary = summary;
-        this.description = description;
-        this.sex = sex;
-        this.minAge = minAge;
-        this.maxAge = maxAge;
-        this.inclusion = inclusion;
-        this.exclusion = exclusion;
-    }
-
     public ClinicalTrial() {
     }
-
 
     public static ClinicalTrial fromXml(String xmlClinicalTrial){
 
