@@ -129,7 +129,7 @@ public class Experiment extends Thread {
 		} else if (goldStandard == GoldStandard.OFFICIAL && task == Task.CLINICAL_TRIALS && year == YEAR_PUBLISHED_GS) {
 			return "qrels-treceval-clinical_trials.2017.txt";
 		} else {
-			throw new RuntimeException("Invalid combination of gold standard, task and year.");
+			throw new UnsupportedOperationException("Invalid combination of gold standard, task and year.");
 		}
 	}
 
@@ -137,7 +137,7 @@ public class Experiment extends Thread {
         if (hasSampleGoldStandard()) {
             return new File(getClass().getResource("/gold-standard/sample-qrels-final-abstracts.txt").getPath());
         } else {
-            throw new RuntimeException("No available sample gold standard.");
+            throw new UnsupportedOperationException("No available sample gold standard.");
         }
     }
 
