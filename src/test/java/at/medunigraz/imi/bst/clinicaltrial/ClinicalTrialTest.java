@@ -50,7 +50,16 @@ public class ClinicalTrialTest {
         assertThat(trial.exclusion, isEmptyOrNullString());
         assertThat(trial.keywords, empty());
         assertThat(trial.meshTags, hasItems("Adenocarcinoma", "Colonic Neoplasms", "Calcium, Dietary", "Folic Acid"));
+    }
 
+    @Test
+    public void noColon() {
+        File xmlFile = new File(getClass().getResource("/data/clinicaltrials-samples/NCT00897650.xml").getFile());
+
+        ClinicalTrial trial = ClinicalTrial.fromXml(xmlFile.getAbsolutePath());
+
+        assertThat(trial.inclusion, containsString("Diagnosis of suspected lung cancer"));
+        assertThat(trial.exclusion, containsString("Inability to undergo therapy"));
     }
 
 }
