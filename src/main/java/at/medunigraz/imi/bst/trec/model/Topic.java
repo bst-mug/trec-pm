@@ -70,7 +70,12 @@ public class Topic {
 		}
 		
 		String demographic = getElement(element, "demographic");
-		String other = getElement(element, "other");
+
+		// 2018 topics have no "other" field
+		String other = "";
+		if (hasElement(element, "other")){
+			other = getElement(element, "other");
+		}
 
 		Topic topic = new Topic().withNumber(number).withDisease(disease).withGene(gene)
 				.withDemographic(demographic).withOther(other);
