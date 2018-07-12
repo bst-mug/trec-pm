@@ -3,9 +3,7 @@ package at.medunigraz.imi.bst.clinicaltrial;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 
@@ -30,6 +28,7 @@ public class ClinicalTrialTest {
         assertThat(trial.inclusion, containsString("survival"));
         assertThat(trial.exclusion, containsString("Multiple"));
         assertThat(trial.exclusion, containsString("individual"));
+        assertThat(trial.keywords, contains("intraabdominal cancer (carcinomas)", "agarose macrobeads", "mouse kidney cancer cells", "cancer cell growth inhibition"));
         
         
         xmlFile = new File(getClass().getResource("/data/clinicaltrials-samples/NCT02912559.xml").getFile());
@@ -46,6 +45,7 @@ public class ClinicalTrialTest {
         assertThat(trial.inclusion, containsString("Histologically"));
         assertThat(trial.inclusion, containsString("leucovorin"));
         assertThat(trial.exclusion, isEmptyOrNullString());
+        assertThat(trial.keywords, empty());
     }
 
 }

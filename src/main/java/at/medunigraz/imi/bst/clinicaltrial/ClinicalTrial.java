@@ -2,6 +2,7 @@ package at.medunigraz.imi.bst.clinicaltrial;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -19,8 +20,10 @@ public class ClinicalTrial {
     public int maxAge;
     public String inclusion;
     public String exclusion;
+    public ArrayList<String> keywords;
 
     public ClinicalTrial() {
+        this.keywords = new ArrayList<>();
     }
 
     public static ClinicalTrial fromXml(String xmlClinicalTrial){

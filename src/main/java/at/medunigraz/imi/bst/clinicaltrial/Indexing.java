@@ -53,6 +53,7 @@ public class Indexing {
                             .field("maximum_age", trial.maxAge)
                             .field("inclusion", StringEscapeUtils.escapeJson(trial.inclusion))
                             .field("exclusion", StringEscapeUtils.escapeJson(trial.exclusion))
+                            .field("keywords", trial.keywords)
                             .endObject()
                     )
             );

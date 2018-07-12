@@ -87,6 +87,10 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
             clinicalTrial.inclusion = parseInclusion(tempVal.toString().trim());
             clinicalTrial.exclusion = parseExclusion(tempVal.toString().trim());
         }
+
+        if (tag.equalsIgnoreCase("keyword")) {
+            clinicalTrial.keywords.add(tempVal.toString().trim());
+        }
     }
 
     @Override
