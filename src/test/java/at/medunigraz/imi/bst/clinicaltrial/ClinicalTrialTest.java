@@ -62,4 +62,15 @@ public class ClinicalTrialTest {
         assertThat(trial.exclusion, containsString("Inability to undergo therapy"));
     }
 
+    @Test
+    public void noInclusionCriteria() {
+        File xmlFile = new File(getClass().getResource("/data/clinicaltrials-samples/NCT00445783.xml").getFile());
+
+        ClinicalTrial trial = ClinicalTrial.fromXml(xmlFile.getAbsolutePath());
+
+        assertThat(trial.inclusion, containsString("Newly diagnosed primary invasive"));
+        assertThat(trial.inclusion, containsString("Healthy participant meeting"));
+        assertThat(trial.exclusion, isEmptyOrNullString());
+    }
+
 }
