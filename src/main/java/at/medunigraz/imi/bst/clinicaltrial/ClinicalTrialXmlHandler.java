@@ -57,6 +57,10 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
             clinicalTrial.brief_title = tempVal.toString().trim();
         }
 
+        if (tag.equalsIgnoreCase("official_title")) {
+            clinicalTrial.official_title = tempVal.toString().trim();
+        }
+
         if (tag.equalsIgnoreCase("textblock") &&
                 parentTag.equalsIgnoreCase("brief_summary")) {
             clinicalTrial.summary = cleanup(tempVal.toString().trim());

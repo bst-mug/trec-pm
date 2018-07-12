@@ -45,6 +45,7 @@ public class Indexing {
                             .startObject()
                             .field("id", trial.id)
                             .field("brief_title", StringEscapeUtils.escapeJson(trial.brief_title))
+                            .field("official_title", StringEscapeUtils.escapeJson(trial.official_title))
                             .field("summary", StringEscapeUtils.escapeJson(trial.summary))
                             .field("sex", trial.sex)
                             .field("minimum_age", trial.minAge)

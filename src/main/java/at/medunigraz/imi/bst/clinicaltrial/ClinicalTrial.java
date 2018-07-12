@@ -11,6 +11,7 @@ public class ClinicalTrial {
 
     public String id;
     public String brief_title;
+    public String official_title;
     public String summary;
     public Set<String> sex;
     public int minAge;
@@ -19,9 +20,10 @@ public class ClinicalTrial {
     public String exclusion;
 
 
-    public ClinicalTrial(String id, String brief_title, String summary, Set<String> sex, int minAge, int maxAge, String inclusion, String exclusion) {
+    public ClinicalTrial(String id, String brief_title, String official_title, String summary, Set<String> sex, int minAge, int maxAge, String inclusion, String exclusion) {
         this.id = id;
         this.brief_title = brief_title;
+        this.official_title = official_title;
         this.summary = summary;
         this.sex = sex;
         this.minAge = minAge;
