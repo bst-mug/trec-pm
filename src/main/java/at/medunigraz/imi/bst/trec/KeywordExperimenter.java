@@ -35,7 +35,7 @@ public class KeywordExperimenter {
 			}
 
 			for (String keyword : lines) {
-				builder.newExperiment().withGoldStandard(Experiment.GoldStandard.OFFICIAL_2017)
+				builder.newExperiment().withYear(2017).withGoldStandard(Experiment.GoldStandard.OFFICIAL)
 						.withTarget(Experiment.Task.PUBMED).withKeyword(keyword).withTemplate(keywordTemplate)
 						.withWordRemoval();
 			}

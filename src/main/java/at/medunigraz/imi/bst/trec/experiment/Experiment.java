@@ -24,25 +24,26 @@ public class Experiment extends Thread {
 	private Task task;
 	
 	private GoldStandard goldStandard;
+
+	private static final int YEAR_PUBLISHED_GS = 2017;
+
+	private int year;
 	
 	public static enum Task {
 		CLINICAL_TRIALS, PUBMED
 	}
 	
 	public static enum GoldStandard {
-		INTERNAL, OFFICIAL_2017
+		INTERNAL, OFFICIAL
 	}
 
 	@Override
 	public void run() {
-		// TODO Make it flexible
-		final String collection = "topics2017";
-
 		final String name = getExperimentId() + " with decorators " + decorator.getName();
 
 		LOG.info("Running collection " + name + "...");
 
-		File example = new File(CSVStatsWriter.class.getResource("/topics/" + collection + ".xml").getPath());
+		File example = new File(CSVStatsWriter.class.getResource("/topics/topics" + year + ".xml").getPath());
 		TopicSet topicSet = new TopicSet(example);
 
 		File output = new File("results/" + getExperimentId() + ".trec_results");
@@ -98,8 +99,13 @@ public class Experiment extends Thread {
 	}
 
 	public String getExperimentId() {
+		// FIXME add decorator name, but replace invalid chars
 		return this.goldStandard + "-" + getShortTaskName();
 		
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 	
 	public void setTask(Task task) {
@@ -117,16 +123,15 @@ public class Experiment extends Thread {
 	 * @return
 	 */
 	public String getGoldStandardFileName() {
-		if (goldStandard == GoldStandard.INTERNAL && task == Task.PUBMED) {
+		// So far, we have only an internal gold standard for the 2017 edition on Scientific Abstracts
+		if (goldStandard == GoldStandard.INTERNAL && task == Task.PUBMED && year == YEAR_PUBLISHED_GS) {
 			return "topics2017-pmid.qrels";
-		} else if (goldStandard == GoldStandard.INTERNAL && task == Task.CLINICAL_TRIALS) {
-			return "topics2017-ct.qrels";
-		} else if (goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.PUBMED) {
+		} else if (goldStandard == GoldStandard.OFFICIAL && task == Task.PUBMED && year == YEAR_PUBLISHED_GS) {
 			return "qrels-treceval-abstracts.2017.txt";
-		} else if (goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.CLINICAL_TRIALS) {
+		} else if (goldStandard == GoldStandard.OFFICIAL && task == Task.CLINICAL_TRIALS && year == YEAR_PUBLISHED_GS) {
 			return "qrels-treceval-clinical_trials.2017.txt";
 		} else {
-			throw new RuntimeException("Invalid combination of gold standard and task.");
+			throw new RuntimeException("Invalid combination of gold standard, task and year.");
 		}
 	}
 
@@ -139,7 +144,7 @@ public class Experiment extends Thread {
     }
 
 	private boolean hasSampleGoldStandard() {
-	    return goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.PUBMED;
+	    return goldStandard == GoldStandard.OFFICIAL && task == Task.PUBMED && year == YEAR_PUBLISHED_GS;
     }
 	
 	public String getIndexName() {
