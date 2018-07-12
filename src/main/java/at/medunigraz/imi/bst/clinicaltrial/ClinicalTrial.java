@@ -14,7 +14,7 @@ public class ClinicalTrial {
     public static Pattern INCL_EXCL_PATTERN = Pattern.compile("[Ii]nclusion [Cc]riteria:(.+)[Ee]xclusion [Cc]riteria:(.+)");
 
     public String id;
-    public String title;
+    public String brief_title;
     public String summary;
     public Set<String> sex;
     public int minAge;
@@ -23,9 +23,9 @@ public class ClinicalTrial {
     public String exclusion;
 
 
-    public ClinicalTrial(String id, String title, String summary, Set<String> sex, int minAge, int maxAge, String inclusion, String exclusion) {
+    public ClinicalTrial(String id, String brief_title, String summary, Set<String> sex, int minAge, int maxAge, String inclusion, String exclusion) {
         this.id = id;
-        this.title = title;
+        this.brief_title = brief_title;
         this.summary = summary;
         this.sex = sex;
         this.minAge = minAge;

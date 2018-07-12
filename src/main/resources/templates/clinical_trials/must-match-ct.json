@@ -24,7 +24,7 @@
 				"multi_match": {
 					"query": "{{disease}}",
 					"fields": [
-						"title^2",
+						"brief_title^2",
 						"summary",
 						"inclusion"
 					],
@@ -37,7 +37,7 @@
 				"multi_match": {
 					"query": "{{gene}}",
 					"fields": [
-						"title^2",
+						"brief_title^2",
 						"summary",
 						"inclusion"
 					],

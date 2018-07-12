@@ -19,7 +19,7 @@ public class ClinicalTrialTest {
 
         ClinicalTrial trial = ClinicalTrial.fromXml(xmlFile.getAbsolutePath());
 
-        assertThat(trial.title, is("Mouse Cancer Cell-containing Macrobeads in the Treatment of Human Cancer"));
+        assertThat(trial.brief_title, is("Mouse Cancer Cell-containing Macrobeads in the Treatment of Human Cancer"));
         assertThat(trial.summary, startsWith("This is a phase 1 trial to evaluate the safety and toxicity"));
         assertThat(trial.sex, contains("female", "male"));
         assertThat(trial.minAge, is(18));
@@ -34,7 +34,7 @@ public class ClinicalTrialTest {
 
          trial = ClinicalTrial.fromXml(xmlFile.getAbsolutePath());
 
-        assertThat(trial.title, is("Combination Chemotherapy With or Without Atezolizumab in Treating Patients With Stage III Colon Cancer and Deficient DNA Mismatch Repair or Microsatellite Instability"));
+        assertThat(trial.brief_title, is("Combination Chemotherapy With or Without Atezolizumab in Treating Patients With Stage III Colon Cancer and Deficient DNA Mismatch Repair or Microsatellite Instability"));
         assertThat(trial.summary, startsWith("This randomized phase III trial studies combination chemotherapy and atezolizumab"));
         assertThat(trial.sex, contains("female", "male"));
         assertThat(trial.minAge, is(18));

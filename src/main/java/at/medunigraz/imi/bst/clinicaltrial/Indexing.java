@@ -44,7 +44,7 @@ public class Indexing {
                     .setSource(jsonBuilder()
                             .startObject()
                             .field("id", trial.id)
-                            .field("title", StringEscapeUtils.escapeJson(trial.title))
+                            .field("brief_title", StringEscapeUtils.escapeJson(trial.brief_title))
                             .field("summary", StringEscapeUtils.escapeJson(trial.summary))
                             .field("sex", trial.sex)
                             .field("minimum_age", trial.minAge)

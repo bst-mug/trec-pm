@@ -24,7 +24,7 @@
 				"multi_match": {
 					"query": "{{disease}}",
 					"fields": [
-						"title^2",
+						"brief_title^2",
 						"summary",
 						"inclusion"
 					],
@@ -37,7 +37,7 @@
 				"multi_match": {
 					"query": "{{gene}}",
 					"fields": [
-						"title^2",
+						"brief_title^2",
 						"summary",
 						"inclusion"
 					],
@@ -54,7 +54,7 @@
 						"multi_match": {
 							"query": "cancer carcinoma tumor",
 							"fields": [
-								"title^2",
+								"brief_title^2",
 								"abstract",
 								"keyword",
 								"meshTags"
@@ -71,7 +71,7 @@
 						"multi_match": {
 							"query": "surgery therapy treatment prognosis prognostic survival patient resistance recurrence targets malignancy study therapeutical outcome",
 							"fields": [
-								"title^2",
+								"brief_title^2",
 								"summary",
 								"inclusion",
 							],
