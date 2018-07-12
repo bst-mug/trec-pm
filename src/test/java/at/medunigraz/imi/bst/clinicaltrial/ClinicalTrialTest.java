@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.startsWith;
 
 import java.io.File;
 
@@ -18,6 +19,8 @@ public class ClinicalTrialTest {
 
         ClinicalTrial trial = ClinicalTrial.fromXml(xmlFile.getAbsolutePath());
 
+        assertThat(trial.title, is("Mouse Cancer Cell-containing Macrobeads in the Treatment of Human Cancer"));
+        assertThat(trial.summary, startsWith("This is a phase 1 trial to evaluate the safety and toxicity"));
         assertThat(trial.sex, contains("female", "male"));
         assertThat(trial.minAge, is(18));
         assertThat(trial.maxAge, is(65));
@@ -31,6 +34,8 @@ public class ClinicalTrialTest {
 
          trial = ClinicalTrial.fromXml(xmlFile.getAbsolutePath());
 
+        assertThat(trial.title, is("Combination Chemotherapy With or Without Atezolizumab in Treating Patients With Stage III Colon Cancer and Deficient DNA Mismatch Repair or Microsatellite Instability"));
+        assertThat(trial.summary, startsWith("This randomized phase III trial studies combination chemotherapy and atezolizumab"));
         assertThat(trial.sex, contains("female", "male"));
         assertThat(trial.minAge, is(18));
         assertThat(trial.maxAge, is(100));
