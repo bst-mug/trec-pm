@@ -24,25 +24,26 @@ public class Experiment extends Thread {
 	private Task task;
 	
 	private GoldStandard goldStandard;
+
+	private static final int YEAR_PUBLISHED_GS = 2017;
+
+	private int year;
 	
 	public static enum Task {
 		CLINICAL_TRIALS, PUBMED
 	}
 	
 	public static enum GoldStandard {
-		INTERNAL, OFFICIAL_2017
+		INTERNAL, OFFICIAL
 	}
 
 	@Override
 	public void run() {
-		// TODO Make it flexible
-		final String collection = "topics2017";
-
 		final String name = getExperimentId() + " with decorators " + decorator.getName();
 
 		LOG.info("Running collection " + name + "...");
 
-		File example = new File(CSVStatsWriter.class.getResource("/topics/" + collection + ".xml").getPath());
+		File example = new File(CSVStatsWriter.class.getResource("/topics/topics" + year + ".xml").getPath());
 		TopicSet topicSet = new TopicSet(example);
 
 		File output = new File("results/" + getExperimentId() + ".trec_results");
@@ -77,11 +78,11 @@ public class Experiment extends Thread {
             }
         }
 
-		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + getExperimentId() + ".xml"));
+		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + this.goldStandard + "_" + getExperimentId() + ".xml"));
 		xsw.write(metrics);
 		xsw.close();
 
-		CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + getExperimentId() + ".csv"));
+		CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + this.goldStandard + "_" + getExperimentId() + ".csv"));
 		csw.write(metrics);
 		csw.close();
 
@@ -98,8 +99,11 @@ public class Experiment extends Thread {
 	}
 
 	public String getExperimentId() {
-		return this.goldStandard + "-" + getShortTaskName();
-		
+		return String.format("%s_%d_%s", getShortTaskName(), year, decorator.getName());
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 	
 	public void setTask(Task task) {
@@ -117,16 +121,15 @@ public class Experiment extends Thread {
 	 * @return
 	 */
 	public String getGoldStandardFileName() {
-		if (goldStandard == GoldStandard.INTERNAL && task == Task.PUBMED) {
+		// So far, we have only an internal gold standard for the 2017 edition on Scientific Abstracts
+		if (goldStandard == GoldStandard.INTERNAL && task == Task.PUBMED && year == YEAR_PUBLISHED_GS) {
 			return "topics2017-pmid.qrels";
-		} else if (goldStandard == GoldStandard.INTERNAL && task == Task.CLINICAL_TRIALS) {
-			return "topics2017-ct.qrels";
-		} else if (goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.PUBMED) {
+		} else if (goldStandard == GoldStandard.OFFICIAL && task == Task.PUBMED && year == YEAR_PUBLISHED_GS) {
 			return "qrels-treceval-abstracts.2017.txt";
-		} else if (goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.CLINICAL_TRIALS) {
+		} else if (goldStandard == GoldStandard.OFFICIAL && task == Task.CLINICAL_TRIALS && year == YEAR_PUBLISHED_GS) {
 			return "qrels-treceval-clinical_trials.2017.txt";
 		} else {
-			throw new RuntimeException("Invalid combination of gold standard and task.");
+			throw new UnsupportedOperationException("Invalid combination of gold standard, task and year.");
 		}
 	}
 
@@ -134,12 +137,12 @@ public class Experiment extends Thread {
         if (hasSampleGoldStandard()) {
             return new File(getClass().getResource("/gold-standard/sample-qrels-final-abstracts.txt").getPath());
         } else {
-            throw new RuntimeException("No available sample gold standard.");
+            throw new UnsupportedOperationException("No available sample gold standard.");
         }
     }
 
 	private boolean hasSampleGoldStandard() {
-	    return goldStandard == GoldStandard.OFFICIAL_2017 && task == Task.PUBMED;
+	    return goldStandard == GoldStandard.OFFICIAL && task == Task.PUBMED && year == YEAR_PUBLISHED_GS;
     }
 	
 	public String getIndexName() {

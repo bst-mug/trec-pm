@@ -88,6 +88,11 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+	public ExperimentsBuilder withYear(int year) {
+		buildingExp.setYear(year);
+		return this;
+	}
+
 	public Set<Experiment> build() {
 		validate();
 		return experiments;

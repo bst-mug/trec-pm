@@ -30,7 +30,7 @@ public class QueryDecorator implements Query {
 
 	@Override
 	public String getName() {
-		return getMyName() + ", " + decoratedQuery.getName();
+		return getMyName() + "_" + decoratedQuery.getName();
 	}
 	
 	protected String getSimpleClassName() {

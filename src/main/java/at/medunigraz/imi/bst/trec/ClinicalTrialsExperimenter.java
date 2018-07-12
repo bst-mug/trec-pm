@@ -16,7 +16,7 @@ public class ClinicalTrialsExperimenter {
 		final File mustMatchTemplate = new File(
 				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/must-match-ct.json").getFile());
 		final File cancerSynonymsTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/cancer-synonyms-ct.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_triapls/cancer-synonyms-ct.json").getFile());
 		final File boostTemplate = new File(
 				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/boost-ct.json").getFile());
 		final File improvedTemplate = new File(
@@ -25,34 +25,35 @@ public class ClinicalTrialsExperimenter {
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.SYNONYMS };
 
 		// XXX Change this to Experiment.GoldStandard.INTERNAL for submission
-		final Experiment.GoldStandard goldStandard = Experiment.GoldStandard.OFFICIAL_2017;
+		final Experiment.GoldStandard goldStandard = Experiment.GoldStandard.OFFICIAL;
 		final Experiment.Task target = Experiment.Task.CLINICAL_TRIALS;
+		final int year = 2017;
 
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
 		// mugctbase
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(baselineTemplate);
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(baselineTemplate);
 
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(mustMatchTemplate);
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(mustMatchTemplate);
 
 		// mugctmust
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(mustNotOtherTemplate);
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(mustNotOtherTemplate);
 
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(cancerSynonymsTemplate)
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(cancerSynonymsTemplate)
 				.withWordRemoval();
 
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(boostTemplate);
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostTemplate);
 
 		// mugctboost
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
 				.withWordRemoval();
 
 		// mugctdisease
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
 				.withWordRemoval().withDiseaseExpander();
 
 		// mugctgene
-		builder.newExperiment().withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(improvedTemplate)
 				.withGeneExpansion(expandTo).withWordRemoval();
 
 		Set<Experiment> experiments = builder.build();
