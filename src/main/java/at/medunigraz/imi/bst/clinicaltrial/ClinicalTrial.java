@@ -1,12 +1,8 @@
 package at.medunigraz.imi.bst.clinicaltrial;
 
-import at.medunigraz.imi.bst.medline.PubmedXmlHandler;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClinicalTrial {
