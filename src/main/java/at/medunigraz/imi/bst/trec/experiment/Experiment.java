@@ -78,11 +78,11 @@ public class Experiment extends Thread {
             }
         }
 
-		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + getExperimentId() + ".xml"));
+		XMLStatsWriter xsw = new XMLStatsWriter(new File("stats/" + this.goldStandard + "_" + getExperimentId() + ".xml"));
 		xsw.write(metrics);
 		xsw.close();
 
-		CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + getExperimentId() + ".csv"));
+		CSVStatsWriter csw = new CSVStatsWriter(new File("stats/" + this.goldStandard + "_" + getExperimentId() + ".csv"));
 		csw.write(metrics);
 		csw.close();
 
@@ -99,9 +99,7 @@ public class Experiment extends Thread {
 	}
 
 	public String getExperimentId() {
-		// FIXME add decorator name, but replace invalid chars
-		return this.goldStandard + "-" + getShortTaskName();
-		
+		return String.format("%s_%d_%s", getShortTaskName(), year, decorator.getName());
 	}
 
 	public void setYear(int year) {
