@@ -72,6 +72,7 @@ public abstract class AbstractEvaluator implements Evaluator {
     @Override
     public void evaluate() {
         String command = String.join(" ", getFullCommand());
+        LOG.debug(command);
 
         Process proc = null;
         String[] error = null;
