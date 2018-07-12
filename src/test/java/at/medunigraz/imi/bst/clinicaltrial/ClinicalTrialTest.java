@@ -29,6 +29,7 @@ public class ClinicalTrialTest {
         assertThat(trial.exclusion, containsString("Multiple"));
         assertThat(trial.exclusion, containsString("individual"));
         assertThat(trial.keywords, contains("intraabdominal cancer (carcinomas)", "agarose macrobeads", "mouse kidney cancer cells", "cancer cell growth inhibition"));
+        assertThat(trial.meshTags, empty());
         
         
         xmlFile = new File(getClass().getResource("/data/clinicaltrials-samples/NCT02912559.xml").getFile());
@@ -46,6 +47,7 @@ public class ClinicalTrialTest {
         assertThat(trial.inclusion, containsString("leucovorin"));
         assertThat(trial.exclusion, isEmptyOrNullString());
         assertThat(trial.keywords, empty());
+        assertThat(trial.meshTags, hasItems("Adenocarcinoma", "Colonic Neoplasms", "Calcium, Dietary", "Folic Acid"));
     }
 
 }

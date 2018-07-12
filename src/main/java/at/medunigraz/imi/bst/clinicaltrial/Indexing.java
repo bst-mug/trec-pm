@@ -54,6 +54,7 @@ public class Indexing {
                             .field("inclusion", StringEscapeUtils.escapeJson(trial.inclusion))
                             .field("exclusion", StringEscapeUtils.escapeJson(trial.exclusion))
                             .field("keywords", trial.keywords)
+                            .field("meshTags", trial.meshTags)
                             .endObject()
                     )
             );

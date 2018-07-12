@@ -91,6 +91,10 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
         if (tag.equalsIgnoreCase("keyword")) {
             clinicalTrial.keywords.add(tempVal.toString().trim());
         }
+
+        if (tag.equalsIgnoreCase("mesh_term")) {
+            clinicalTrial.meshTags.add(tempVal.toString().trim());
+        }
     }
 
     @Override

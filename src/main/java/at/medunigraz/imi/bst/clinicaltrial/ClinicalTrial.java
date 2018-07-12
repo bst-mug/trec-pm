@@ -21,9 +21,11 @@ public class ClinicalTrial {
     public String inclusion;
     public String exclusion;
     public ArrayList<String> keywords;
+    public ArrayList<String> meshTags;
 
     public ClinicalTrial() {
         this.keywords = new ArrayList<>();
+        this.meshTags = new ArrayList<>();
     }
 
     public static ClinicalTrial fromXml(String xmlClinicalTrial){
