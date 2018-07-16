@@ -15,6 +15,7 @@ public class ClinicalTrial {
     public String official_title;
     public String summary;
     public String description;
+    public String primaryPurpose;  // TODO Refactor into enum
     public Set<String> sex;
     public int minAge;
     public int maxAge;

@@ -21,6 +21,7 @@ public class ClinicalTrialTest {
         assertThat(trial.official_title, startsWith("Use of Mouse Renal Adenocarcinoma Cell-containing"));
         assertThat(trial.summary, startsWith("This is a phase 1 trial to evaluate the safety and toxicity"));
         assertThat(trial.description, startsWith("Cancer in its various forms continues to be a major U.S. health"));
+        assertThat(trial.primaryPurpose, is("Treatment"));
         assertThat(trial.sex, contains("female", "male"));
         assertThat(trial.minAge, is(18));
         assertThat(trial.maxAge, is(65));
@@ -42,6 +43,7 @@ public class ClinicalTrialTest {
         assertThat(trial.official_title, startsWith("Randomized Trial of FOLFOX Alone or Combined With Atezolizumab"));
         assertThat(trial.summary, startsWith("This randomized phase III trial studies combination chemotherapy and"));
         assertThat(trial.description, startsWith("PRIMARY OBJECTIVES:"));
+        assertThat(trial.primaryPurpose, is("Treatment"));
         assertThat(trial.sex, contains("female", "male"));
         assertThat(trial.minAge, is(18));
         assertThat(trial.maxAge, is(100));
