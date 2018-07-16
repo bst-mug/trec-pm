@@ -87,6 +87,8 @@ public class Indexing {
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 clinicalTrials.add(getClinicalTrialFromFile(listOfFiles[i].getAbsolutePath()));
+            } else {
+                clinicalTrials.addAll(getClinicalTrialsFromFolder(listOfFiles[i].getAbsolutePath()));
             }
         }
 
