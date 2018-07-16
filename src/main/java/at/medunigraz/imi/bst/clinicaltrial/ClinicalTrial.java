@@ -16,6 +16,8 @@ public class ClinicalTrial {
     public String summary;
     public String description;
     public String primaryPurpose;  // TODO Refactor into enum
+    public ArrayList<String> interventionTypes; // TODO Refactor into enum
+    public ArrayList<String> interventionNames; // TODO Refactor into enum
     public Set<String> sex;
     public int minAge;
     public int maxAge;
@@ -25,6 +27,8 @@ public class ClinicalTrial {
     public ArrayList<String> meshTags;
 
     public ClinicalTrial() {
+        this.interventionTypes = new ArrayList<>();
+        this.interventionNames = new ArrayList<>();
         this.keywords = new ArrayList<>();
         this.meshTags = new ArrayList<>();
     }
