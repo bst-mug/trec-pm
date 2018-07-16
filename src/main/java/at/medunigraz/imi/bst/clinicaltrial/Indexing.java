@@ -51,6 +51,7 @@ public class Indexing {
                             .field("primary_purpose", trial.primaryPurpose)
                             .field("interventionTypes", trial.interventionTypes)
                             .field("interventionNames", trial.interventionNames)
+                            .field("armGroupDescriptions", trial.armGroupDescriptions)
                             .field("sex", trial.sex)
                             .field("minimum_age", trial.minAge)
                             .field("maximum_age", trial.maxAge)
