@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class ClinicalTrialXmlHandler extends DefaultHandler {
 
-    public static Pattern INCL_EXCL_PATTERN = Pattern.compile("[Ii]nclusion [Cc]riteria:(.+?)(?:[Ee]xclusion [Cc]riteria:(.+))?$");
+    public static Pattern INCL_EXCL_PATTERN = Pattern.compile("(?:[Ii]nclusion [Cc]riteria:?)?(.+?)(?:[Ee]xclusion [Cc]riteria:?(.+))?$");
 
     private static final String TAG_START = "clinical_study";
     private static final String TAG_ID = "nct_id";
@@ -54,12 +54,55 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
         }
 
         if (tag.equalsIgnoreCase("brief_title")) {
-            clinicalTrial.title = tempVal.toString().trim();
+            clinicalTrial.brief_title = tempVal.toString().trim();
+        }
+
+        if (tag.equalsIgnoreCase("official_title")) {
+            clinicalTrial.official_title = tempVal.toString().trim();
         }
 
         if (tag.equalsIgnoreCase("textblock") &&
                 parentTag.equalsIgnoreCase("brief_summary")) {
             clinicalTrial.summary = cleanup(tempVal.toString().trim());
+        }
+
+        if (tag.equalsIgnoreCase("textblock") &&
+                parentTag.equalsIgnoreCase("detailed_description")) {
+            clinicalTrial.description = cleanup(tempVal.toString().trim());
+        }
+
+        if (tag.equalsIgnoreCase("primary_purpose") &&
+                parentTag.equalsIgnoreCase("study_design_info")) {
+            clinicalTrial.primaryPurpose = tempVal.toString().trim();
+        }
+
+        if (tag.equalsIgnoreCase("measure") &&
+                isOutcome(parentTag)) {
+            clinicalTrial.outcomeMeasures.add(cleanup(tempVal.toString().trim()));
+        }
+
+        if (tag.equalsIgnoreCase("description") &&
+                isOutcome(parentTag)) {
+            clinicalTrial.outcomeDescriptions.add(cleanup(tempVal.toString().trim()));
+        }
+
+        if (tag.equalsIgnoreCase("condition")) {
+            clinicalTrial.conditions.add(cleanup(tempVal.toString().trim()));
+        }
+
+        if (tag.equalsIgnoreCase("intervention_type") &&
+                parentTag.equalsIgnoreCase("intervention")) {
+            clinicalTrial.interventionTypes.add(tempVal.toString().trim());
+        }
+
+        if (tag.equalsIgnoreCase("intervention_name") &&
+                parentTag.equalsIgnoreCase("intervention")) {
+            clinicalTrial.interventionNames.add(tempVal.toString().trim());
+        }
+
+        if (tag.equalsIgnoreCase("description") &&
+                parentTag.equalsIgnoreCase("arm_group")) {
+            clinicalTrial.armGroupDescriptions.add(cleanup(tempVal.toString().trim()));
         }
 
         if (tag.equalsIgnoreCase("gender")) {
@@ -77,6 +120,14 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
         if (tag.equalsIgnoreCase("criteria")) {
             clinicalTrial.inclusion = parseInclusion(tempVal.toString().trim());
             clinicalTrial.exclusion = parseExclusion(tempVal.toString().trim());
+        }
+
+        if (tag.equalsIgnoreCase("keyword")) {
+            clinicalTrial.keywords.add(tempVal.toString().trim());
+        }
+
+        if (tag.equalsIgnoreCase("mesh_term")) {
+            clinicalTrial.meshTags.add(tempVal.toString().trim());
         }
     }
 
@@ -172,6 +223,12 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
         catch(Exception e) {
             return "";
         }
+    }
+
+    private static boolean isOutcome(String tag) {
+        return tag.equalsIgnoreCase("primary_outcome") ||
+                tag.equalsIgnoreCase("secondary_outcome") ||
+                tag.equalsIgnoreCase("other_outcome");
     }
 
     private static String cleanup(String text) {

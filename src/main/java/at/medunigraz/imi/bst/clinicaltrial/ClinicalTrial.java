@@ -1,12 +1,9 @@
 package at.medunigraz.imi.bst.clinicaltrial;
 
-import at.medunigraz.imi.bst.medline.PubmedXmlHandler;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClinicalTrial {
@@ -14,29 +11,35 @@ public class ClinicalTrial {
     public static Pattern INCL_EXCL_PATTERN = Pattern.compile("[Ii]nclusion [Cc]riteria:(.+)[Ee]xclusion [Cc]riteria:(.+)");
 
     public String id;
-    public String title;
+    public String brief_title;
+    public String official_title;
     public String summary;
+    public String description;
+    public String primaryPurpose;  // TODO Refactor into enum
+    public ArrayList<String> outcomeMeasures;
+    public ArrayList<String> outcomeDescriptions;
+    public ArrayList<String> conditions;
+    public ArrayList<String> interventionTypes; // TODO Refactor into enum
+    public ArrayList<String> interventionNames; // TODO Refactor into enum
+    public ArrayList<String> armGroupDescriptions;
     public Set<String> sex;
     public int minAge;
     public int maxAge;
     public String inclusion;
     public String exclusion;
-
-
-    public ClinicalTrial(String id, String title, String summary, Set<String> sex, int minAge, int maxAge, String inclusion, String exclusion) {
-        this.id = id;
-        this.title = title;
-        this.summary = summary;
-        this.sex = sex;
-        this.minAge = minAge;
-        this.maxAge = maxAge;
-        this.inclusion = inclusion;
-        this.exclusion = exclusion;
-    }
+    public ArrayList<String> keywords;
+    public ArrayList<String> meshTags;
 
     public ClinicalTrial() {
+        this.outcomeMeasures = new ArrayList<>();
+        this.outcomeDescriptions = new ArrayList<>();
+        this.conditions = new ArrayList<>();
+        this.interventionTypes = new ArrayList<>();
+        this.interventionNames = new ArrayList<>();
+        this.armGroupDescriptions = new ArrayList<>();
+        this.keywords = new ArrayList<>();
+        this.meshTags = new ArrayList<>();
     }
-
 
     public static ClinicalTrial fromXml(String xmlClinicalTrial){
 

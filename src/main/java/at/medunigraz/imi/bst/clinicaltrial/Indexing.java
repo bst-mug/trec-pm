@@ -44,13 +44,24 @@ public class Indexing {
                     .setSource(jsonBuilder()
                             .startObject()
                             .field("id", trial.id)
-                            .field("title", StringEscapeUtils.escapeJson(trial.title))
+                            .field("brief_title", StringEscapeUtils.escapeJson(trial.brief_title))
+                            .field("official_title", StringEscapeUtils.escapeJson(trial.official_title))
                             .field("summary", StringEscapeUtils.escapeJson(trial.summary))
+                            .field("description", StringEscapeUtils.escapeJson(trial.description))
+                            .field("primary_purpose", trial.primaryPurpose)
+                            .field("outcomeMeasures", trial.outcomeMeasures)
+                            .field("outcomeDescriptions", trial.outcomeDescriptions)
+                            .field("conditions", trial.conditions)
+                            .field("interventionTypes", trial.interventionTypes)
+                            .field("interventionNames", trial.interventionNames)
+                            .field("armGroupDescriptions", trial.armGroupDescriptions)
                             .field("sex", trial.sex)
                             .field("minimum_age", trial.minAge)
                             .field("maximum_age", trial.maxAge)
                             .field("inclusion", StringEscapeUtils.escapeJson(trial.inclusion))
                             .field("exclusion", StringEscapeUtils.escapeJson(trial.exclusion))
+                            .field("keywords", trial.keywords)
+                            .field("meshTags", trial.meshTags)
                             .endObject()
                     )
             );
@@ -83,6 +94,8 @@ public class Indexing {
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 clinicalTrials.add(getClinicalTrialFromFile(listOfFiles[i].getAbsolutePath()));
+            } else {
+                clinicalTrials.addAll(getClinicalTrialsFromFolder(listOfFiles[i].getAbsolutePath()));
             }
         }
 
