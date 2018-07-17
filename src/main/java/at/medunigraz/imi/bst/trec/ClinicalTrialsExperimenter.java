@@ -16,7 +16,7 @@ public class ClinicalTrialsExperimenter {
 		final File mustMatchTemplate = new File(
 				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/must-match-ct.json").getFile());
 		final File cancerSynonymsTemplate = new File(
-				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_triapls/cancer-synonyms-ct.json").getFile());
+				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/cancer-synonyms-ct.json").getFile());
 		final File boostTemplate = new File(
 				ClinicalTrialsExperimenter.class.getResource("/templates/clinical_trials/boost-ct.json").getFile());
 		final File improvedTemplate = new File(
