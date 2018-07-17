@@ -49,6 +49,8 @@ public class Indexing {
                             .field("summary", StringEscapeUtils.escapeJson(trial.summary))
                             .field("description", StringEscapeUtils.escapeJson(trial.description))
                             .field("primary_purpose", trial.primaryPurpose)
+                            .field("outcomeMeasures", trial.outcomeMeasures)
+                            .field("outcomeDescriptions", trial.outcomeDescriptions)
                             .field("interventionTypes", trial.interventionTypes)
                             .field("interventionNames", trial.interventionNames)
                             .field("armGroupDescriptions", trial.armGroupDescriptions)

@@ -22,6 +22,8 @@ public class ClinicalTrialTest {
         assertThat(trial.summary, startsWith("This is a phase 1 trial to evaluate the safety and toxicity"));
         assertThat(trial.description, startsWith("Cancer in its various forms continues to be a major U.S. health"));
         assertThat(trial.primaryPurpose, is("Treatment"));
+        assertThat(trial.outcomeMeasures, hasItems("Maximum Tolerated Dose (MTD) of RENCA Macrobeads", "Tumor Marker Response"));
+        assertThat(trial.outcomeDescriptions, hasSize(4));
         assertThat(trial.interventionTypes, hasItems("Biological"));
         assertThat(trial.interventionNames, hasItems("Cancer Macrobead placement in abdominal cavity"));
         assertThat(trial.armGroupDescriptions, contains("Cancer Macrobead placement in abdominal cavity"));
@@ -47,6 +49,8 @@ public class ClinicalTrialTest {
         assertThat(trial.summary, startsWith("This randomized phase III trial studies combination chemotherapy and"));
         assertThat(trial.description, startsWith("PRIMARY OBJECTIVES:"));
         assertThat(trial.primaryPurpose, is("Treatment"));
+        assertThat(trial.outcomeMeasures, hasItems("DFS", "OS"));
+        assertThat(trial.outcomeDescriptions, hasSize(3));
         assertThat(trial.interventionTypes, hasItems("Drug", "Other"));
         assertThat(trial.interventionNames, hasItems("Atezolizumab", "Laboratory Biomarker Analysis", "Quality-of-Life Assessment"));
         assertThat(trial.armGroupDescriptions, hasSize(2));

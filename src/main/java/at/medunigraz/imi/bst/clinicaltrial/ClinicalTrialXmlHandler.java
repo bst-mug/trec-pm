@@ -76,6 +76,16 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
             clinicalTrial.primaryPurpose = tempVal.toString().trim();
         }
 
+        if (tag.equalsIgnoreCase("measure") &&
+                isOutcome(parentTag)) {
+            clinicalTrial.outcomeMeasures.add(cleanup(tempVal.toString().trim()));
+        }
+
+        if (tag.equalsIgnoreCase("description") &&
+                isOutcome(parentTag)) {
+            clinicalTrial.outcomeDescriptions.add(cleanup(tempVal.toString().trim()));
+        }
+
         if (tag.equalsIgnoreCase("intervention_type") &&
                 parentTag.equalsIgnoreCase("intervention")) {
             clinicalTrial.interventionTypes.add(tempVal.toString().trim());
@@ -209,6 +219,12 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
         catch(Exception e) {
             return "";
         }
+    }
+
+    private static boolean isOutcome(String tag) {
+        return tag.equalsIgnoreCase("primary_outcome") ||
+                tag.equalsIgnoreCase("secondary_outcome") ||
+                tag.equalsIgnoreCase("other_outcome");
     }
 
     private static String cleanup(String text) {

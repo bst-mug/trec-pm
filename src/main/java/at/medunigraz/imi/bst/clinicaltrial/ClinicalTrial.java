@@ -16,6 +16,8 @@ public class ClinicalTrial {
     public String summary;
     public String description;
     public String primaryPurpose;  // TODO Refactor into enum
+    public ArrayList<String> outcomeMeasures;
+    public ArrayList<String> outcomeDescriptions;
     public ArrayList<String> interventionTypes; // TODO Refactor into enum
     public ArrayList<String> interventionNames; // TODO Refactor into enum
     public ArrayList<String> armGroupDescriptions;
@@ -28,6 +30,8 @@ public class ClinicalTrial {
     public ArrayList<String> meshTags;
 
     public ClinicalTrial() {
+        this.outcomeMeasures = new ArrayList<>();
+        this.outcomeDescriptions = new ArrayList<>();
         this.interventionTypes = new ArrayList<>();
         this.interventionNames = new ArrayList<>();
         this.armGroupDescriptions = new ArrayList<>();
