@@ -5,7 +5,6 @@ import at.medunigraz.imi.bst.trec.search.ElasticClientFactory;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Client;
@@ -13,8 +12,11 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -28,26 +30,31 @@ public class Indexing {
     }
 
     static long indexAllClinicalTrials(String dataFolderWithFiles) throws Exception {
-
-        List<ClinicalTrial> clinicalTrials = getClinicalTrialsFromFolder(dataFolderWithFiles);
-
-        System.out.println("CLINICALTRIALS TOTAL READ: " + clinicalTrials.size());
         System.out.println("STARTING INDEXING");
 
         long startTime = System.currentTimeMillis();
 
         BulkProcessor bulkProcessor = buildBuildProcessor();
 
-        for (ClinicalTrial trial: clinicalTrials) {
-            System.out.println("ADDING: " + trial.id);
+        Files.walk(Paths.get(dataFolderWithFiles))
+                .filter(Files::isRegularFile)
+                .forEach(file -> {
+                    ClinicalTrial trial = getClinicalTrialFromFile(file.toString());
+                    System.out.println("ADDING: " + trial.id);
 
-            bulkProcessor.add(new IndexRequest(TrecConfig.ELASTIC_CT_INDEX, TrecConfig.ELASTIC_CT_TYPE, trial.id)
-                    .source(buildJson(trial)));
-        }
+                    try {
+                        bulkProcessor.add(new IndexRequest(TrecConfig.ELASTIC_CT_INDEX, TrecConfig.ELASTIC_CT_TYPE, trial.id)
+                                .source(buildJson(trial)));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+        bulkProcessor.awaitClose(10, TimeUnit.MINUTES);
 
         long indexingDuration = (System.currentTimeMillis() - startTime);
 
-        System.out.println("INDEXING TIME BULK: " + indexingDuration/1000 + " secs - " + clinicalTrials.size() + " articles");
+        System.out.println("INDEXING TIME BULK: " + indexingDuration/1000 + " secs");
 
         return indexingDuration;
     }
@@ -69,7 +76,7 @@ public class Indexing {
                                           BulkRequest request,
                                           BulkResponse response) {
                         if (response.hasFailures()) {
-                            System.out.println("Failures!!!!");
+                            throw new RuntimeException(response.buildFailureMessage());
                         }
                     }
 
@@ -77,7 +84,7 @@ public class Indexing {
                     public void afterBulk(long executionId,
                                           BulkRequest request,
                                           Throwable failure) {
-                        System.out.println("Bulk failed and raised " + failure);
+                        throw new RuntimeException(failure);
                     }
                 })
                 // Let's stay with the defaults for a while
@@ -134,7 +141,7 @@ public class Indexing {
         return(clinicalTrials);
     }
 
-    public static ClinicalTrial getClinicalTrialFromFile(String xmlTrialFileName) throws IOException {
+    public static ClinicalTrial getClinicalTrialFromFile(String xmlTrialFileName) {
 
         return(ClinicalTrial.fromXml(xmlTrialFileName));
     }
