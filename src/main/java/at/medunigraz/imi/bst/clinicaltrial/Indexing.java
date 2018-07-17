@@ -51,6 +51,7 @@ public class Indexing {
                             .field("primary_purpose", trial.primaryPurpose)
                             .field("outcomeMeasures", trial.outcomeMeasures)
                             .field("outcomeDescriptions", trial.outcomeDescriptions)
+                            .field("conditions", trial.conditions)
                             .field("interventionTypes", trial.interventionTypes)
                             .field("interventionNames", trial.interventionNames)
                             .field("armGroupDescriptions", trial.armGroupDescriptions)

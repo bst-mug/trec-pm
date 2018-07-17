@@ -24,6 +24,7 @@ public class ClinicalTrialTest {
         assertThat(trial.primaryPurpose, is("Treatment"));
         assertThat(trial.outcomeMeasures, hasItems("Maximum Tolerated Dose (MTD) of RENCA Macrobeads", "Tumor Marker Response"));
         assertThat(trial.outcomeDescriptions, hasSize(4));
+        assertThat(trial.conditions, contains("Intraabdominal Cancers (Various Types)"));
         assertThat(trial.interventionTypes, hasItems("Biological"));
         assertThat(trial.interventionNames, hasItems("Cancer Macrobead placement in abdominal cavity"));
         assertThat(trial.armGroupDescriptions, contains("Cancer Macrobead placement in abdominal cavity"));
@@ -51,6 +52,7 @@ public class ClinicalTrialTest {
         assertThat(trial.primaryPurpose, is("Treatment"));
         assertThat(trial.outcomeMeasures, hasItems("DFS", "OS"));
         assertThat(trial.outcomeDescriptions, hasSize(3));
+        assertThat(trial.conditions, hasSize(7));
         assertThat(trial.interventionTypes, hasItems("Drug", "Other"));
         assertThat(trial.interventionNames, hasItems("Atezolizumab", "Laboratory Biomarker Analysis", "Quality-of-Life Assessment"));
         assertThat(trial.armGroupDescriptions, hasSize(2));
