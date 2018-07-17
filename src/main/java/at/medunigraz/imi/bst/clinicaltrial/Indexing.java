@@ -3,9 +3,13 @@ package at.medunigraz.imi.bst.clinicaltrial;
 import at.medunigraz.imi.bst.config.TrecConfig;
 import at.medunigraz.imi.bst.trec.search.ElasticClientFactory;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,47 +34,15 @@ public class Indexing {
         System.out.println("CLINICALTRIALS TOTAL READ: " + clinicalTrials.size());
         System.out.println("STARTING INDEXING");
 
-        Client client = ElasticClientFactory.getClient();
-
         long startTime = System.currentTimeMillis();
 
-        BulkRequestBuilder bulkRequest = client.prepareBulk();
+        BulkProcessor bulkProcessor = buildBuildProcessor();
 
         for (ClinicalTrial trial: clinicalTrials) {
-
             System.out.println("ADDING: " + trial.id);
 
-            bulkRequest.add(client.prepareIndex(TrecConfig.ELASTIC_CT_INDEX, TrecConfig.ELASTIC_CT_TYPE, trial.id)
-                    .setSource(jsonBuilder()
-                            .startObject()
-                            .field("id", trial.id)
-                            .field("brief_title", StringEscapeUtils.escapeJson(trial.brief_title))
-                            .field("official_title", StringEscapeUtils.escapeJson(trial.official_title))
-                            .field("summary", StringEscapeUtils.escapeJson(trial.summary))
-                            .field("description", StringEscapeUtils.escapeJson(trial.description))
-                            .field("primary_purpose", trial.primaryPurpose)
-                            .field("outcomeMeasures", trial.outcomeMeasures)
-                            .field("outcomeDescriptions", trial.outcomeDescriptions)
-                            .field("conditions", trial.conditions)
-                            .field("interventionTypes", trial.interventionTypes)
-                            .field("interventionNames", trial.interventionNames)
-                            .field("armGroupDescriptions", trial.armGroupDescriptions)
-                            .field("sex", trial.sex)
-                            .field("minimum_age", trial.minAge)
-                            .field("maximum_age", trial.maxAge)
-                            .field("inclusion", StringEscapeUtils.escapeJson(trial.inclusion))
-                            .field("exclusion", StringEscapeUtils.escapeJson(trial.exclusion))
-                            .field("keywords", trial.keywords)
-                            .field("meshTags", trial.meshTags)
-                            .endObject()
-                    )
-            );
-        }
-
-        BulkResponse bulkResponse = bulkRequest.get();
-
-        if (bulkResponse.hasFailures()) {
-            System.out.println("Failures!!!!");
+            bulkProcessor.add(new IndexRequest(TrecConfig.ELASTIC_CT_INDEX, TrecConfig.ELASTIC_CT_TYPE, trial.id)
+                    .source(buildJson(trial)));
         }
 
         long indexingDuration = (System.currentTimeMillis() - startTime);
@@ -78,12 +50,72 @@ public class Indexing {
         System.out.println("INDEXING TIME BULK: " + indexingDuration/1000 + " secs - " + clinicalTrials.size() + " articles");
 
         return indexingDuration;
+    }
 
+    private static BulkProcessor buildBuildProcessor() {
+        Client client = ElasticClientFactory.getClient();
 
+        return BulkProcessor.builder(
+                client,
+                new BulkProcessor.Listener() {
+                    @Override
+                    public void beforeBulk(long executionId,
+                                           BulkRequest request) {
+
+                    }
+
+                    @Override
+                    public void afterBulk(long executionId,
+                                          BulkRequest request,
+                                          BulkResponse response) {
+                        if (response.hasFailures()) {
+                            System.out.println("Failures!!!!");
+                        }
+                    }
+
+                    @Override
+                    public void afterBulk(long executionId,
+                                          BulkRequest request,
+                                          Throwable failure) {
+                        System.out.println("Bulk failed and raised " + failure);
+                    }
+                })
+                // Let's stay with the defaults for a while
+//                .setBulkActions(10000)
+//                .setBulkSize(new ByteSizeValue(5, ByteSizeUnit.MB))
+//                .setFlushInterval(TimeValue.timeValueSeconds(5))
+//                .setConcurrentRequests(1)
+//                .setBackoffPolicy(
+//                        BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3))
+                .build();
+    }
+
+    private static XContentBuilder buildJson(ClinicalTrial trial) throws IOException {
+        return jsonBuilder()
+                .startObject()
+                .field("id", trial.id)
+                .field("brief_title", StringEscapeUtils.escapeJson(trial.brief_title))
+                .field("official_title", StringEscapeUtils.escapeJson(trial.official_title))
+                .field("summary", StringEscapeUtils.escapeJson(trial.summary))
+                .field("description", StringEscapeUtils.escapeJson(trial.description))
+                .field("primary_purpose", trial.primaryPurpose)
+                .field("outcomeMeasures", trial.outcomeMeasures)
+                .field("outcomeDescriptions", trial.outcomeDescriptions)
+                .field("conditions", trial.conditions)
+                .field("interventionTypes", trial.interventionTypes)
+                .field("interventionNames", trial.interventionNames)
+                .field("armGroupDescriptions", trial.armGroupDescriptions)
+                .field("sex", trial.sex)
+                .field("minimum_age", trial.minAge)
+                .field("maximum_age", trial.maxAge)
+                .field("inclusion", StringEscapeUtils.escapeJson(trial.inclusion))
+                .field("exclusion", StringEscapeUtils.escapeJson(trial.exclusion))
+                .field("keywords", trial.keywords)
+                .field("meshTags", trial.meshTags)
+                .endObject();
     }
 
     public static List<ClinicalTrial> getClinicalTrialsFromFolder(String dataFolderWithFiles) throws Exception {
-
         System.out.println("DATA FOLDER: " + dataFolderWithFiles);
 
         List<ClinicalTrial> clinicalTrials = new ArrayList<>();
