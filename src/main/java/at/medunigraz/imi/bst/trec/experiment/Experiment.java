@@ -91,7 +91,7 @@ public class Experiment extends Thread {
 		LOG.trace(allMetrics);
 		
 		// TODO Experiment API #53
-		System.out.println(te.getNDCG() + ";" + name);
+		System.out.println(allMetrics.getInfNDCG() + ";" + name);
 	}
 
 	public void setDecorator(Query decorator) {
