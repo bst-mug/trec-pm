@@ -99,7 +99,7 @@ public class Experiment extends Thread {
 	}
 
 	public String getExperimentId() {
-		return String.format("%s_%d_%s", getShortTaskName(), year, decorator.getName());
+		return String.format("%s_%d_%s", getShortTaskName(), year, decorator.getName().replace(" ", "_"));
 	}
 
 	public void setYear(int year) {
