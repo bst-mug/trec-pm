@@ -39,7 +39,7 @@ public class ElasticSearch implements SearchEngine {
 	
 	public List<Result> query(JSONObject jsonQuery) {
 		QueryBuilder qb = QueryBuilders.wrapperQuery(jsonQuery.toString());
-		LOG.debug(JsonUtils.prettify(jsonQuery));
+		LOG.trace(JsonUtils.prettify(jsonQuery));
 		
 		return query(qb);
 	}
