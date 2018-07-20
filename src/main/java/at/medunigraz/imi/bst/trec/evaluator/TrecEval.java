@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TrecEval extends AbstractEvaluator {
 
-    private static final String TREC_EVAL_SCRIPT = "target/lib/trec_eval.9.0/trec_eval";
+    private static final String TREC_EVAL_SCRIPT = "target/lib/trec_eval";
 
     /**
      * -m all_trec -q -c -M1000

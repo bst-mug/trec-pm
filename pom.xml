@@ -54,15 +54,17 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <tasks>
+                                <!-- We're affected by https://github.com/usnistgov/trec_eval/issues/14 on GCC-7 -->
                                 <mkdir dir="${project.build.directory}/lib" />
-                                <!--<get src="http://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz"-->
-                                    <!--dest="${project.build.directory}/lib/trec_eval_latest.tar.gz"-->
-                                    <!--verbose="false" usetimestamp="true" />-->
-                                <!--<gunzip src="${project.build.directory}/lib/trec_eval_latest.tar.gz" />-->
-                                <!--<untar src="${project.build.directory}/lib/trec_eval_latest.tar"-->
-                                    <!--dest="${project.build.directory}/lib/" />-->
-                                <!--<exec executable="make" failonerror="true"-->
-                                    <!--dir="${project.build.directory}/lib/trec_eval.9.0/" />-->
+                                <get src="https://github.com/bgamari/trec_eval/archive/8c56e931127d53cff52945ca7d07c5270c190da1.zip"
+                                    dest="${project.build.directory}/lib/trec_eval_patched.zip"
+                                    verbose="false" usetimestamp="true" />
+                                <unzip src="${project.build.directory}/lib/trec_eval_patched.zip"
+                                    dest="${project.build.directory}/lib/"/>
+                                <exec executable="make" failonerror="true"
+                                    dir="${project.build.directory}/lib/trec_eval-8c56e931127d53cff52945ca7d07c5270c190da1/" />
+                                <move file="${project.build.directory}/lib/trec_eval-8c56e931127d53cff52945ca7d07c5270c190da1/trec_eval"
+                                      tofile="${project.build.directory}/lib/trec_eval" />
                                     
                                 <get src="ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz"
                                     dest="${basedir}/src/main/resources/genes/Homo_sapiens.gene_info.gz"
