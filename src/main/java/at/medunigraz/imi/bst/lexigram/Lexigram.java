@@ -33,13 +33,8 @@ public class Lexigram {
     /* Retrieves the preferred term ("label") of the best-matching concept.
     *  If no match, it returns itself */
     public static String getPreferredTerm(String label) throws UnirestException {
-        String url = "https://api.lexigram.io/v1/lexigraph/search?q="+ URLEncoder.encode(label);
-
-        HttpResponse<JsonNode> response = Unirest.get(url)
-                .header("authorization", "Bearer " + API_KEY)
-                .asJson();
-        JSONObject body = new JSONObject(response.getBody());
-        JSONArray results = body.getJSONArray("array").getJSONObject(0).getJSONArray("conceptSearchHits");
+        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/search?q="+ URLEncoder.encode(label));
+        JSONArray results = body.getJSONArray("conceptSearchHits");
 
         try {
             if (results.length() == 0)
@@ -49,12 +44,7 @@ public class Lexigram {
             String conceptId = concept.getString("id");
 
             /* Get info (label and synonyms) of concept */
-
-            url = "https://api.lexigram.io/v1/lexigraph/concepts/"+ conceptId;
-            response = Unirest.get(url)
-                    .header("authorization", "Bearer " + API_KEY)
-                    .asJson();
-            body = new JSONObject(response.getBody()).getJSONArray("array").getJSONObject(0);
+            body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ conceptId);
 
             return cleanUpString(body.getString("label"));
 
@@ -69,13 +59,8 @@ public class Lexigram {
     /* Possibly the most useful function: Given a string, it searches for the best-matching concept and adds all synonyms
      *  If no match, it returns a list with itself */
     public static List<String> addSynonymsFromBestConceptMatch(String label) throws UnirestException {
-        String url = "https://api.lexigram.io/v1/lexigraph/search?q=" + URLEncoder.encode(label);
-
-        HttpResponse<JsonNode> response = Unirest.get(url)
-                .header("authorization", "Bearer " + API_KEY)
-                .asJson();
-        JSONObject body = new JSONObject(response.getBody());
-        JSONArray results = body.getJSONArray("array").getJSONObject(0).getJSONArray("conceptSearchHits");
+        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/search?q=" + URLEncoder.encode(label));
+        JSONArray results = body.getJSONArray("conceptSearchHits");
 
         try {
             List<String> keywordAndSynonyms = new ArrayList<>();
@@ -90,11 +75,7 @@ public class Lexigram {
 
             /* Get info (label and synonyms) of concept */
 
-            url = "https://api.lexigram.io/v1/lexigraph/concepts/"+ conceptId;
-            response = Unirest.get(url)
-                    .header("authorization", "Bearer " + API_KEY)
-                    .asJson();
-            body = new JSONObject(response.getBody()).getJSONArray("array").getJSONObject(0);
+            body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ conceptId);
 
             keywordAndSynonyms.add(body.getString("label"));
 
@@ -130,5 +111,13 @@ public class Lexigram {
         cleanLabel = cleanLabel.replaceAll("\\[.*\\]", "");
         cleanLabel = cleanLabel.split(",")[0];
         return cleanLabel;
+    }
+
+    private static JSONObject get(String url) throws UnirestException {
+        HttpResponse<JsonNode> response = Unirest.get(url)
+                .header("authorization", "Bearer " + API_KEY)
+                .asJson();
+        JSONObject body = new JSONObject(response.getBody());
+        return body.getJSONArray("array").getJSONObject(0);
     }
 }
