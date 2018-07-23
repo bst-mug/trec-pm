@@ -1,0 +1,13 @@
+{
+  "multi_match": {
+    "query": "{{gene}}",
+    "fields": [
+      "title^2",
+      "abstract",
+      "keyword",
+      "meshTags"
+    ],
+    "tie_breaker": 0.3,
+    "type": "best_fields"
+  }
+}

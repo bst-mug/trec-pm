@@ -25,7 +25,7 @@ public class PubmedExperimenter {
 		final File regexpDrugsTemplate = new File(
 				PubmedExperimenter.class.getResource("/templates/biomedical_articles/regexp-drugs.json").getFile());
 		final File negativeBoostKeywordsTemplate = new File(
-				PubmedExperimenter.class.getResource("/templates/biomedical_articles/negative-boost-keywords.json").getFile());
+				PubmedExperimenter.class.getResource("/templates/biomedical_articles/negative-boost-keywords-subtemplates.json").getFile());
 		final File shouldTemplate = new File(PubmedExperimenter.class.getResource("/templates/biomedical_articles/should.json").getFile());
 
 		final Gene.Field[] expandTo = { Gene.Field.SYMBOL, Gene.Field.DESCRIPTION };
@@ -45,7 +45,7 @@ public class PubmedExperimenter {
 
 		// mugpubgene
 		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
-				.withTemplate(negativeBoostKeywordsTemplate).withGeneExpansion(expandTo).withWordRemoval();
+				.withSubTemplate(negativeBoostKeywordsTemplate).withGeneExpansion(expandTo).withWordRemoval();
 
 		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(geneTemplate)
 				.withWordRemoval();
@@ -74,7 +74,7 @@ public class PubmedExperimenter {
 
 		// mugpubdiseas
 		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
-				.withTemplate(negativeBoostKeywordsTemplate).withWordRemoval().withDiseaseExpander();
+				.withSubTemplate(negativeBoostKeywordsTemplate).withWordRemoval().withDiseaseExpander();
 
 		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostKeywordsTemplate)
 				.withWordRemoval().withDiseaseReplacer();
@@ -84,7 +84,7 @@ public class PubmedExperimenter {
 
 		// mugpubboost
 		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
-				.withTemplate(negativeBoostKeywordsTemplate).withWordRemoval();
+				.withSubTemplate(negativeBoostKeywordsTemplate).withWordRemoval();
 
 		// mugpubshould
 		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(shouldTemplate)

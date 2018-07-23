@@ -1,0 +1,17 @@
+{
+  "bool": {
+    "should": {
+      "multi_match": {
+        "query": "cancer carcinoma tumor",
+        "fields": [
+          "title^2",
+          "abstract",
+          "keyword",
+          "meshTags"
+        ],
+        "tie_breaker": 0.3,
+        "type": "best_fields"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+	"bool": {
+		"must": [
+			{{disease.json}},
+			{{gene.json}}
+		],
+		"should": [
+			{{extra.json}},
+			{{chemotherapy.json}},
+			{{cancer.json}},
+			{{dna.json}},
+			{{positive_boosters.json}},
+			{{negative_boosters.json}}
+		]
+	}
+}
