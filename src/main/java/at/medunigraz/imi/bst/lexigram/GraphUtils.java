@@ -113,31 +113,6 @@ public class GraphUtils {
         //return Collections.singletonList(label);
     }
 
-    /* TODO: Not really useful,to be removed */
-    /*
-    public static List<String> addAllMatchingConceptMainLabels(String label) throws UnirestException {
-
-        String url = "https://api.lexigram.io/v1/lexigraph/search?q=" + URLEncoder.encode(label);
-
-        HttpResponse<JsonNode> response = Unirest.get(url)
-                .header("authorization", "Bearer " + API_KEY)
-                .asJson();
-        JSONObject body = new JSONObject(response.getBody());
-        JSONArray results = body.getJSONArray("array").getJSONObject(0).getJSONArray("conceptSearchHits");
-
-        List<String> labelAndSynonyms = new ArrayList<>();
-
-        labelAndSynonyms.add(label);
-
-        for(int i = 0; i < results.length(); i++) {
-            JSONObject item = results.getJSONObject(i);
-            JSONObject concept = item.getJSONObject("concept");
-            labelAndSynonyms.add(concept.getString("label"));
-        }
-        return cleanUpList(labelAndSynonyms);
-    }
-    */
-
     private static List<String> cleanUpList(List<String> labels) {
         Set<String> cleanLabels = new HashSet<>();
         cleanLabels.addAll(labels.stream().map(String::toLowerCase).map(l -> l.replaceAll("\\(.*\\)", "")).collect(Collectors.toList()));
