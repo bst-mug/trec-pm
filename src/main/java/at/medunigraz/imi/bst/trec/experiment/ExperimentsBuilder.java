@@ -7,14 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import at.medunigraz.imi.bst.trec.model.Gene;
-import at.medunigraz.imi.bst.trec.query.DiseaseExpanderQueryDecorator;
-import at.medunigraz.imi.bst.trec.query.DiseaseReplacerQueryDecorator;
-import at.medunigraz.imi.bst.trec.query.ElasticSearchQuery;
-import at.medunigraz.imi.bst.trec.query.GeneExpanderQueryDecorator;
-import at.medunigraz.imi.bst.trec.query.Query;
-import at.medunigraz.imi.bst.trec.query.StaticMapQueryDecorator;
-import at.medunigraz.imi.bst.trec.query.TemplateQueryDecorator;
-import at.medunigraz.imi.bst.trec.query.WordRemovalQueryDecorator;
+import at.medunigraz.imi.bst.trec.query.*;
 
 public class ExperimentsBuilder {
 
@@ -40,6 +33,12 @@ public class ExperimentsBuilder {
 	public ExperimentsBuilder withTemplate(File template) {
 		Query previousDecorator = buildingExp.getDecorator();
 		buildingExp.setDecorator(new TemplateQueryDecorator(template, previousDecorator));
+		return this;
+	}
+
+	public ExperimentsBuilder withSubTemplate(File template) {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new SubTemplateQueryDecorator(template, previousDecorator));
 		return this;
 	}
 	

@@ -11,7 +11,7 @@ import at.medunigraz.imi.bst.trec.model.Topic;
 
 public class TemplateQueryDecorator extends MapQueryDecorator {
 	
-	private File template;
+	protected File template;
 
 	public TemplateQueryDecorator(File template, Query decoratedQuery) {
 		super(decoratedQuery);
@@ -26,7 +26,7 @@ public class TemplateQueryDecorator extends MapQueryDecorator {
 		return decoratedQuery.query(topic);
 	}
 
-	private String readTemplate(File template) {
+	protected String readTemplate(File template) {
 		String ret = "";
 		try {
 			ret = FileUtils.readFileToString(template, "UTF-8");
@@ -36,7 +36,7 @@ public class TemplateQueryDecorator extends MapQueryDecorator {
 		return ret;
 	}
 	
-	private void loadTemplate() {
+	protected void loadTemplate() {
 		setJSONQuery(readTemplate(template));
 	}
 	
