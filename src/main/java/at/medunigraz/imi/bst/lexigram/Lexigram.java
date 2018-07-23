@@ -14,7 +14,7 @@ import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GraphUtils {
+public class Lexigram {
 
     static String API_KEY_FILE = "src/main/resources/apikey.txt";
     static String API_KEY;

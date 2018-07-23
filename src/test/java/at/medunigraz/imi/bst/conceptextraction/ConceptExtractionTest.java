@@ -3,7 +3,7 @@ package at.medunigraz.imi.bst.conceptextraction;
 import java.io.File;
 import java.io.IOException;
 
-import at.medunigraz.imi.bst.lexigram.GraphUtils;
+import at.medunigraz.imi.bst.lexigram.Lexigram;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,19 +37,19 @@ public class ConceptExtractionTest {
 
     @Test
     public void preferredTerm() throws UnirestException {
-        Assert.assertEquals(GraphUtils.getPreferredTerm("cervical cancer"), "Carcinoma of cervix");
-        Assert.assertEquals(GraphUtils.getPreferredTerm("notfoundlabel"), "notfoundlabel");
+        Assert.assertEquals(Lexigram.getPreferredTerm("cervical cancer"), "Carcinoma of cervix");
+        Assert.assertEquals(Lexigram.getPreferredTerm("notfoundlabel"), "notfoundlabel");
     }
 
     @Test
     public void addSynonyms() throws UnirestException {
-        Assert.assertThat(GraphUtils.addSynonymsFromBestConceptMatch("cholangiocarcinoma"),
+        Assert.assertThat(Lexigram.addSynonymsFromBestConceptMatch("cholangiocarcinoma"),
                 containsInAnyOrder("cholangiocellular carcinoma",
                         "cholangiocarcinoma of biliary tract",
                         "bile duct carcinoma",
                         "cholangiocarcinoma",
                         "bile duct adenocarcinoma"));
-        Assert.assertThat(GraphUtils.addSynonymsFromBestConceptMatch("notfoundlabel"),
+        Assert.assertThat(Lexigram.addSynonymsFromBestConceptMatch("notfoundlabel"),
                 containsInAnyOrder("notfoundlabel"));
     }
 
