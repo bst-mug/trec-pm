@@ -8,9 +8,10 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,37 @@ public class Lexigram {
         } catch (IOException e) {
             System.out.print("Please place your Lexigram API key in the following file: " + API_KEY_FILE);
             e.printStackTrace();
+        }
+    }
+
+    private static class Cache {
+        private static final String FILENAME = "cache/lexigram.ser";
+        private static HashMap<String, String> CALLS = new HashMap<>();
+        static {
+            if (Files.exists(Paths.get(FILENAME))) {
+                load();
+            }
+        }
+
+        private static void load() {
+            try {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILENAME));
+                CALLS = (HashMap) ois.readObject();
+                ois.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private static void save() {
+            try
+            {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILENAME));
+                oos.writeObject(CALLS);
+                oos.close();
+            } catch(IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -114,10 +146,17 @@ public class Lexigram {
     }
 
     private static JSONObject get(String url) throws UnirestException {
-        HttpResponse<JsonNode> response = Unirest.get(url)
-                .header("authorization", "Bearer " + API_KEY)
-                .asJson();
-        JSONObject body = new JSONObject(response.getBody());
-        return body.getJSONArray("array").getJSONObject(0);
+        if (!Cache.CALLS.containsKey(url)) {
+            HttpResponse<JsonNode> response = Unirest.get(url)
+                    .header("authorization", "Bearer " + API_KEY)
+                    .asJson();
+            JSONObject body = new JSONObject(response.getBody());
+            String firstArrayObject = body.getJSONArray("array").getJSONObject(0).toString();
+
+            Cache.CALLS.put(url, firstArrayObject);
+            Cache.save();
+        }
+
+        return new JSONObject(Cache.CALLS.get(url));
     }
 }
