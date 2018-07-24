@@ -14,6 +14,8 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 
@@ -51,5 +53,21 @@ public class ConceptExtractionTest {
                         "bile duct adenocarcinoma"));
         Assert.assertThat(Lexigram.addSynonymsFromBestConceptMatch("notfoundlabel"),
                 containsInAnyOrder("notfoundlabel"));
+    }
+
+    @Test
+    public void getAncestorsFromBestConceptMatch() {
+        Assert.assertThat(Lexigram.getAncestorsFromBestConceptMatch("cholangiocarcinoma"),
+                hasItems("malignant neoplasm of digestive system",
+                        "abdominal mass",
+                        "epithelial neoplasm",
+                        "disorder of biliary tract",
+                        "neoplasm of digestive organ",
+                        "finding of biliary tract",
+                        "gastrointestinal tract finding")
+                );
+
+        Assert.assertThat(Lexigram.getAncestorsFromBestConceptMatch("notfoundlabel"),
+                empty());
     }
 }

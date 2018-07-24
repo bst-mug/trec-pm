@@ -103,6 +103,37 @@ public class Lexigram {
         return cleanUpList(keywordAndSynonyms);
     }
 
+    /**
+     * Given a string, it searches for the best matching concept and returns all its ancestors.
+     * If no match is found, an empty list is returned.
+     *
+     * @param label
+     * @return
+     */
+    public static List<String> getAncestorsFromBestConceptMatch(String label) {
+        List<String> ret = new ArrayList<>();
+
+        Optional<String> search = search(label);
+        if (!search.isPresent()) {
+            return ret;
+        }
+
+        return cleanUpList(ancestors(search.get()));
+    }
+
+    public static List<String> ancestors(String conceptId) {
+        // TODO pagination
+        JSONObject body = get(ENDPOINT + "concepts/" + conceptId + "/ancestors");
+
+        List<String> ancestors = new ArrayList<>();
+        JSONArray results = body.getJSONArray("results");
+        for(int i = 0; i < results.length(); i++) {
+            ancestors.add(cleanUpString(results.getJSONObject(i).getString("label")));
+        }
+
+        return ancestors;
+    }
+
     public static Concept concept(String conceptId) {
         /* Get info (label and synonyms) of concept */
         JSONObject body = get(ENDPOINT + "concepts/" + conceptId);
