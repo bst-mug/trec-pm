@@ -76,14 +76,7 @@ public class Lexigram {
             return label;
         }
 
-        try {
-            /* Get info (label and synonyms) of concept */
-            JSONObject body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ search.get());
-            return cleanUpString(body.getString("label"));
-        }
-        catch (Exception e) {
-            throw e;
-        }
+        return concept(search.get()).label;
     }
 
     /**
@@ -100,26 +93,29 @@ public class Lexigram {
             return Collections.singletonList(label);
         }
 
-        try {
-            List<String> keywordAndSynonyms = new ArrayList<>();
-            keywordAndSynonyms.add(label);
+        List<String> keywordAndSynonyms = new ArrayList<>();
+        keywordAndSynonyms.add(label);
 
-            /* Get info (label and synonyms) of concept */
-            JSONObject body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ search.get());
+        Concept concept = concept(search.get());
+        keywordAndSynonyms.add(concept.label);
+        keywordAndSynonyms.addAll(concept.synonyms);
 
-            keywordAndSynonyms.add(body.getString("label"));
+        return cleanUpList(keywordAndSynonyms);
+    }
 
-            JSONArray synonymsJson = body.getJSONArray("synonyms");
+    public static Concept concept(String conceptId) throws UnirestException {
+        /* Get info (label and synonyms) of concept */
+        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/concepts/" + conceptId);
 
-            for(int i = 0; i < synonymsJson.length(); i++) {
-                keywordAndSynonyms.add(synonymsJson.get(i).toString());
-            }
+        Concept concept = new Concept();
+        concept.label = cleanUpString(body.getString("label"));
 
-            return cleanUpList(keywordAndSynonyms);
+        JSONArray synonymsJson = body.getJSONArray("synonyms");
+        for(int i = 0; i < synonymsJson.length(); i++) {
+            concept.synonyms.add(cleanUpString(synonymsJson.get(i).toString()));
         }
-        catch (Exception e) {
-            throw e;
-        }
+
+        return concept;
     }
 
     public static Optional<String> search(String label) throws UnirestException {
@@ -137,9 +133,8 @@ public class Lexigram {
 
     private static List<String> cleanUpList(List<String> labels) {
         Set<String> cleanLabels = new HashSet<>();
-        cleanLabels.addAll(labels.stream().map(String::toLowerCase).map(l -> l.replaceAll("\\(.*\\)", "")).collect(Collectors.toList()));
-        cleanLabels = cleanLabels.stream().map(l -> l.replaceAll("\\[.*\\]", "")).collect(Collectors.toSet());
-        cleanLabels = cleanLabels.stream().map(l -> l.split(",")[0]).collect(Collectors.toSet());
+        cleanLabels.addAll(labels.stream().map(Lexigram::cleanUpString).collect(Collectors.toSet()));
+
         List<String> cleanLabelsArrayList = new ArrayList<>();
         cleanLabelsArrayList.addAll(cleanLabels);
         return cleanLabelsArrayList;
