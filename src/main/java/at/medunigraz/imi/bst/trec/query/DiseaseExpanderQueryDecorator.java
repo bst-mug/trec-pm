@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import at.medunigraz.imi.bst.lexigram.GraphUtils;
+import at.medunigraz.imi.bst.lexigram.Lexigram;
 import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
@@ -28,13 +28,7 @@ public class DiseaseExpanderQueryDecorator extends QueryDecorator {
 	private void expandDisease(Topic topic) {
 		String disease = topic.getDisease();
 
-		List<String> synonyms = null;
-		try {
-			synonyms = GraphUtils.addSynonymsFromBestConceptMatch(disease);
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			return;
-		}
+		List<String> synonyms = Lexigram.addSynonymsFromBestConceptMatch(disease);
 		
 		String expandedDisease = String.join(" ", synonyms);
 		topic.withDisease(expandedDisease);

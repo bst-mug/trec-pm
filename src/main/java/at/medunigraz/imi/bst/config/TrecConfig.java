@@ -19,7 +19,7 @@ public final class TrecConfig {
     public static final int ELASTIC_PORT = getInteger("ELASTIC_PORT");
     public static final String ELASTIC_CLUSTER = getString("ELASTIC_CLUSTER");
 
-
+    public static final String LEXIGRAM_APIKEY = getString("LEXIGRAM_APIKEY");
 
 
     /* DATA - MEDLINE */

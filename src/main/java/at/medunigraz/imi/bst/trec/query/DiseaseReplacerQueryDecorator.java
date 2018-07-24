@@ -2,12 +2,12 @@ package at.medunigraz.imi.bst.trec.query;
 
 import java.util.List;
 
+import at.medunigraz.imi.bst.lexigram.Lexigram;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import at.medunigraz.imi.bst.lexigram.GraphUtils;
 import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
@@ -28,13 +28,7 @@ public class DiseaseReplacerQueryDecorator extends QueryDecorator {
 	private void expandDisease(Topic topic) {
 		String disease = topic.getDisease();
 
-		String prefferedTerm = null;
-		try {
-			prefferedTerm = GraphUtils.getPreferredTerm(disease);
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			prefferedTerm = disease;
-		}
+		String prefferedTerm = Lexigram.getPreferredTerm(disease);
 
 		topic.withDisease(prefferedTerm);
 		
