@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 public class Lexigram {
 
+    private static final String ENDPOINT = "https://api.lexigram.io/v1/lexigraph/";
+
     static String API_KEY_FILE = "src/main/resources/apikey.txt";
     static String API_KEY;
 
@@ -103,7 +105,7 @@ public class Lexigram {
 
     public static Concept concept(String conceptId) {
         /* Get info (label and synonyms) of concept */
-        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/concepts/" + conceptId);
+        JSONObject body = get(ENDPOINT + "concepts/" + conceptId);
 
         Concept concept = new Concept();
         concept.label = cleanUpString(body.getString("label"));
@@ -117,7 +119,7 @@ public class Lexigram {
     }
 
     public static Optional<String> search(String label) {
-        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/search?q="+ URLEncoder.encode(label));
+        JSONObject body = get(ENDPOINT + "search?q="+ URLEncoder.encode(label));
         JSONArray results = body.getJSONArray("conceptSearchHits");
         if (results.length() == 0) {
             return Optional.empty();
