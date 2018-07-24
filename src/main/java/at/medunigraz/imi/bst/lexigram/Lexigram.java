@@ -1,10 +1,10 @@
 package at.medunigraz.imi.bst.lexigram;
 
+import at.medunigraz.imi.bst.config.TrecConfig;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,20 +18,6 @@ import java.util.stream.Collectors;
 public class Lexigram {
 
     private static final String ENDPOINT = "https://api.lexigram.io/v1/lexigraph/";
-
-    static String API_KEY_FILE = "src/main/resources/apikey.txt";
-    static String API_KEY;
-
-    static {
-        File apiFile = new File(API_KEY_FILE);
-
-        try {
-            API_KEY = FileUtils.readFileToString(apiFile, "UTF-8").replace("\n", "");
-        } catch (IOException e) {
-            System.out.print("Please place your Lexigram API key in the following file: " + API_KEY_FILE);
-            e.printStackTrace();
-        }
-    }
 
     private static class Cache {
         private static final String FILENAME = "cache/lexigram.ser";
@@ -206,10 +192,14 @@ public class Lexigram {
             HttpResponse<JsonNode> response = null;
             try {
                 response = Unirest.get(url)
-                        .header("authorization", "Bearer " + API_KEY)
+                        .header("authorization", "Bearer " + TrecConfig.LEXIGRAM_APIKEY)
                         .asJson();
             } catch (UnirestException e) {
                 throw new RuntimeException(e);
+            }
+
+            if (response.getStatus() == 401) {
+                throw new RuntimeException("Unauthorized access to Lexigram API. Place your key in the file trec-pm.properties.");
             }
 
             JSONObject body = new JSONObject(response.getBody());
