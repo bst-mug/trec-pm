@@ -62,8 +62,14 @@ public class Lexigram {
         }
     }
 
-    /* Retrieves the preferred term ("label") of the best-matching concept.
-    *  If no match, it returns itself */
+    /**
+     * Retrieves the preferred term ("label") of the best-matching concept.
+     * If no match, it returns itself
+     *
+     * @param label
+     * @return
+     * @throws UnirestException
+     */
     public static String getPreferredTerm(String label) throws UnirestException {
         Optional<String> search = search(label);
         if (!search.isPresent()) {
@@ -78,12 +84,16 @@ public class Lexigram {
         catch (Exception e) {
             throw e;
         }
-
-        //return label;
     }
 
-    /* Possibly the most useful function: Given a string, it searches for the best-matching concept and adds all synonyms
-     *  If no match, it returns a list with itself */
+    /**
+     * Possibly the most useful function: Given a string, it searches for the best-matching concept and adds all synonyms
+     * If no match, it returns a list with itself
+     *
+     * @param label
+     * @return
+     * @throws UnirestException
+     */
     public static List<String> addSynonymsFromBestConceptMatch(String label) throws UnirestException {
         Optional<String> search = search(label);
         if (!search.isPresent()) {
@@ -110,8 +120,6 @@ public class Lexigram {
         catch (Exception e) {
             throw e;
         }
-
-        //return Collections.singletonList(label);
     }
 
     public static Optional<String> search(String label) throws UnirestException {
