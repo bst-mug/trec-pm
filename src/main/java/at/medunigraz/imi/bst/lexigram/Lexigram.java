@@ -104,6 +104,27 @@ public class Lexigram {
     }
 
     /**
+     * Given a string, it searches for the best matching concept and returns all its synonyms.
+     * If no match is found, an empty list is returned.
+     *
+     * @param label
+     * @return
+     */
+    public static List<String> getSynonymsFromBestConceptMatch(String label) {
+        List<String> ret = new ArrayList<>();
+
+        Optional<String> search = search(label);
+        if (!search.isPresent()) {
+            return ret;
+        }
+
+        Concept concept = concept(search.get());
+        ret.addAll(concept.synonyms);
+
+        return cleanUpList(ret);
+    }
+
+    /**
      * Given a string, it searches for the best matching concept and returns all its ancestors.
      * If no match is found, an empty list is returned.
      *
