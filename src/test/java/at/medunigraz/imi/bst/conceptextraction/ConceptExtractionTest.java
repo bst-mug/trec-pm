@@ -37,7 +37,7 @@ public class ConceptExtractionTest {
 
     @Test
     public void preferredTerm() throws UnirestException {
-        Assert.assertEquals(Lexigram.getPreferredTerm("cervical cancer"), "Carcinoma of cervix");
+        Assert.assertEquals(Lexigram.getPreferredTerm("cervical cancer"), "carcinoma of cervix");
         Assert.assertEquals(Lexigram.getPreferredTerm("notfoundlabel"), "notfoundlabel");
     }
 

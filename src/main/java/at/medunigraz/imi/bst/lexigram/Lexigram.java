@@ -146,9 +146,9 @@ public class Lexigram {
     }
 
     private static String cleanUpString(String label) {
-        String cleanLabel;
-        cleanLabel = label.toLowerCase();
-        cleanLabel = label.replaceAll("\\(.*\\)", "");
+        String cleanLabel = label;
+        cleanLabel = cleanLabel.toLowerCase();
+        cleanLabel = cleanLabel.replaceAll("\\(.*\\)", "");
         cleanLabel = cleanLabel.replaceAll("\\[.*\\]", "");
         cleanLabel = cleanLabel.split(",")[0];
         return cleanLabel;
