@@ -121,7 +121,7 @@ public class Lexigram {
         return cleanUpList(ancestors(search.get()));
     }
 
-    public static List<String> ancestors(String conceptId) {
+    private static List<String> ancestors(String conceptId) {
         // TODO pagination
         JSONObject body = get(ENDPOINT + "concepts/" + conceptId + "/ancestors");
 
@@ -134,7 +134,7 @@ public class Lexigram {
         return ancestors;
     }
 
-    public static Concept concept(String conceptId) {
+    private static Concept concept(String conceptId) {
         /* Get info (label and synonyms) of concept */
         JSONObject body = get(ENDPOINT + "concepts/" + conceptId);
 
@@ -149,7 +149,7 @@ public class Lexigram {
         return concept;
     }
 
-    public static Optional<String> search(String label) {
+    private static Optional<String> search(String label) {
         JSONObject body = get(ENDPOINT + "search?q="+ URLEncoder.encode(label));
         JSONArray results = body.getJSONArray("conceptSearchHits");
         if (results.length() == 0) {
