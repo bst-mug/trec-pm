@@ -28,13 +28,7 @@ public class DiseaseExpanderQueryDecorator extends QueryDecorator {
 	private void expandDisease(Topic topic) {
 		String disease = topic.getDisease();
 
-		List<String> synonyms = null;
-		try {
-			synonyms = Lexigram.addSynonymsFromBestConceptMatch(disease);
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			return;
-		}
+		List<String> synonyms = Lexigram.addSynonymsFromBestConceptMatch(disease);
 		
 		String expandedDisease = String.join(" ", synonyms);
 		topic.withDisease(expandedDisease);

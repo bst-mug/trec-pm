@@ -68,9 +68,8 @@ public class Lexigram {
      *
      * @param label
      * @return
-     * @throws UnirestException
      */
-    public static String getPreferredTerm(String label) throws UnirestException {
+    public static String getPreferredTerm(String label) {
         Optional<String> search = search(label);
         if (!search.isPresent()) {
             return label;
@@ -85,9 +84,8 @@ public class Lexigram {
      *
      * @param label
      * @return
-     * @throws UnirestException
      */
-    public static List<String> addSynonymsFromBestConceptMatch(String label) throws UnirestException {
+    public static List<String> addSynonymsFromBestConceptMatch(String label) {
         Optional<String> search = search(label);
         if (!search.isPresent()) {
             return Collections.singletonList(label);
@@ -103,7 +101,7 @@ public class Lexigram {
         return cleanUpList(keywordAndSynonyms);
     }
 
-    public static Concept concept(String conceptId) throws UnirestException {
+    public static Concept concept(String conceptId) {
         /* Get info (label and synonyms) of concept */
         JSONObject body = get("https://api.lexigram.io/v1/lexigraph/concepts/" + conceptId);
 
@@ -118,7 +116,7 @@ public class Lexigram {
         return concept;
     }
 
-    public static Optional<String> search(String label) throws UnirestException {
+    public static Optional<String> search(String label) {
         JSONObject body = get("https://api.lexigram.io/v1/lexigraph/search?q="+ URLEncoder.encode(label));
         JSONArray results = body.getJSONArray("conceptSearchHits");
         if (results.length() == 0) {
@@ -149,11 +147,17 @@ public class Lexigram {
         return cleanLabel;
     }
 
-    private static JSONObject get(String url) throws UnirestException {
+    private static JSONObject get(String url) {
         if (!Cache.CALLS.containsKey(url)) {
-            HttpResponse<JsonNode> response = Unirest.get(url)
-                    .header("authorization", "Bearer " + API_KEY)
-                    .asJson();
+            HttpResponse<JsonNode> response = null;
+            try {
+                response = Unirest.get(url)
+                        .header("authorization", "Bearer " + API_KEY)
+                        .asJson();
+            } catch (UnirestException e) {
+                throw new RuntimeException(e);
+            }
+
             JSONObject body = new JSONObject(response.getBody());
             String firstArrayObject = body.getJSONArray("array").getJSONObject(0).toString();
 

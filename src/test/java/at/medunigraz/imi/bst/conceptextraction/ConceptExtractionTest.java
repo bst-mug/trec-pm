@@ -36,13 +36,13 @@ public class ConceptExtractionTest {
     }
 
     @Test
-    public void preferredTerm() throws UnirestException {
+    public void preferredTerm() {
         Assert.assertEquals(Lexigram.getPreferredTerm("cervical cancer"), "carcinoma of cervix");
         Assert.assertEquals(Lexigram.getPreferredTerm("notfoundlabel"), "notfoundlabel");
     }
 
     @Test
-    public void addSynonyms() throws UnirestException {
+    public void addSynonyms() {
         Assert.assertThat(Lexigram.addSynonymsFromBestConceptMatch("cholangiocarcinoma"),
                 containsInAnyOrder("cholangiocellular carcinoma",
                         "cholangiocarcinoma of biliary tract",

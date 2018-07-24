@@ -28,13 +28,7 @@ public class DiseaseReplacerQueryDecorator extends QueryDecorator {
 	private void expandDisease(Topic topic) {
 		String disease = topic.getDisease();
 
-		String prefferedTerm = null;
-		try {
-			prefferedTerm = Lexigram.getPreferredTerm(disease);
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			prefferedTerm = disease;
-		}
+		String prefferedTerm = Lexigram.getPreferredTerm(disease);
 
 		topic.withDisease(prefferedTerm);
 		
