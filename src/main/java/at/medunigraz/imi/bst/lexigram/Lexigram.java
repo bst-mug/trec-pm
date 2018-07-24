@@ -65,21 +65,15 @@ public class Lexigram {
     /* Retrieves the preferred term ("label") of the best-matching concept.
     *  If no match, it returns itself */
     public static String getPreferredTerm(String label) throws UnirestException {
-        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/search?q="+ URLEncoder.encode(label));
-        JSONArray results = body.getJSONArray("conceptSearchHits");
+        Optional<String> search = search(label);
+        if (!search.isPresent()) {
+            return label;
+        }
 
         try {
-            if (results.length() == 0)
-                return label;
-            JSONObject item = results.getJSONObject(0);
-            JSONObject concept = item.getJSONObject("concept");
-            String conceptId = concept.getString("id");
-
             /* Get info (label and synonyms) of concept */
-            body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ conceptId);
-
+            JSONObject body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ search.get());
             return cleanUpString(body.getString("label"));
-
         }
         catch (Exception e) {
             throw e;
@@ -91,23 +85,17 @@ public class Lexigram {
     /* Possibly the most useful function: Given a string, it searches for the best-matching concept and adds all synonyms
      *  If no match, it returns a list with itself */
     public static List<String> addSynonymsFromBestConceptMatch(String label) throws UnirestException {
-        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/search?q=" + URLEncoder.encode(label));
-        JSONArray results = body.getJSONArray("conceptSearchHits");
+        Optional<String> search = search(label);
+        if (!search.isPresent()) {
+            return Collections.singletonList(label);
+        }
 
         try {
             List<String> keywordAndSynonyms = new ArrayList<>();
             keywordAndSynonyms.add(label);
 
-            /* Get first concept (most relevant search hit) */
-            if (results.length() == 0)
-                return Collections.singletonList(label);
-            JSONObject item = results.getJSONObject(0);
-            JSONObject concept = item.getJSONObject("concept");
-            String conceptId = concept.getString("id");
-
             /* Get info (label and synonyms) of concept */
-
-            body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ conceptId);
+            JSONObject body = get("https://api.lexigram.io/v1/lexigraph/concepts/"+ search.get());
 
             keywordAndSynonyms.add(body.getString("label"));
 
@@ -124,6 +112,19 @@ public class Lexigram {
         }
 
         //return Collections.singletonList(label);
+    }
+
+    public static Optional<String> search(String label) throws UnirestException {
+        JSONObject body = get("https://api.lexigram.io/v1/lexigraph/search?q="+ URLEncoder.encode(label));
+        JSONArray results = body.getJSONArray("conceptSearchHits");
+        if (results.length() == 0) {
+            return Optional.empty();
+        }
+
+        /* Get first concept (most relevant search hit) */
+        JSONObject item = results.getJSONObject(0);
+        JSONObject concept = item.getJSONObject("concept");
+        return Optional.of(concept.getString("id"));
     }
 
     private static List<String> cleanUpList(List<String> labels) {
