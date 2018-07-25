@@ -16,11 +16,13 @@ public class TemplateQueryDecorator extends MapQueryDecorator {
 	public TemplateQueryDecorator(File template, Query decoratedQuery) {
 		super(decoratedQuery);
 		this.template = template;
+		// XXX This might not be necessary
 		loadTemplate();
 	}
 
 	@Override
 	public List<Result> query(Topic topic) {
+	    // We reload the template for each new query, as the jsonQuery has been filled with the previous topic data
 		loadTemplate();
 		map(topic.getAttributes());
 		return decoratedQuery.query(topic);
