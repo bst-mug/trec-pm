@@ -19,6 +19,8 @@ public class Topic {
 	private String demographic = "";
 	private String other = "";
 
+	private HashMap<String, String> keymap = new HashMap<>();
+
 	public Topic() {
 
 	}
@@ -107,6 +109,10 @@ public class Topic {
 		this.other = other;
 		return this;
 	}
+
+	public String addMapping(Map.Entry<String, String> entry) {
+	    return keymap.put(entry.getKey(), entry.getValue());
+    }
 	
 	private static boolean hasElement(Element element, String name) {
 		return element.getElementsByTagName(name).getLength() > 0 ? true : false;
@@ -168,6 +174,8 @@ public class Topic {
 		ret.put("other", other);
 		ret.put("sex", getSex());
 		ret.put("age", String.valueOf(getAge()));
+
+		ret.putAll(keymap);
 		
 		return ret;
 	}

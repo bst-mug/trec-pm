@@ -1,0 +1,14 @@
+{
+  "multi_match": {
+    "query": "{{synonym}}",
+    "fields": [
+      "title^2",
+      "abstract",
+      "keyword",
+      "meshTags"
+    ],
+    "tie_breaker": 0.3,
+    "type": "best_fields",
+    "boost": 0.7
+  }
+}
