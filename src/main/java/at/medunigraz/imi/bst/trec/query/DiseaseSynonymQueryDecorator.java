@@ -3,9 +3,7 @@ package at.medunigraz.imi.bst.trec.query;
 import at.medunigraz.imi.bst.lexigram.Lexigram;
 import at.medunigraz.imi.bst.trec.model.Topic;
 
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 public class DiseaseSynonymQueryDecorator extends DynamicQueryDecorator {
 

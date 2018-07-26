@@ -29,7 +29,7 @@ public class TemplateQueryDecorator extends MapQueryDecorator {
 		return decoratedQuery.query(topic);
 	}
 
-	static String readTemplate(File template) {
+	protected static String readTemplate(File template) {
 		String ret = "";
 		try {
 			ret = FileUtils.readFileToString(template, "UTF-8");

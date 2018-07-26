@@ -2,10 +2,8 @@ package at.medunigraz.imi.bst.trec.query;
 
 import at.medunigraz.imi.bst.trec.model.Result;
 import at.medunigraz.imi.bst.trec.model.Topic;
-import joptsimple.internal.Strings;
 
-import java.io.File;
-import java.util.*;
+import java.util.List;
 
 public abstract class DynamicQueryDecorator extends QueryDecorator {
 
@@ -15,7 +13,7 @@ public abstract class DynamicQueryDecorator extends QueryDecorator {
 
     @Override
     public List<Result> query(Topic topic) {
-        topic = expandTopic(topic);
+        expandTopic(topic);
         return decoratedQuery.query(topic);
     }
 
