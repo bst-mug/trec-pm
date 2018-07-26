@@ -4,6 +4,8 @@ import at.medunigraz.imi.bst.config.TrecConfig;
 import at.medunigraz.imi.bst.trec.model.Topic;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -13,6 +15,11 @@ public class DiseaseSynonymQueryDecoratorTest extends QueryDecoratorTest {
 	private static final String DISEASE = "Cholangiocarcinoma";
 
 	private final File template = new File(getClass().getResource("/templates/match-title-expansion.json").getFile());
+
+	@Before
+	public void setUp() {
+		Assume.assumeFalse(TrecConfig.LEXIGRAM_APIKEY.equalsIgnoreCase("secret")); // placeholder key
+	}
 
 	public DiseaseSynonymQueryDecoratorTest() {
 		this.decoratedQuery = new DiseaseSynonymQueryDecorator(
