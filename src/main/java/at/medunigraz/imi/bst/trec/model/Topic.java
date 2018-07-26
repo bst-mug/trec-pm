@@ -1,9 +1,7 @@
 package at.medunigraz.imi.bst.trec.model;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,6 +16,9 @@ public class Topic {
 	private String gene = "";
 	private String demographic = "";
 	private String other = "";
+
+	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+	public List<String> diseaseSynonyms = new ArrayList<>();
 
 	public Topic() {
 
@@ -107,6 +108,11 @@ public class Topic {
 		this.other = other;
 		return this;
 	}
+
+	public Topic withDiseaseSynonym(String synonym) {
+		this.diseaseSynonyms.add(synonym);
+		return this;
+	}
 	
 	private static boolean hasElement(Element element, String name) {
 		return element.getElementsByTagName(name).getLength() > 0 ? true : false;
@@ -168,6 +174,10 @@ public class Topic {
 		ret.put("other", other);
 		ret.put("sex", getSex());
 		ret.put("age", String.valueOf(getAge()));
+
+		for (int i = 0; i < diseaseSynonyms.size(); i++) {
+			ret.put("diseaseSynonyms" + i, diseaseSynonyms.get(i));
+		}
 		
 		return ret;
 	}

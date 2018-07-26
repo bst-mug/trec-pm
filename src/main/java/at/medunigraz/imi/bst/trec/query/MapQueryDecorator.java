@@ -9,14 +9,16 @@ public abstract class MapQueryDecorator extends QueryDecorator {
 	}
 
 	protected void map(Map<String, String> keymap) {
-		String jsonQuery = getJSONQuery();
-		
+		setJSONQuery(map(getJSONQuery(), keymap));
+	}
+
+	public static String map(String jsonQuery, Map<String, String> keymap) {
+		String ret = jsonQuery;
 		for (Map.Entry<String, String> entry : keymap.entrySet()) {
 			String search = String.format("{{%s}}", entry.getKey());
-			jsonQuery = jsonQuery.replace(search, entry.getValue());
+			ret = ret.replace(search, entry.getValue());
 		}
-
-		setJSONQuery(jsonQuery);
+		return ret;
 	}
 
 }
