@@ -1,6 +1,6 @@
 {
   "multi_match": {
-    "query": "{{synonym}}",
+    "query": "{{[diseaseSynonyms]}}",
     "fields": [
       "title^2",
       "abstract",

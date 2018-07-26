@@ -1,1 +1,1 @@
-{"query": {"dis_max": { "queries": [ {{[synonym.json]}} ]}}}
+{"dis_max": { "queries": [ {{diseaseSynonyms:synonym.json}} ]}}

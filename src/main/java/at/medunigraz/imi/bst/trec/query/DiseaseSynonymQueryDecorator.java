@@ -9,15 +9,18 @@ import java.util.Map;
 
 public class DiseaseSynonymQueryDecorator extends DynamicQueryDecorator {
 
-    public DiseaseSynonymQueryDecorator(File subtemplate, Query decoratedQuery) {
-        super(subtemplate, decoratedQuery);
+    public DiseaseSynonymQueryDecorator(Query decoratedQuery) {
+        super(decoratedQuery);
     }
 
     @Override
-    public Map.Entry<String, String> expandTopic(Topic topic) {
+    public Topic expandTopic(Topic topic) {
         String disease = topic.getDisease();
         List<String> synonyms = Lexigram.getSynonymsFromBestConceptMatch(disease);
-        return expand("synonym", synonyms);
+        for (String synonym : synonyms) {
+            topic.withDiseaseSynonym(synonym);
+        }
+        return topic;
     }
 
 }

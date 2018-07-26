@@ -1,1 +1,1 @@
-{ "match": { "title": "{{synonym}}" }}
+{ "match": { "title": "{{[diseaseSynonyms]}}" }}

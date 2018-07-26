@@ -14,23 +14,21 @@ public class DiseaseSynonymQueryDecoratorTest extends QueryDecoratorTest {
 
 	private final File template = new File(getClass().getResource("/templates/match-title-expansion.json").getFile());
 
-	private final File subtemplate = new File(getClass().getResource("/templates/subtemplates/synonym.json").getFile());
-
 	public DiseaseSynonymQueryDecoratorTest() {
-		this.decoratedQuery = new DiseaseSynonymQueryDecorator(subtemplate,
-				new TemplateQueryDecorator(template, new ElasticSearchQuery(TrecConfig.ELASTIC_BA_INDEX)));
+		this.decoratedQuery = new DiseaseSynonymQueryDecorator(
+				new SubTemplateQueryDecorator(template, new ElasticSearchQuery(TrecConfig.ELASTIC_BA_INDEX)));
 		this.topic = new Topic().withDisease(DISEASE);
 	}
 
 	@Test
 	public void testGetTopic() {
 		DummyElasticSearchQuery dummyQuery = new DummyElasticSearchQuery();
-		Query decorator = new DiseaseSynonymQueryDecorator(subtemplate, dummyQuery);
+		Query decorator = new DiseaseSynonymQueryDecorator(dummyQuery);
 
 		decorator.query(new Topic().withDisease(DISEASE));
 
 		Map<String, String> actual = dummyQuery.getTopic().getAttributes();
-		Assert.assertThat(actual, Matchers.hasKey("[synonym.json]"));
-		Assert.assertThat(actual.get("[synonym.json]"), Matchers.containsString("{ \"match\": { \"title\": \"cholangiocellular carcinoma\" }}, { \"match\": { \"title\": \"bile duct carcinoma\" }}"));
+		Assert.assertThat(actual, Matchers.hasEntry("diseaseSynonyms0", "cholangiocellular carcinoma"));
+		Assert.assertThat(actual, Matchers.hasEntry("diseaseSynonyms1", "bile duct carcinoma"));
 	}
 }
