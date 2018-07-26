@@ -16,6 +16,10 @@ public class WordRemovalQueryDecorator extends QueryDecorator {
 		DOMAIN_STOPWORDS.add("carcinoma");
 		DOMAIN_STOPWORDS.add("tumor");
 		DOMAIN_STOPWORDS.add("amplification");
+        DOMAIN_STOPWORDS.add("of");
+        DOMAIN_STOPWORDS.add("the");
+        DOMAIN_STOPWORDS.add("malignant");
+        DOMAIN_STOPWORDS.add("neoplasm");
 	};
 
 	private static final String TOKEN_SEPARATOR = " ";
