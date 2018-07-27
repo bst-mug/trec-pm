@@ -202,6 +202,10 @@ public class Lexigram {
                 throw new RuntimeException("Unauthorized access to Lexigram API. Place your key in the file trec-pm.properties.");
             }
 
+            if (response.getStatus() != 200) {
+                throw new RuntimeException("Got status code " + response.getStatus() + " from Lexigram API with body " + response.getBody());
+            }
+
             JSONObject body = new JSONObject(response.getBody());
             String firstArrayObject = body.getJSONArray("array").getJSONObject(0).toString();
 
