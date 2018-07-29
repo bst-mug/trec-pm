@@ -87,7 +87,7 @@ public class Experiment extends Thread {
 		csw.close();
 
 		Metrics allMetrics = metrics.get("all");
-		LOG.info("Got NDCG = {}, infNDCG = {}, P@10 = {} for collection {}", allMetrics.getNDCG(), allMetrics.getInfNDCG(), allMetrics.getP10(), name);
+		LOG.info("Got NDCG = {}, infNDCG = {}, P@10 = {}, set_recall = {} for collection {}", allMetrics.getNDCG(), allMetrics.getInfNDCG(), allMetrics.getP10(), allMetrics.getSetRecall(), name);
 		LOG.trace(allMetrics);
 		
 		// TODO Experiment API #53

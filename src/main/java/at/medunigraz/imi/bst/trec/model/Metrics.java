@@ -62,4 +62,8 @@ public class Metrics {
 	public double getF() {
 		return getMetric("set_F");
 	}
+
+	public double getSetRecall() {
+		return getMetric("set_recall");
+	}
 }
