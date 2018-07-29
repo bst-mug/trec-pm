@@ -6,6 +6,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -207,7 +208,13 @@ public class Lexigram {
             }
 
             JSONObject body = new JSONObject(response.getBody());
-            String firstArrayObject = body.getJSONArray("array").getJSONObject(0).toString();
+
+            String firstArrayObject = "";
+            try {
+                firstArrayObject = body.getJSONArray("array").getJSONObject(0).toString();
+            } catch (JSONException e) {
+                throw new RuntimeException("Malformed response from Lexigram API: " + body);
+            }
 
             Cache.CALLS.put(url, firstArrayObject);
             Cache.save();
