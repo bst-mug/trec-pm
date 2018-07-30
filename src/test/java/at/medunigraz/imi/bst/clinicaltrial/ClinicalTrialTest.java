@@ -22,6 +22,7 @@ public class ClinicalTrialTest {
         assertThat(trial.summary, startsWith("This is a phase 1 trial to evaluate the safety and toxicity"));
         assertThat(trial.description, startsWith("Cancer in its various forms continues to be a major U.S. health"));
         assertThat(trial.studyType, is("Interventional"));
+        assertThat(trial.interventionModel, is("Single Group Assignment"));
         assertThat(trial.primaryPurpose, is("Treatment"));
         assertThat(trial.outcomeMeasures, hasItems("Maximum Tolerated Dose (MTD) of RENCA Macrobeads", "Tumor Marker Response"));
         assertThat(trial.outcomeDescriptions, hasSize(4));
@@ -51,6 +52,7 @@ public class ClinicalTrialTest {
         assertThat(trial.summary, startsWith("This randomized phase III trial studies combination chemotherapy and"));
         assertThat(trial.description, startsWith("PRIMARY OBJECTIVES:"));
         assertThat(trial.studyType, is("Interventional"));
+        assertThat(trial.interventionModel, is("Parallel Assignment"));
         assertThat(trial.primaryPurpose, is("Treatment"));
         assertThat(trial.outcomeMeasures, hasItems("DFS", "OS"));
         assertThat(trial.outcomeDescriptions, hasSize(3));
