@@ -8,9 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class NCBIGeneInfo {
@@ -40,14 +38,6 @@ public class NCBIGeneInfo {
 
     public Gene get(String key) {
         return symbolToGene.get(key);
-    }
-
-    public List<String> getSynonyms(String symbol) {
-        List<String> ret = new ArrayList<>();
-        if (!symbolToGene.containsKey(symbol)) {
-            return ret;
-        }
-        return symbolToGene.get(symbol).getSynonyms();
     }
 
     private void readGenes() {
