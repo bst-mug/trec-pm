@@ -83,8 +83,6 @@ public class NCBIGeneInfo {
         // Gene.Field.SYNONYMS,
         // Gene.Field.OTHER_DESIGNATIONS
 
-        GeneExpanderQueryDecorator decorator = new GeneExpanderQueryDecorator(expandTo, null);
-
         for (Map.Entry<String, Gene> entry : symbolToGene.entrySet()) {
             String symbol = entry.getKey();
             Gene gene = entry.getValue();
