@@ -20,6 +20,9 @@ public class Topic {
 	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
 	public List<String> diseaseSynonyms = new ArrayList<>();
 
+	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+	public List<String> geneSynonyms = new ArrayList<>();
+
 	public Topic() {
 
 	}
@@ -113,6 +116,11 @@ public class Topic {
 		this.diseaseSynonyms.add(synonym);
 		return this;
 	}
+
+	public Topic withGeneSynonym(String synonym) {
+		this.geneSynonyms.add(synonym);
+		return this;
+	}
 	
 	private static boolean hasElement(Element element, String name) {
 		return element.getElementsByTagName(name).getLength() > 0 ? true : false;
@@ -181,6 +189,10 @@ public class Topic {
 
 		for (int i = 0; i < diseaseSynonyms.size(); i++) {
 			ret.put("diseaseSynonyms" + i, diseaseSynonyms.get(i));
+		}
+
+		for (int i = 0; i < geneSynonyms.size(); i++) {
+			ret.put("geneSynonyms" + i, geneSynonyms.get(i));
 		}
 		
 		return ret;
