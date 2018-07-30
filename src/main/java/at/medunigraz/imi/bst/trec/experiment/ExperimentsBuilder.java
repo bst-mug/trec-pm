@@ -82,6 +82,12 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+	public ExperimentsBuilder withGeneSynonym() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new GeneSynonymQueryDecorator(previousDecorator));
+		return this;
+	}
+
 	public ExperimentsBuilder withGoldStandard(Experiment.GoldStandard gold) {
 		buildingExp.setGoldStandard(gold);
 		return this;
