@@ -15,9 +15,11 @@ public class SubTemplateQueryDecorator extends TemplateQueryDecorator {
     /**
      * Matches and captures regular filenames enclosed in double curly braces, e.g.
      * "{{positive_boosters.json}}" or
-     * "{{diseaseSynonyms:disease_synonym.json}}"
+     * "{{diseaseSynonyms:disease_synonym.json}}" or
+     * "{{biomedical_articles/positive_boosters.json}}" or
+     * "{{diseaseSynonyms:biomedical_articles/disease_synonym.json}}"
      */
-    private static final Pattern TEMPLATE_PATTERN = Pattern.compile("\\{\\{(?:(\\w+):)?(\\w+\\.json)\\}\\}");
+    private static final Pattern TEMPLATE_PATTERN = Pattern.compile("\\{\\{(?:(\\w+):)?([/\\w]+\\.json)\\}\\}");
 
     /**
      * Matches e.g. "{{[diseaseSynonyms]}}"
