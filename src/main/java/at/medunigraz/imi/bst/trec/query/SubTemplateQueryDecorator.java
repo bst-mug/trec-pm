@@ -24,7 +24,7 @@ public class SubTemplateQueryDecorator extends TemplateQueryDecorator {
      */
     private static final Pattern DYNAMIC_TEMPLATE_PATTERN = Pattern.compile("\\{\\{(\\[\\w+\\])\\}\\}");
 
-    private static final File SUBTEMPLATES_FOLDER = new File(SubTemplateQueryDecorator.class.getResource("/templates/subtemplates/").getFile());
+    private static final File SUBTEMPLATES_FOLDER = new File(SubTemplateQueryDecorator.class.getResource("/subtemplates/").getFile());
 
     private static final String FIELD_SEPARATOR = ", ";
 
