@@ -1,7 +1,6 @@
 package at.medunigraz.imi.bst.trec.expansion;
 
 import at.medunigraz.imi.bst.trec.model.Gene;
-import at.medunigraz.imi.bst.trec.query.GeneExpanderQueryDecorator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import org.apache.logging.log4j.LogManager;
