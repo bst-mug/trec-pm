@@ -49,7 +49,7 @@ public class ElasticSearch implements SearchEngine {
 				.setSize(1000).addStoredField("_id");
 
 		SearchResponse response = searchRequestBuilder.get();
-		LOG.trace(JsonUtils.prettify(response.toString()));
+		//LOG.trace(JsonUtils.prettify(response.toString()));
 
 		SearchHit[] results = response.getHits().getHits();
 
