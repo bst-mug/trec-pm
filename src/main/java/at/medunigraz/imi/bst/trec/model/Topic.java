@@ -138,6 +138,10 @@ public class Topic {
 		return gene;
 	}
 
+	public String[] getGeneTokens() {
+		return gene.split(" ");
+	}
+
 	public String getDemographic() {
 		return demographic;
 	}

@@ -27,7 +27,7 @@ public class GeneExpanderQueryDecorator extends QueryDecorator {
 	}
 
 	private void expandGenes(Topic topic) {
-		String[] geneTokens = topic.getGene().split(TOKEN_SEPARATOR);
+		String[] geneTokens = topic.getGeneTokens();
 
 		StringBuilder expandedGenes = new StringBuilder();
 		for (String token : geneTokens) {
