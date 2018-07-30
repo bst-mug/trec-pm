@@ -71,6 +71,10 @@ public class ClinicalTrialXmlHandler extends DefaultHandler {
             clinicalTrial.description = cleanup(tempVal.toString().trim());
         }
 
+        if (tag.equalsIgnoreCase("study_type")) {
+            clinicalTrial.studyType = tempVal.toString().trim();
+        }
+
         if (tag.equalsIgnoreCase("primary_purpose") &&
                 parentTag.equalsIgnoreCase("study_design_info")) {
             clinicalTrial.primaryPurpose = tempVal.toString().trim();

@@ -105,6 +105,7 @@ public class Indexing {
                 .field("official_title", StringEscapeUtils.escapeJson(trial.official_title))
                 .field("summary", StringEscapeUtils.escapeJson(trial.summary))
                 .field("description", StringEscapeUtils.escapeJson(trial.description))
+                .field("studyType", trial.studyType)
                 .field("primary_purpose", trial.primaryPurpose)
                 .field("outcomeMeasures", trial.outcomeMeasures)
                 .field("outcomeDescriptions", trial.outcomeDescriptions)
