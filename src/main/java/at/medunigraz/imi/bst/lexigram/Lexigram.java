@@ -55,6 +55,11 @@ public class Lexigram {
         }
     }
 
+    public static boolean isAPIKeyLoaded() {
+        final int MIN_API_KEY_LENGTH = 20;
+        return TrecConfig.LEXIGRAM_APIKEY.length() > MIN_API_KEY_LENGTH;
+    }
+
     /**
      * Retrieves the preferred term ("label") of the best-matching concept.
      * If no match, it returns itself

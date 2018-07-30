@@ -13,7 +13,7 @@ public class ConceptExtractionTest {
 
     @Before
     public void SetUp() {
-        Assume.assumeFalse(TrecConfig.LEXIGRAM_APIKEY.equalsIgnoreCase("secret")); // placeholder key
+        Assume.assumeTrue(Lexigram.isAPIKeyLoaded());
     }
 
     @Test

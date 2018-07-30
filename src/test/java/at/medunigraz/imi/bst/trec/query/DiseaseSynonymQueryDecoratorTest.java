@@ -1,6 +1,7 @@
 package at.medunigraz.imi.bst.trec.query;
 
 import at.medunigraz.imi.bst.config.TrecConfig;
+import at.medunigraz.imi.bst.lexigram.Lexigram;
 import at.medunigraz.imi.bst.trec.model.Topic;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -18,7 +19,7 @@ public class DiseaseSynonymQueryDecoratorTest extends QueryDecoratorTest {
 
 	@Before
 	public void setUp() {
-		Assume.assumeFalse(TrecConfig.LEXIGRAM_APIKEY.equalsIgnoreCase("secret")); // placeholder key
+		Assume.assumeTrue(Lexigram.isAPIKeyLoaded());
 	}
 
 	public DiseaseSynonymQueryDecoratorTest() {
