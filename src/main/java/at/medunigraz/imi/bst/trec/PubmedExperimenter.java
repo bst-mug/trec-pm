@@ -37,58 +37,58 @@ public class PubmedExperimenter {
 		
 		ExperimentsBuilder builder = new ExperimentsBuilder();
 
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostTemplate)
-//				.withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostTemplate)
-//				.withGeneExpansion(expandTo).withWordRemoval();
-//
-//		// mugpubgene
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
-//				.withSubTemplate(negativeBoostKeywordsTemplate).withGeneExpansion(expandTo).withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(geneTemplate)
-//				.withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(geneTemplate)
-//				.withGeneExpansion(expandTo).withWordRemoval();
-//
-//		// mugpubbase
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostKeywordsTemplate)
-//				.withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withKeyword(String.valueOf(2))
-//				.withTemplate(relaxedTemplate).withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(englishTemplate)
-//				.withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(b0Template)
-//				.withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(synonymTemplate)
-//				.withWordRemoval();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostKeywordsTemplate)
-//				.withWordRemoval().withDiseaseExpander();
-//
-//		// mugpubdiseas
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
-//				.withSubTemplate(negativeBoostKeywordsTemplate).withWordRemoval().withDiseaseExpander();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostKeywordsTemplate)
-//				.withWordRemoval().withDiseaseReplacer();
-//
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(regexpDrugsTemplate)
-//				.withWordRemoval();
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostTemplate)
+				.withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostTemplate)
+				.withGeneExpansion(expandTo).withWordRemoval();
+
+		// mugpubgene
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
+				.withSubTemplate(negativeBoostKeywordsTemplate).withGeneExpansion(expandTo).withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(geneTemplate)
+				.withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(geneTemplate)
+				.withGeneExpansion(expandTo).withWordRemoval();
+
+		// mugpubbase
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostKeywordsTemplate)
+				.withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withKeyword(String.valueOf(2))
+				.withTemplate(relaxedTemplate).withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(englishTemplate)
+				.withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(b0Template)
+				.withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(synonymTemplate)
+				.withWordRemoval();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostKeywordsTemplate)
+				.withWordRemoval().withDiseaseExpander();
+
+		// mugpubdiseas
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
+				.withSubTemplate(negativeBoostKeywordsTemplate).withWordRemoval().withDiseaseExpander();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(boostKeywordsTemplate)
+				.withWordRemoval().withDiseaseReplacer();
+
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(regexpDrugsTemplate)
+				.withWordRemoval();
 
 		// mugpubboost
 		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target)
 				.withSubTemplate(negativeBoostKeywordsTemplate).withWordRemoval();
 
 		// mugpubshould
-//		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(shouldTemplate)
-//				.withWordRemoval();
+		builder.newExperiment().withYear(year).withGoldStandard(goldStandard).withTarget(target).withTemplate(shouldTemplate)
+				.withWordRemoval();
 
 		Set<Experiment> experiments = builder.build();
 
