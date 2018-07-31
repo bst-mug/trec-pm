@@ -7,10 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NCBIGeneInfo {
     private static final Logger LOG = LogManager.getLogger();
@@ -47,6 +44,13 @@ public class NCBIGeneInfo {
             return ret;
         }
         return symbolToGene.get(symbol).getSynonyms();
+    }
+
+    public Optional<String> getDescription(String symbol) {
+        if (!symbolToGene.containsKey(symbol)) {
+            return Optional.empty();
+        }
+        return Optional.of(symbolToGene.get(symbol).getDescription());
     }
 
     private void readGenes() {

@@ -94,6 +94,12 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+    public ExperimentsBuilder withGeneDescription() {
+        Query previousDecorator = buildingExp.getDecorator();
+        buildingExp.setDecorator(new GeneDescriptionQueryDecorator(previousDecorator));
+        return this;
+    }
+
 	public ExperimentsBuilder withSolidTumor() {
 		Query previousDecorator = buildingExp.getDecorator();
 		buildingExp.setDecorator(new SolidTumorQueryDecorator(previousDecorator));
