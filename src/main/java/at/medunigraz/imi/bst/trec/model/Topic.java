@@ -20,6 +20,9 @@ public class Topic {
     // MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
     public String diseasePreferredTerm = "";
 
+    // MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+    public List<String> geneDescriptions = new ArrayList<>();
+
 	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
 	public List<String> diseaseSynonyms = new ArrayList<>();
 
@@ -123,6 +126,11 @@ public class Topic {
         return this;
     }
 
+    public Topic withGeneDescription(String description) {
+        this.geneDescriptions.add(description);
+        return this;
+    }
+
 	public Topic withDiseaseSynonym(String synonym) {
 		this.diseaseSynonyms.add(synonym);
 		return this;
@@ -204,6 +212,10 @@ public class Topic {
 		ret.put("age", String.valueOf(getAge()));
 
 		ret.put("diseasePreferredTerm", diseasePreferredTerm);
+
+        for (int i = 0; i < geneDescriptions.size(); i++) {
+            ret.put("geneDescriptions" + i, geneDescriptions.get(i));
+        }
 
 		for (int i = 0; i < diseaseSynonyms.size(); i++) {
 			ret.put("diseaseSynonyms" + i, diseaseSynonyms.get(i));
