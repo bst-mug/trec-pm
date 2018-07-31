@@ -34,6 +34,7 @@ public class WordRemovalQueryDecorator extends QueryDecorator {
 	public List<Result> query(Topic topic) {
 		topic.withDisease(removeStopwords(topic.getDisease()));
 		topic.withGene(removeStopwords(topic.getGene()));
+		topic.withDiseasePreferredTerm(removeStopwords(topic.diseasePreferredTerm));
 		topic.diseaseSynonyms = removeStopwords(topic.diseaseSynonyms);
 		return decoratedQuery.query(topic);
 	}

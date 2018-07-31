@@ -17,6 +17,9 @@ public class Topic {
 	private String demographic = "";
 	private String other = "";
 
+    // MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+    public String diseasePreferredTerm = "";
+
 	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
 	public List<String> diseaseSynonyms = new ArrayList<>();
 
@@ -115,6 +118,11 @@ public class Topic {
 		return this;
 	}
 
+	public Topic withDiseasePreferredTerm(String term) {
+        this.diseasePreferredTerm = term;
+        return this;
+    }
+
 	public Topic withDiseaseSynonym(String synonym) {
 		this.diseaseSynonyms.add(synonym);
 		return this;
@@ -194,6 +202,8 @@ public class Topic {
 		ret.put("other", other);
 		ret.put("sex", getSex());
 		ret.put("age", String.valueOf(getAge()));
+
+		ret.put("diseasePreferredTerm", diseasePreferredTerm);
 
 		for (int i = 0; i < diseaseSynonyms.size(); i++) {
 			ret.put("diseaseSynonyms" + i, diseaseSynonyms.get(i));
