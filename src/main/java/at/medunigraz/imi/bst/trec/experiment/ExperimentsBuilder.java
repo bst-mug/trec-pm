@@ -76,6 +76,12 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+    public ExperimentsBuilder withDiseasePreferredTerm() {
+        Query previousDecorator = buildingExp.getDecorator();
+        buildingExp.setDecorator(new DiseasePreferredTermQueryDecorator(previousDecorator));
+        return this;
+    }
+
 	public ExperimentsBuilder withDiseaseSynonym() {
 		Query previousDecorator = buildingExp.getDecorator();
 		buildingExp.setDecorator(new DiseaseSynonymQueryDecorator(previousDecorator));

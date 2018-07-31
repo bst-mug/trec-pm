@@ -15,6 +15,8 @@ public class WordRemovalQueryDecorator extends QueryDecorator {
 		DOMAIN_STOPWORDS.add("cancer");
 		DOMAIN_STOPWORDS.add("carcinoma");
 		DOMAIN_STOPWORDS.add("tumor");
+		DOMAIN_STOPWORDS.add("tumour");
+		DOMAIN_STOPWORDS.add("primary");
 		DOMAIN_STOPWORDS.add("amplification");
         DOMAIN_STOPWORDS.add("of");
         DOMAIN_STOPWORDS.add("the");
