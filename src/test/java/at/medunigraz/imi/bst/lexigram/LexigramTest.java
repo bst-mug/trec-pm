@@ -1,7 +1,5 @@
-package at.medunigraz.imi.bst.conceptextraction;
+package at.medunigraz.imi.bst.lexigram;
 
-import at.medunigraz.imi.bst.config.TrecConfig;
-import at.medunigraz.imi.bst.lexigram.Lexigram;
 import org.junit.*;
 
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -9,7 +7,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 
-public class ConceptExtractionTest {
+public class LexigramTest {
 
     @Before
     public void SetUp() {
@@ -42,6 +40,20 @@ public class ConceptExtractionTest {
                         "bile duct carcinoma",
                         "cholangiocarcinoma",
                         "bile duct adenocarcinoma"));
+
+        Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("liposarcoma"),
+                containsInAnyOrder("liposarcoma",
+                        "fibroliposarcoma"));
+
+        Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("meningioma"),
+                containsInAnyOrder("secretory meningioma",
+                        "mgm",
+                        "meningioma",
+                        "meningiomas",
+                        "benign meningioma",
+                        "lymphoplasmocyte-rich meningioma",
+                        "microcystic meningioma",
+                        "metaplastic meningioma"));
 
         Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("notfoundlabel"),
                 empty());

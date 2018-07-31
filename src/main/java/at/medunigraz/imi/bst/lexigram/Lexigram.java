@@ -24,6 +24,13 @@ public class Lexigram {
 
     private static final String ENDPOINT = "https://api.lexigram.io/v1/lexigraph/";
 
+    private static final List<String> NOISE = new ArrayList<>();
+    static {
+        NOISE.add("classification international");
+        NOISE.add("no oncology subtype");
+        NOISE.add("morphology");
+    }
+
     private static class Cache {
         private static final String FILENAME = "cache/lexigram.ser";
         private static HashMap<String, String> CALLS = new HashMap<>();
@@ -190,11 +197,29 @@ public class Lexigram {
 
     private static String cleanUpString(String label) {
         String cleanLabel = label;
+
+        // Lowercase everything
         cleanLabel = cleanLabel.toLowerCase();
+
+        // Remove stuff in parentheses
         cleanLabel = cleanLabel.replaceAll("\\(.*\\)", "");
+
+        // Remove stuff in square brackets
         cleanLabel = cleanLabel.replaceAll("\\[.*\\]", "");
+
+        // Remove stuff after comma
         cleanLabel = cleanLabel.split(",")[0];
-        return cleanLabel;
+
+        // Remove noise
+        for (String stopword : NOISE) {
+            cleanLabel = cleanLabel.replace(stopword, "");
+        }
+
+        // Remove extra whitespace due to cleaning
+        cleanLabel = cleanLabel.replaceAll(" {2,}", " ");
+
+        // Remove whitespace at the end
+        return cleanLabel.trim();
     }
 
     private static JSONObject get(String url) {
