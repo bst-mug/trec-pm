@@ -88,6 +88,12 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+	public ExperimentsBuilder withSolidTumor() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new SolidTumorQueryDecorator(previousDecorator));
+		return this;
+	}
+
 	public ExperimentsBuilder withGoldStandard(Experiment.GoldStandard gold) {
 		buildingExp.setGoldStandard(gold);
 		return this;
