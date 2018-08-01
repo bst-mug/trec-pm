@@ -106,6 +106,12 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+	public ExperimentsBuilder withGeneFamily() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new GeneFamilyQueryDecorator(previousDecorator));
+		return this;
+	}
+
 	public ExperimentsBuilder withGoldStandard(Experiment.GoldStandard gold) {
 		buildingExp.setGoldStandard(gold);
 		return this;
