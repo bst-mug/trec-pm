@@ -55,8 +55,16 @@ public class Metrics {
 		return getMetric("infAP");
 	}
 
+	public double getP5() {
+		return getMetric("P_5");
+	}
+
 	public double getP10() {
 		return getMetric("P_10");
+	}
+
+	public double getP15() {
+		return getMetric("P_15");
 	}
 
 	public double getF() {
