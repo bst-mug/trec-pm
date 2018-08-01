@@ -32,6 +32,9 @@ public class Topic {
 	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
 	public List<String> diseaseHypernyms = new ArrayList<>();
 
+	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+	public List<String> geneHypernyms = new ArrayList<>();
+
 	public Topic() {
 
 	}
@@ -136,13 +139,18 @@ public class Topic {
 		return this;
 	}
 
+	public Topic withGeneSynonym(String synonym) {
+		this.geneSynonyms.add(synonym);
+		return this;
+	}
+
 	public Topic withDiseaseHypernym(String hypernym) {
 		this.diseaseHypernyms.add(hypernym);
 		return this;
 	}
 
-	public Topic withGeneSynonym(String synonym) {
-		this.geneSynonyms.add(synonym);
+	public Topic withGeneHypernym(String hypernym) {
+		this.geneHypernyms.add(hypernym);
 		return this;
 	}
 	
@@ -221,12 +229,16 @@ public class Topic {
 			ret.put("diseaseSynonyms" + i, diseaseSynonyms.get(i));
 		}
 
+		for (int i = 0; i < geneSynonyms.size(); i++) {
+			ret.put("geneSynonyms" + i, geneSynonyms.get(i));
+		}
+
 		for (int i = 0; i < diseaseHypernyms.size(); i++) {
 			ret.put("diseaseHypernyms" + i, diseaseHypernyms.get(i));
 		}
 
-		for (int i = 0; i < geneSynonyms.size(); i++) {
-			ret.put("geneSynonyms" + i, geneSynonyms.get(i));
+		for (int i = 0; i < geneHypernyms.size(); i++) {
+			ret.put("geneHypernyms" + i, geneHypernyms.get(i));
 		}
 		
 		return ret;
