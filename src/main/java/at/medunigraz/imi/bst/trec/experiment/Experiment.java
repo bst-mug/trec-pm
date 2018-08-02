@@ -28,6 +28,10 @@ public class Experiment extends Thread {
 	private static final int YEAR_PUBLISHED_GS = 2017;
 
 	private int year;
+
+	private String experimentName = null;
+
+	public Metrics allMetrics = null;
 	
 	public static enum Task {
 		CLINICAL_TRIALS, PUBMED
@@ -86,7 +90,7 @@ public class Experiment extends Thread {
 		csw.write(metrics);
 		csw.close();
 
-		Metrics allMetrics = metrics.get("all");
+		allMetrics = metrics.get("all");
 		LOG.info("Got NDCG = {}, infNDCG = {}, P@5 = {}, P@10 = {}, P@15 = {}, R-Prec = {}, set_recall = {} for collection {}",
 				allMetrics.getNDCG(), allMetrics.getInfNDCG(), allMetrics.getP5(), allMetrics.getP10(), allMetrics.getP15(), allMetrics.getRPrec(), allMetrics.getSetRecall(),
 				name);
@@ -101,7 +105,14 @@ public class Experiment extends Thread {
 	}
 
 	public String getExperimentId() {
+		if (experimentName != null) {
+			return experimentName.replace(" ", "_");
+		}
 		return String.format("%s_%d_%s", getShortTaskName(), year, decorator.getName().replace(" ", "_"));
+	}
+
+	public void setExperimentName(String name) {
+		this.experimentName = name;
 	}
 
 	public void setYear(int year) {

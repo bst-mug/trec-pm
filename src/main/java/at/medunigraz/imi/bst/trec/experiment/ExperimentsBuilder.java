@@ -24,6 +24,11 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+	public ExperimentsBuilder withName(String name) {
+		buildingExp.setExperimentName(name);
+		return this;
+	}
+
 	@Deprecated
 	public ExperimentsBuilder withDecorator(Query decorator) {
 		buildingExp.setDecorator(decorator);
