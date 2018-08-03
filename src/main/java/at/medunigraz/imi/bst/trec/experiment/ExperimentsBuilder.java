@@ -105,6 +105,12 @@ public class ExperimentsBuilder {
         return this;
     }
 
+	public ExperimentsBuilder withDiseaseHypernym() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new DiseaseHypernymQueryDecorator(previousDecorator));
+		return this;
+	}
+
 	public ExperimentsBuilder withSolidTumor() {
 		Query previousDecorator = buildingExp.getDecorator();
 		buildingExp.setDecorator(new SolidTumorQueryDecorator(previousDecorator));
