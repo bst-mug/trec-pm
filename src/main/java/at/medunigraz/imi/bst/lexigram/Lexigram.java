@@ -30,9 +30,13 @@ public class Lexigram {
 
     private static final List<String> NOISE = new ArrayList<>();
     static {
-        NOISE.add("classification international");
-        NOISE.add("no oncology subtype");
+        NOISE.add("classification");
+        NOISE.add("international");
+        NOISE.add("no oncology");
+        NOISE.add("subtype");
         NOISE.add("morphology");
+        NOISE.add(" - category");
+        NOISE.add("ca - ");
     }
 
     private static class Cache {
