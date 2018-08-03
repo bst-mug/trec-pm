@@ -51,7 +51,7 @@ public class Experiment extends Thread {
 		TopicSet topicSet = new TopicSet(example);
 
 		File output = new File("results/" + getExperimentId() + ".trec_results");
-		final String runName = "experiment";  // TODO generate from experimentID, but respecting TREC syntax
+		final String runName = getExperimentName();  // TODO generate from experimentID, but respecting TREC syntax
 		TrecWriter tw = new TrecWriter(output, runName);
 
 		// TODO DRY Issue #53
@@ -113,6 +113,14 @@ public class Experiment extends Thread {
 
 	public void setExperimentName(String name) {
 		this.experimentName = name;
+	}
+
+	public String getExperimentName() {
+		if (experimentName == null) {
+			return "experiment";
+		}
+
+		return experimentName;
 	}
 
 	public void setYear(int year) {
