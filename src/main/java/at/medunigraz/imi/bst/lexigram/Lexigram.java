@@ -1,6 +1,10 @@
 package at.medunigraz.imi.bst.lexigram;
 
 import at.medunigraz.imi.bst.config.TrecConfig;
+import at.medunigraz.imi.bst.trec.model.Topic;
+import at.medunigraz.imi.bst.trec.model.TopicSet;
+import at.medunigraz.imi.bst.trec.stats.CSVStatsWriter;
+import at.medunigraz.imi.bst.trec.utils.JsonUtils;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -26,9 +30,13 @@ public class Lexigram {
 
     private static final List<String> NOISE = new ArrayList<>();
     static {
-        NOISE.add("classification international");
-        NOISE.add("no oncology subtype");
+        NOISE.add("classification");
+        NOISE.add("international");
+        NOISE.add("no oncology");
+        NOISE.add("subtype");
         NOISE.add("morphology");
+        NOISE.add(" - category");
+        NOISE.add("ca - ");
     }
 
     private static class Cache {
@@ -256,5 +264,48 @@ public class Lexigram {
         }
 
         return new JSONObject(Cache.CALLS.get(url));
+    }
+
+    /**
+     * Auxiliary main method to dump all expansions into a file for easier debug.
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        final File topicsFile = new File(CSVStatsWriter.class.getResource("/topics/topics2018.xml").getPath());
+
+        TopicSet topicSet = new TopicSet(topicsFile);
+        JSONObject output = createDump(topicSet);
+
+        System.out.println(JsonUtils.prettify(output));
+    }
+
+    private static JSONObject createDump(TopicSet topicSet) {
+        JSONObject output = new JSONObject();
+
+        Set<String> diseaseSet = new HashSet<>();
+
+        for (Topic topic : topicSet.getTopics()) {
+            String disease = topic.getDisease();
+
+            // Do not repeat diseases
+            if (diseaseSet.contains(disease)) {
+                continue;
+            }
+            diseaseSet.add(disease);
+
+            String preferredTerm = getPreferredTerm(disease);
+            List<String> synonyms = getSynonymsFromBestConceptMatch(disease);
+            List<String> ancestors = getAncestorsFromBestConceptMatch(disease);
+
+            JSONObject diseaseJson = new JSONObject()
+                    .put("preferredTerm", preferredTerm)
+                    .put("synonyms", synonyms)
+                    .put("ancestors", ancestors);
+
+            output.put(disease, diseaseJson);
+        }
+
+        return output;
     }
 }

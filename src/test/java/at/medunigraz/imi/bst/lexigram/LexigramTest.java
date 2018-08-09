@@ -55,6 +55,36 @@ public class LexigramTest {
                         "microcystic meningioma",
                         "metaplastic meningioma"));
 
+        Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("glioma"),
+                containsInAnyOrder("glioma",
+                        "gliomas",
+                        "malignant glioma"));
+
+        Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("glioblastoma"),
+                containsInAnyOrder("gbm",
+                        "glioblastoma",
+                        "glm",
+                        "spongioblastoma multiforme"));
+
+        Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("sarcoma"),
+                containsInAnyOrder("soft tissue tumour",
+                        "sarcoma of soft tissue",
+                        "sarcoma",
+                        "malignant tumour of soft tissue",
+                        "mesenchymal tumor",
+                        "malignant mesenchymal tumor",
+                        "malignant neoplasm of soft tissue",
+                        "malignant mesenchymal tumour",
+                        "malignant tumor of soft tissue",
+                        "mesenchymal tumour",
+                        "soft tissue sarcoma",
+                        "cancer of soft tissue",
+                        "soft tissue tumor"));
+
+        Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("breast cancer"),
+                containsInAnyOrder("brest cancer",
+                        "breast cancer"));
+
         Assert.assertThat(Lexigram.getSynonymsFromBestConceptMatch("notfoundlabel"),
                 empty());
     }

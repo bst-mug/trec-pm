@@ -17,11 +17,23 @@ public class Topic {
 	private String demographic = "";
 	private String other = "";
 
+    // MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+    public String diseasePreferredTerm = "";
+
+    // MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+    public List<String> geneDescriptions = new ArrayList<>();
+
 	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
 	public List<String> diseaseSynonyms = new ArrayList<>();
 
 	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
 	public List<String> geneSynonyms = new ArrayList<>();
+
+	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+	public List<String> diseaseHypernyms = new ArrayList<>();
+
+	// MUST be public to be accessed via Reflection on SubTemplateQueryDecorator
+	public List<String> geneHypernyms = new ArrayList<>();
 
 	public Topic() {
 
@@ -112,6 +124,16 @@ public class Topic {
 		return this;
 	}
 
+	public Topic withDiseasePreferredTerm(String term) {
+        this.diseasePreferredTerm = term;
+        return this;
+    }
+
+    public Topic withGeneDescription(String description) {
+        this.geneDescriptions.add(description);
+        return this;
+    }
+
 	public Topic withDiseaseSynonym(String synonym) {
 		this.diseaseSynonyms.add(synonym);
 		return this;
@@ -119,6 +141,16 @@ public class Topic {
 
 	public Topic withGeneSynonym(String synonym) {
 		this.geneSynonyms.add(synonym);
+		return this;
+	}
+
+	public Topic withDiseaseHypernym(String hypernym) {
+		this.diseaseHypernyms.add(hypernym);
+		return this;
+	}
+
+	public Topic withGeneHypernym(String hypernym) {
+		this.geneHypernyms.add(hypernym);
 		return this;
 	}
 	
@@ -187,12 +219,26 @@ public class Topic {
 		ret.put("sex", getSex());
 		ret.put("age", String.valueOf(getAge()));
 
+		ret.put("diseasePreferredTerm", diseasePreferredTerm);
+
+        for (int i = 0; i < geneDescriptions.size(); i++) {
+            ret.put("geneDescriptions" + i, geneDescriptions.get(i));
+        }
+
 		for (int i = 0; i < diseaseSynonyms.size(); i++) {
 			ret.put("diseaseSynonyms" + i, diseaseSynonyms.get(i));
 		}
 
 		for (int i = 0; i < geneSynonyms.size(); i++) {
 			ret.put("geneSynonyms" + i, geneSynonyms.get(i));
+		}
+
+		for (int i = 0; i < diseaseHypernyms.size(); i++) {
+			ret.put("diseaseHypernyms" + i, diseaseHypernyms.get(i));
+		}
+
+		for (int i = 0; i < geneHypernyms.size(); i++) {
+			ret.put("geneHypernyms" + i, geneHypernyms.get(i));
 		}
 		
 		return ret;

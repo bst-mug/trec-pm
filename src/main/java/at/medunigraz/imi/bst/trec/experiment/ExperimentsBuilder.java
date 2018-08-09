@@ -24,6 +24,11 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+	public ExperimentsBuilder withName(String name) {
+		buildingExp.setExperimentName(name);
+		return this;
+	}
+
 	@Deprecated
 	public ExperimentsBuilder withDecorator(Query decorator) {
 		buildingExp.setDecorator(decorator);
@@ -76,6 +81,12 @@ public class ExperimentsBuilder {
 		return this;
 	}
 
+    public ExperimentsBuilder withDiseasePreferredTerm() {
+        Query previousDecorator = buildingExp.getDecorator();
+        buildingExp.setDecorator(new DiseasePreferredTermQueryDecorator(previousDecorator));
+        return this;
+    }
+
 	public ExperimentsBuilder withDiseaseSynonym() {
 		Query previousDecorator = buildingExp.getDecorator();
 		buildingExp.setDecorator(new DiseaseSynonymQueryDecorator(previousDecorator));
@@ -85,6 +96,30 @@ public class ExperimentsBuilder {
 	public ExperimentsBuilder withGeneSynonym() {
 		Query previousDecorator = buildingExp.getDecorator();
 		buildingExp.setDecorator(new GeneSynonymQueryDecorator(previousDecorator));
+		return this;
+	}
+
+    public ExperimentsBuilder withGeneDescription() {
+        Query previousDecorator = buildingExp.getDecorator();
+        buildingExp.setDecorator(new GeneDescriptionQueryDecorator(previousDecorator));
+        return this;
+    }
+
+	public ExperimentsBuilder withDiseaseHypernym() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new DiseaseHypernymQueryDecorator(previousDecorator));
+		return this;
+	}
+
+	public ExperimentsBuilder withSolidTumor() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new SolidTumorQueryDecorator(previousDecorator));
+		return this;
+	}
+
+	public ExperimentsBuilder withGeneFamily() {
+		Query previousDecorator = buildingExp.getDecorator();
+		buildingExp.setDecorator(new GeneFamilyQueryDecorator(previousDecorator));
 		return this;
 	}
 
