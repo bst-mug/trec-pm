@@ -1,6 +1,8 @@
-# TREC 2017 Precision Medicine (imi_mug)
+# TREC-PM (Precision Medicine)
 
-A repository containing support code and resources from the [Institute for Medical Informatics, Statistics and Documentation at the Medical University of Graz (Austria)](https://www.medunigraz.at/imi/en/) participation at the [2017 TREC Precision Medicine / Clinical Decision Support Track](http://trec-cds.appspot.com/2017.html). For further information on this track and the final results please check the official [TREC-PM 2017 overview paper](https://trec.nist.gov/pubs/trec26/papers/Overview-PM.pdf). Team name: **imi_mug**
+A repository containing support code and resources initially developed at the [Institute for Medical Informatics, Statistics and Documentation at the Medical University of Graz (Austria)](https://www.medunigraz.at/imi/en/) for participation at the [2017 TREC Precision Medicine Track](http://trec-cds.appspot.com/2017.html). For further information on this track and the final results please check the official [TREC-PM 2017 overview paper](https://trec.nist.gov/pubs/trec26/papers/Overview-PM.pdf). Team name: **imi_mug**
+
+It was then further improved for participation at the [2018 TREC Precision Medicine Track](http://trec-cds.appspot.com/2018.html).
 
 If you use data or code in your work, please cite our [TREC 2017 proceedings paper](https://trec.nist.gov/pubs/trec26/papers/imi_mug-PM.pdf):
 
@@ -19,6 +21,7 @@ Also of interest:
 - maven
 - make (for `trec_eval` tool)
 - gcc (for `trec_eval` tool)
+- perl (for `sample_eval` tool)
 - Elasticsearch 5.4.0+
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/00d52e98173d4629be22a4224a48a223)](https://www.codacy.com/app/michelole/trec-pm)
