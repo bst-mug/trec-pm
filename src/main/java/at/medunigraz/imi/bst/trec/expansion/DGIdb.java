@@ -1,9 +1,5 @@
 package at.medunigraz.imi.bst.trec.expansion;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -20,6 +16,8 @@ public class DGIdb {
     private static final int DEFAULT_MINIMAL_SCORE = 0;
 
     private static final boolean DEFAULT_EXPERT_CURATED_ONLY = false;
+
+    private static final CachedWebRequester REQUESTER = new CachedWebRequester("cache/dgidb.ser");
 
     public Set<String> getDrugInteractions(String gene) {
         return getDrugInteractions(gene, DEFAULT_EXPERT_CURATED_ONLY, DEFAULT_MINIMAL_SCORE);
@@ -90,7 +88,7 @@ public class DGIdb {
         String url = String.format(ENDPOINT + "?genes=%s", gene);
         url = expertCuratedOnly ? url + "&source_trust_levels=Expert%20curated" : url;
 
-        JSONObject data = get(url);
+        JSONObject data = new JSONObject(REQUESTER.get(url));
 
         Map<Integer, Map<String, Set<String>>> ret = new TreeMap<>();
 
@@ -120,24 +118,5 @@ public class DGIdb {
         }
 
         return ret;
-    }
-
-    private JSONObject get(String url) {
-        HttpResponse<JsonNode> response = null;
-        try {
-            response = Unirest.get(url).asJson();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (response.getStatus() == 401) {
-            throw new RuntimeException("Unauthorized access to API. Check your keys in the file trec-pm.properties.");
-        }
-
-        if (response.getStatus() != 200) {
-            throw new RuntimeException("Got status code " + response.getStatus() + " from API with body " + response.getBody());
-        }
-
-        return new JSONObject(response.getBody().toString());
     }
 }
