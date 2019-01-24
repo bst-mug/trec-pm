@@ -28,9 +28,10 @@ public class GeneSynonymQueryDecoratorTest extends QueryDecoratorTest {
         decorator.query(new Topic().withGene(GENE));
 
         Map<String, String> actual = dummyQuery.getTopic().getAttributes();
-        Assert.assertThat(actual, Matchers.hasEntry("geneSynonyms0", "BCC7"));
-        Assert.assertThat(actual, Matchers.hasEntry("geneSynonyms1", "LFS1"));
-        Assert.assertThat(actual, Matchers.hasEntry("geneSynonyms2", "P53"));
-        Assert.assertThat(actual, Matchers.hasEntry("geneSynonyms3", "TRP53"));
+        Assert.assertThat(actual, Matchers.hasValue("BCC7"));
+        Assert.assertThat(actual, Matchers.hasValue("BMFS5"));
+        Assert.assertThat(actual, Matchers.hasValue("LFS1"));
+        Assert.assertThat(actual, Matchers.hasValue("P53"));
+        Assert.assertThat(actual, Matchers.hasValue("TRP53"));
     }
 }

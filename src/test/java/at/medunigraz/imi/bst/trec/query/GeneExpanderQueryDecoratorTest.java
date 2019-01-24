@@ -30,7 +30,7 @@ public class GeneExpanderQueryDecoratorTest extends QueryDecoratorTest {
 
 		decorator.query(new Topic().withGene(GENE));
 		String actual = dummyQuery.getTopic().getGene();
-		String expected = "TRP53 BCC7 LFS1 TP53 P53";
+		String expected = "TRP53 BCC7 BMFS5 LFS1 TP53 P53";
 		assertEquals(expected, actual);
 	}
 }
